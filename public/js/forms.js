@@ -26,7 +26,7 @@ const creatForm = function () {
             dataForm.push(element[type][text]);
 
             let htmlBody = buildForm().callInitBuild(dataForm);
-            console.log(htmlBody)
+            console.log(dataForm)
             $(this).html(htmlBody);
         });
     };

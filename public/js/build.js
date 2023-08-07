@@ -1,25 +1,31 @@
 const buildForm = function () {
+    const _initActions = function (element) {
+        let htmlActions = `
+                                 <div class="" >
+                                    <button  data-index="${element}">Edit</button>
+                                  </div>
+                        `;
+        return htmlActions;
+    }
     const _initBuild = function (element) {
         let htmlBody = '';
 
+
         $.each(element,(index,elements)=>{
+            let htmlRow = '';
             $.each(elements['champ'],(key,attr)=>{
-                console.log(attr);
-
-                // htmlChamps +=
+                htmlRow += `
+                                 <div class="col-6 mb-3">
+                                    <label for="${attr.id}" class="form-label">${key}</label>
+                                    <input type="${attr.type}" placeholder="${attr.placeholder}" value="${attr.value}" style="${attr.style}" class="${attr.class}" id="${attr.id}">
+                                 </div>
+                        `;
             });
+            htmlBody += ` <fieldset>
+                             <legend>${buildForm().callInitActions(index)}</legend>
+                                <div class="row">${htmlRow} </div>
+                           </fieldset>`
 
-
-
-            htmlBody += `
-                <div class="row">
-                     <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label">${element.name}</label>
-                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                        <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
-                     </div>
-                </div>
-            `;
         } )
 
         return htmlBody;
@@ -29,10 +35,14 @@ const buildForm = function () {
         // Public functions
         init: function () {
             _initBuild();
+            _initActions();
         },
         // Expose _initBuild as a public function
         callInitBuild: function (element) {
            return _initBuild(element);
+        },
+        callInitActions: function (element) {
+           return _initActions(element);
         }
     };
 }
