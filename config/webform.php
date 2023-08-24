@@ -14,7 +14,7 @@ return [
     'data_form' => [
         'Champ_preconfigures' => [
             'identities' => [
-                'name' => 'Identité',
+                'name' => 'identity',
                 'champ' => [
                     'firstname' => [
                         'value' => "",
@@ -22,7 +22,7 @@ return [
                         'class' => "form-control",
                         'style' => "",
                         'placeholder' => "first name",
-                        'id' => "name",
+                        'id' => "firstname",
                         'attr' => ['readonly', 'required'],
                     ],
                     'lastname' => [
@@ -31,13 +31,13 @@ return [
                         'class' => "form-control",
                         'style' => "",
                         'placeholder' => "last name",
-                        'id' => "name",
+                        'id' => "lastname",
                         'attr' => ['readonly', 'required'],
                     ],
                 ],
             ],
             'address' => [
-                'name' => 'Adresse',
+                'name' => 'address',
                 'champ' => [
                     'streetone'=>[
                         'value' => "",
@@ -45,7 +45,7 @@ return [
                         'class' => "form-control",
                         'style' => "",
                         'placeholder' => "street one",
-                        'id' => "name",
+                        'id' => "streetone",
                         'attr' => ['readonly', 'required'],
                     ],
                     'streettwo'=>[
@@ -54,7 +54,7 @@ return [
                         'class' => "form-control",
                         'style' => "",
                         'placeholder' => "street two",
-                        'id' => "name",
+                        'id' => "streettwo",
                         'attr' => ['readonly', 'required'],
                     ],
                 ],
@@ -64,7 +64,7 @@ return [
 
         'Champs_Standards' => [
             'select' => [
-                'name' => 'Select',
+                'name' => 'select',
                 'champ' => [
                     'select'=>[
                         'name' => "Select",
@@ -76,7 +76,7 @@ return [
                         'class' => "form-control",
                         'style' => "",
                         'placeholder' => "street one",
-                        'id' => "name",
+                        'id' => "select",
                         'attr' => ['readonly', 'required'],
                     ],
                 ],

@@ -10,13 +10,15 @@
     <link rel="stylesheet" href="{{asset('css/style.css')}}">
 
     <style>
-        .dest-list{
+        .dest-list {
             border: 1px solid;
         }
-        .types{
+
+        .types {
             display: flex;
             flex-direction: column;
         }
+
         .btn_dark_ {
             background: #ccc;
             color: #000;
@@ -107,7 +109,8 @@
                             <div class="collapse" id="{{$key}}">
                                 <div class="card card-body">
                                     @foreach($type as $name=>$fields)
-                                        <button class="btn-drag" data-type="{{$key}}" data-name="{{$name}}"  draggable="true" >
+                                        <button class="btn-drag" data-type="{{$key}}" data-name="{{$name}}"
+                                                draggable="true">
                                             {{$name}}
                                         </button>
                                     @endforeach
@@ -117,14 +120,17 @@
 
                     </div>
                 </div>
-                <div class="dest-list col-7"  >
+
+                <div class="dest-list col-7">
                     view
                 </div>
 
             </div>
-
         </div>
-        {{--   --}}
+
+    </div>
+    <div class="editFields">
+
     </div>
 @endsection
 
@@ -139,6 +145,7 @@
         let element = {!!  json_encode(config('webform.data_form'),true)  !!}
     </script>
     <script src="{{asset('/js/build.js')}}"></script>
+    <script src="{{asset('/js/ajax-form.js')}}"></script>
     <script src="{{asset('/js/forms.js')}}"></script>
 
 

@@ -47,50 +47,18 @@ class FormController extends Controller
 
     public function store(Request $request)
     {
+       $res = Form::updateOrCreate([
+           'id'=>$request->id,
+       ],
+       [
+           "data"=>$request->data,
+       ]);
 
-        $request->validate([
-            'title' => 'required|max:25',
-            'categories' => 'required|max:25',
-        ], [
-            'required' => 'Le champ :attribute est obligatoire.'
-        ]);
+       return $res;
+    }
 
-        $form = new Form();
-
-        $data = [
-            'clients_id' => $request->clients_id
-        ];
-
-        $form->title = $request->title;
-        $form->formId = Carbon::now()->timestamp;
-        $form->categorie_id = $request->categories;
-        $form->clients_id = $request->clients_id;
-        $form->detail = $request->detail;
-        $form->detail = $request->detail;
-
-        $result = $form->save();
-
-
-        if ($result) {
-            Confirmation_Webformulaire::create([
-                'name' => 'Confirmation ' . ($form->id),
-                'content' => 'Merci pour votre demande, nous vous contacterons dès que possible',
-                'type' => 'Text',
-                'forms_id' => $form->id,
-            ]);
-
-//       	    Field_button::create([
-//       	    	'forms_id'=>$form->id,
-//       	    	'order'=>'0',
-//       	    	'fieldId'=>\Carbon\Carbon::parse(now())->timestamp,
-//       	    	'conditions'=>'[{"titleVisible":false,"obligatoire":[{"name":"button","placeholder":"Bouton"}]}]',
-//                'value'=>'Envoyer'
-//            ]);
-
-
-        }
-
-        return redirect()->back()->with('message', 'La mise à jour a été effectuée');
+    public function getDataForm(Request $request){
+        return Form::find($request->id);
     }
 
     public function update(Request $request, $id)
@@ -118,7 +86,6 @@ class FormController extends Controller
             ->with('message', 'La mise à jour a été effectuée');
 
     }
-
 
     public function change_status(Request $request, $id)
     {
