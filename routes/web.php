@@ -18,3 +18,4 @@ Route::get('/', [\App\Http\Controllers\FormController::class,"index"]);
 
 Route::post('/add-data-form', [\App\Http\Controllers\FormController::class,"store"]);
 Route::get('/get-data-form', [\App\Http\Controllers\FormController::class,"getDataForm"]);
+Route::get('/get-view-edit-field', [\App\Http\Controllers\FormController::class,"getViewEditField"]);

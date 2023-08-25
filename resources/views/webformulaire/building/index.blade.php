@@ -82,9 +82,7 @@
     {{--    @include('globals.tabs_elementsform')--}}
 
 
-    <!-- Alert  -->
-    @include('globals.alerts.success')
-    @include('globals.alerts.danger-valid')
+
 
     <div class="card card-custom mt-10">
         <div class="card-header border-0 pt-5">
@@ -129,9 +127,14 @@
         </div>
 
     </div>
-    <div class="editFields">
 
+    <div id="premodal">
+        <div id="editFields">
+
+        </div>
+        <div class="overlay" id="overlay"></div>
     </div>
+
 @endsection
 
 
@@ -146,6 +149,7 @@
     </script>
     <script src="{{asset('/js/build.js')}}"></script>
     <script src="{{asset('/js/ajax-form.js')}}"></script>
+    <script src="{{asset('/js/editing-form.js')}}"></script>
     <script src="{{asset('/js/forms.js')}}"></script>
 
 

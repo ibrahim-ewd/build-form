@@ -20,6 +20,26 @@ const ajaxFunction = function () {
         })
     };
 
+    const getViewEditField = function (element) {
+
+        return new Promise((resolve, reject) => {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            $.ajax({
+                url: "/get-view-edit-field",
+                method: "GET",
+                data: element,
+                success: function (response) {
+                    resolve(response);
+                },
+            })
+        })
+    };
+
     const _initAdd = function (element) {
 
         return new Promise((resolve, reject) => {
@@ -49,6 +69,7 @@ const ajaxFunction = function () {
         init: function () {
             _initAdd();
             getDataForm();
+            getDataEditField();
         },
         // Expose _initBuild as a public function
         addData: function (element) {
@@ -57,6 +78,10 @@ const ajaxFunction = function () {
         // Expose _initBuild as a public function
         getDataForm: function (element) {
             return getDataForm(element);
+        },
+        // Expose _initBuild as a public function
+        getViewEditField: function (element) {
+            return getViewEditField(element);
         },
 
     };

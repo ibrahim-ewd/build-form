@@ -7,7 +7,7 @@ const creatForm = function () {
             resolve(
                 ajaxFunction().getDataForm({id: 1}).then(data => {
                     buildForm().callInitBuild(JSON.parse(data));
-                    dataForm = JSON.parse(data)??[];
+                    dataForm = JSON.parse(data) ?? [];
                 })
             )
         })
@@ -34,13 +34,13 @@ const creatForm = function () {
         $("#accordion").accordion();
 
         $('.dest-list').sortable({
-            update: function(e,ui) {
+            update: function (e, ui) {
                 pos = $('.dest-list').children().length;
             },
-            start: function(event, ui) {
+            start: function (event, ui) {
                 ui.item.startPos = ui.item.index();
             },
-            stop: function(event, ui) {
+            stop: function (event, ui) {
                 const newPos = ui.item.index();
                 const movedItem = dataForm.splice(ui.item.startPos, 1)[0];
                 dataForm.splice(newPos, 0, movedItem);
@@ -82,7 +82,7 @@ const creatForm = function () {
         $('.delete-button').on('click', function (e) {
 
             const index = $(this).attr('data-index');
-            console.log(index,dataForm);
+            console.log(index, dataForm);
 
             if (index > -1) { // only splice array when item is found
                 dataForm.splice(index, 1); // 2nd parameter means remove one item only
@@ -107,20 +107,59 @@ const creatForm = function () {
     }
 
     const editChumpForm = function () {
+
         $('.edit-button').on('click', function (e) {
+            e.stopPropagation()
+            const name = $(this).attr('data-name');
+            const index = $(this).attr('data-index');
+            $('#overlay').addClass('display_block');
+            $('#editFields').addClass('display_block')
+            // buildForm().callInitEdit(index, dataForm)
 
-            const index = $(this).attr('data-name');
+            ajaxFunction().getViewEditField({'id': 1, 'name': name, 'index': index}).then(data => {
+                buildForm().callInitEdit(name, data)
+            })
 
-            buildForm().callInitEdit(index,dataForm)
 
-            console.log(index)
+        })
 
-            // dataForm.push(dataForm[index]);
+        function removeModal() {
+            $('#overlay').removeClass('display_block');
+            $('#editFields').removeClass('display_block');
+        }
+
+        $('.overlay').on('click', function (e) {
+            removeModal()
+        });
+
+        $(document).on('click', '.close-edit-button', function (e) {
+            removeModal()
+        });
+
+    }
+
+
+    const editInputsForm = function () {
+
+        $(document).on('keyup', '.input-edit-form', function (e) {
+            const index = $(this).attr('data-index');
+            const name = $(this).attr('name');
+            const value = $(this).val();
+
+            dataForm = dataForm[index].name
+            console.log(dataForm,name, value)
+
+            // $('#overlay').addClass('display_block');
+            // $('#editFields').addClass('display_block')
+            // // buildForm().callInitEdit(index, dataForm)
             //
-            // addDataForm(dataForm)
+            // ajaxFunction().getViewEditField({'id': 1, 'name': name, 'index': index}).then(data => {
+            //     buildForm().callInitEdit(name, data)
+            // })
 
         })
     }
+
 
     return {
         // Public functions
@@ -132,6 +171,7 @@ const creatForm = function () {
                 editChumpForm();
             });
 
+            editInputsForm();
             _collapse();
             dragstart();
             drop();

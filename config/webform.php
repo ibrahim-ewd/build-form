@@ -17,6 +17,8 @@ return [
                 'name' => 'identity',
                 'champ' => [
                     'firstname' => [
+                        'label' => "first name",
+                        'notice' => "notice first name",
                         'value' => "",
                         'type' => "text",
                         'class' => "form-control",
@@ -26,6 +28,8 @@ return [
                         'attr' => ['readonly', 'required'],
                     ],
                     'lastname' => [
+                        'label' => "last name",
+                        'notice' => "notice last name",
                         'value' => "",
                         'type' => "text",
                         'class' => "form-control",
