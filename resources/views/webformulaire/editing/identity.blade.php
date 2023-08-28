@@ -11,7 +11,7 @@
 
 <div class="accordion" id="accordionExample">
 
-    <div class="accordion-item">
+    <div class="accordion-item" id="field-identity" data-name="firstname" data-index="{{$index}}">
 
         <h2 class="accordion-header" id="headingOne">
             <button class="accordion-button" type="button" data-bs-toggle="collapse"
@@ -26,19 +26,37 @@
 
                 <div class="form-group my-3">
                     <label for="label">label</label>
-                    <input type="text" name="champ.firstname.label" data-index="{{$index}}" value="{{$data->champ->firstname->label}}" class="input-edit-form form-control"
+                    <input type="text"
+                           name="label"
+                           value="{{$data->champ->firstname->label}}"
+                           class="input-edit-form form-control"
                            id="label">
+
+{{--                    <div class="btn-group btn-group-toggle mt-2" data-toggle="buttons">--}}
+{{--                        <label class="btn btn-secondary active">--}}
+{{--                            <input type="radio" name="label_position" class="input-edit-form" value="left" id="option1"> Active--}}
+{{--                        </label>--}}
+{{--                        <label class="btn btn-secondary">--}}
+{{--                            <input type="radio" name="label_position" class="input-edit-form" value="center" id="option2"> Radio--}}
+{{--                        </label>--}}
+{{--                        <label class="btn btn-secondary">--}}
+{{--                            <input type="radio" name="label_position" class="input-edit-form" value="right" id="option3"> Radio--}}
+{{--                        </label>--}}
+{{--                    </div>--}}
                 </div>
 
                 <div class="form-group my-3">
                     <label for="label">placeholder</label>
-                    <input type="text" name="[0]['champ']['firstname']['placeholder']" value="{{$data->champ->firstname->placeholder}}"
+                    <input type="text"
+                           name="placeholder"
+                           value="{{$data->champ->firstname->placeholder}}"
                            class="input-edit-form form-control" id="placeholder">
                 </div>
 
                 <div class="form-group my-3">
                     <label for="label">notice</label>
-                    <input type="text" name="[0]['champ']['firstname']['notice']" value="{{$data->champ->firstname->notice}}" class="input-edit-form form-control"
+                    <input type="text" name="[0]['champ']['firstname']['notice']"
+                           value="{{$data->champ->firstname->notice}}" class="input-edit-form form-control"
                            id="notice">
                 </div>
 

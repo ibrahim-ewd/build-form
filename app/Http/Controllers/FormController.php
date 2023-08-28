@@ -36,17 +36,6 @@ class FormController extends Controller
             ->with('element', $element);
     }
 
-    public function show($id)
-    {
-        $forms = Form::where('clients_id', '=', $id)
-            ->with('categories')
-            ->get();
-        return $this->getView('webformulaire.index')
-            ->with('forms', $forms)
-            ->with('Profil', Client::findOrFail($id))
-            ->with('clients_id', $id)
-            ->with('cate', FormCategories::all());
-    }
 
     public function newform()
     {
@@ -60,6 +49,7 @@ class FormController extends Controller
        ],
        [
            "data"=>$request->data,
+           "name"=>"$request->name",
        ]);
 
        return $res;

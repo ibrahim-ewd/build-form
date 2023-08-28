@@ -6,8 +6,8 @@ const creatForm = function () {
         return new Promise((resolve, reject) => {
             resolve(
                 ajaxFunction().getDataForm({id: 1}).then(data => {
-                    buildForm().callInitBuild(JSON.parse(data));
-                    dataForm = JSON.parse(data) ?? [];
+                    buildForm().callInitBuild(data ? JSON.parse(data) : []);
+                    dataForm = data ? JSON.parse(data) : [];
                 })
             )
         })
@@ -18,6 +18,7 @@ const creatForm = function () {
         let dataAjax = {
             'data': JSON.stringify(dataForm),
             'id': 1,
+            'name': 'form one',
         }
 
         ajaxFunction().addData(dataAjax).then(data => {
@@ -82,7 +83,6 @@ const creatForm = function () {
         $('.delete-button').on('click', function (e) {
 
             const index = $(this).attr('data-index');
-            console.log(index, dataForm);
 
             if (index > -1) { // only splice array when item is found
                 dataForm.splice(index, 1); // 2nd parameter means remove one item only
@@ -141,21 +141,18 @@ const creatForm = function () {
 
     const editInputsForm = function () {
 
-        $(document).on('keyup', '.input-edit-form', function (e) {
-            const index = $(this).attr('data-index');
+        $(document).on('change', '.input-edit-form', function (e) {
+
+            const index = $('#field-identity').attr('data-index');
             const name = $(this).attr('name');
+            const champ = $('#field-identity').attr('data-name');
             const value = $(this).val();
 
-            dataForm = dataForm[index].name
-            console.log(dataForm,name, value)
+            dataForm[index]['champ'][champ][name] = value;
 
-            // $('#overlay').addClass('display_block');
-            // $('#editFields').addClass('display_block')
-            // // buildForm().callInitEdit(index, dataForm)
-            //
-            // ajaxFunction().getViewEditField({'id': 1, 'name': name, 'index': index}).then(data => {
-            //     buildForm().callInitEdit(name, data)
-            // })
+            addDataForm(dataForm)
+            console.log(name, dataForm);
+
 
         })
     }

@@ -57,7 +57,6 @@ const ajaxFunction = function () {
                     resolve(response.data);
                 },
                 error: function (error) {
-                    console.log(error);
                     reject(error); // Reject the promise with the error
                 }
             })
