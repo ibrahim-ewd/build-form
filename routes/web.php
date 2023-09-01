@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\FormController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,8 +15,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::get('/', [\App\Http\Controllers\FormController::class,"index"]);
+Route::get('/', [FormController::class,"index"]);
+Route::get('/iframe', [FormController::class,"getiframe"]);
 
-Route::post('/add-data-form', [\App\Http\Controllers\FormController::class,"store"]);
-Route::get('/get-data-form', [\App\Http\Controllers\FormController::class,"getDataForm"]);
-Route::get('/get-view-edit-field', [\App\Http\Controllers\FormController::class,"getViewEditField"]);
+Route::post('/add-data-form', [FormController::class,"store"]);
+Route::get('/get-data-form', [FormController::class,"getDataForm"]);
+Route::get('/get-view-edit-field', [FormController::class,"getViewEditField"]);

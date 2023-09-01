@@ -1,11 +1,16 @@
 const creatForm = function () {
 
     let dataForm = [];
+    var urlParams = new URLSearchParams(window.location.search);
+
+    let formId = urlParams.get('form');
 
     const getDataForm = function () {
+
         return new Promise((resolve, reject) => {
             resolve(
-                ajaxFunction().getDataForm({id: 1}).then(data => {
+                ajaxFunction().getDataForm({slug: formId}).then(data => {
+
                     buildForm().callInitBuild(data ? JSON.parse(data) : []);
                     dataForm = data ? JSON.parse(data) : [];
                 })
@@ -17,7 +22,7 @@ const creatForm = function () {
 
         let dataAjax = {
             'data': JSON.stringify(dataForm),
-            'id': 1,
+            'id': formId,
             'name': 'form one',
         }
 
@@ -79,7 +84,7 @@ const creatForm = function () {
     };
 
 
-    const deleteChumpForm = function () {
+    const deleteChumpForm = () => {
         $('.delete-button').on('click', function (e) {
 
             const index = $(this).attr('data-index');
@@ -116,7 +121,7 @@ const creatForm = function () {
             $('#editFields').addClass('display_block')
             // buildForm().callInitEdit(index, dataForm)
 
-            ajaxFunction().getViewEditField({'id': 1, 'name': name, 'index': index}).then(data => {
+            ajaxFunction().getViewEditField({'slug': formId, 'name': name, 'index': index}).then(data => {
                 buildForm().callInitEdit(name, data)
             })
 
@@ -143,17 +148,63 @@ const creatForm = function () {
 
         $(document).on('change', '.input-edit-form', function (e) {
 
-            const index = $('#field-identity').attr('data-index');
+            const index = $(this).parents('.field-edit').attr('data-index');
             const name = $(this).attr('name');
-            const champ = $('#field-identity').attr('data-name');
-            const value = $(this).val();
+            const champ = $(this).parents('.field-edit').attr('data-name');
 
-            dataForm[index]['champ'][champ][name] = value;
+
+            dataForm[index]['champ'][champ][name] = $(this).val();
+
+            if ($(this).attr('data-type') == 'boolean') {
+                dataForm[index]['champ'][champ][name] = $(this).is(":checked")
+            }
+
+
+            if ($(this).attr('data-type') == 'boolean' || $(this).attr('type') == 'radio') {
+                $(this).parents('.btn-group').find('.btn').removeClass('active')
+                if ($(this).is(":checked") == true) {
+                    $(this).parents('.btn').addClass('active')
+                }
+            }
+
+            console.log(dataForm[index]['champ']['visibility'])
+            if ($(this).attr('name') == "visibility") {
+
+                let precedingKey = "";
+                let advancedKey = "";
+                let advancedReplace = "";
+                let precedingReplace = "";
+
+                const keys = Object.keys(dataForm[index]['champ']);
+                const currentIndex_ = keys.indexOf(champ);
+
+
+                advancedKey = keys[currentIndex_ + 1];
+                precedingKey = keys[currentIndex_ - 1];
+
+                if (dataForm[index]['champ'][advancedKey] != undefined && dataForm[index]['champ'][precedingKey] != undefined) {
+
+                    let advancedClass = dataForm[index]['champ'][advancedKey]['class_group']
+                    let precedingClass = dataForm[index]['champ'][precedingKey]['class_group']
+
+                    if (currentIndex_ % 2 === 0) {
+
+                        //++++++++++++++++++
+                        advancedReplace = advancedClass.replace("col-6", "col-12");
+                        precedingReplace = precedingClass.replace("col-12", "col-6");
+                    } else {
+
+                        //-----------------
+                        advancedReplace = advancedClass.replace("col-12", "col-6");
+                        precedingReplace = precedingClass.replace("col-6", "col-12");
+                    }
+
+                    dataForm[index]['champ'][advancedKey]['class_group'] = advancedReplace
+                    dataForm[index]['champ'][precedingKey]['class_group'] = precedingReplace
+                }
+            }
 
             addDataForm(dataForm)
-            console.log(name, dataForm);
-
-
         })
     }
 

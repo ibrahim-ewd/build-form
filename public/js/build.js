@@ -2,24 +2,76 @@ const buildForm = function () {
     const _initActions = function (index, element) {
         let htmlActions = `
                                  <div class="buttons" >
-                                    <button type="button"  data-index="${index}" class="delete-button btn-sm btn btn-outline-danger">d</button>
-                                    <button type="button"  data-index="${index}" class="duplicate-button btn-sm btn btn-outline-success">d</button>
-                                    <button type="button"  data-name="${element.name}"  data-toggle="modal" data-target="#myModal" data-index="${index}" class="edit-button btn btn-sm btn-outline-primary">e</button>
+                                    <button type="button"  data-index="${index}" class="delete-button btn-sm btn btn-outline-danger"><i class="fa-solid fa-trash"></i></button>
+                                    <button type="button"  data-index="${index}" class="duplicate-button btn-sm btn btn-outline-success"><i class="fa-solid fa-clone"></i></button>
+                                    <button type="button"  data-name="${element.name}"  data-toggle="modal" data-target="#myModal" data-index="${index}" class="edit-button btn btn-sm btn-outline-primary"><i class="fa-solid fa-gear"></i></button>
                                   </div>
                         `;
         return htmlActions;
     }
+
     const _initBuild = function (element) {
         let htmlBody = '';
-
+        let htmlOption = "";
+        let helpField = ''
 
         $.each(element, (index, elements) => {
             let htmlRow = '';
+
+
             $.each(elements['champ'], (key, attr) => {
-                htmlRow += `<div class="col-6 mb-3">
-                                    <label for="${attr.id}" class="form-label">${attr.label}</label>
-                                    <input type="${attr.type}" placeholder="${attr.placeholder}" value="${attr.value}" style="${attr.style}" class="${attr.class}" id="${attr.id}">
-                                 </div>`;
+                let required = ''
+                let inputsElement = ''
+
+                if (attr.notice != undefined) {
+                    helpField = `<small class="form-text text-muted" style="${attr.notic_style ?? ''}">${attr.notice}</small>`
+                }
+
+                if (attr.required == true) {
+                    required = `<sub class="form-text text-danger"> *</sub>`
+                }
+
+                if (attr.visibility) {
+
+                    if (attr.type == 'select') {
+
+                        $.each(attr.element, (elementKey, elementValue) => {
+
+                            htmlOption += `<option value="${elementValue[0]}">${elementValue[1]}</option>`
+                        })
+                        inputsElement += `<select type="${attr.type}"
+                                     ${attr.required ? 'required' : ''}
+                                     ${attr.readonly ? 'readonly' : ''}
+                                      value="${attr.value}" style="${attr.style}" class="${attr.class}" id="${attr.id}">
+                                      ${htmlOption}
+                                      </select>`;
+                    } else if (attr.type == 'textarea') {
+                        inputsElement += `
+
+                                    <textarea type="${attr.type}"
+                                     ${attr.required ? 'required' : ''}
+                                     ${attr.readonly ? 'readonly' : ''}
+                                      placeholder="${attr.placeholder}"
+                                     style="${attr.style}" class="${attr.class}" id="${attr.id}">${attr.value}</textarea>`;
+                    } else {
+                        inputsElement += `
+                                    <input type="${attr.type}"
+                                     ${attr.required ? 'required' : ''}
+                                     ${attr.readonly ? 'readonly' : ''}
+                                     placeholder="${attr.placeholder}" value="${attr.value}" style="${attr.style}" class="${attr.class}" id="${attr.id}">
+                                   `;
+                    }
+
+
+                    htmlRow += `<div class="${attr.class_group ?? 'col-6 mb-3'} ">
+                                    <label for="${attr.id}" style="${attr.label_style ?? ''}" class="form-label">${attr.label}${required}</label>
+                                    ${inputsElement}
+                                    ${helpField}
+                                 </div>
+                                `
+
+                }
+
             });
 
             htmlBody += ` <div class="my-2">

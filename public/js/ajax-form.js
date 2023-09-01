@@ -55,6 +55,10 @@ const ajaxFunction = function () {
                 data: element,
                 success: function (response) {
                     resolve(response.data);
+
+                    if (element.id == null) {
+                        window.location.href = '/?form='+response.slug;
+                    }
                 },
                 error: function (error) {
                     reject(error); // Reject the promise with the error

@@ -96,31 +96,39 @@
 
                 <div class="col-4">
                     <div class="types">
+                        <div class="accordion" id="accordionExample">
+                            @foreach($element as $key=>$type)
 
-                        @foreach($element as $key=>$type)
-                            <p class="d-inline-flex gap-1">
-                                <a class="btn btn-primary" data-bs-toggle="collapse" href="#{{$key}}" role="button"
-                                   aria-expanded="false" aria-controls="{{$key}}">
-                                    {{$key}}
-                                </a>
-                            </p>
-                            <div class="collapse" id="{{$key}}">
-                                <div class="card card-body">
-                                    @foreach($type as $name=>$fields)
-                                        <button class="btn-drag" data-type="{{$key}}" data-name="{{$name}}"
-                                                draggable="true">
-                                            {{$name}}
-                                        </button>
-                                    @endforeach
+
+                            <div class="accordion-item field-identity" id="field-identity-{{$key}}" data-name="{{$key}}">
+
+                                <h2 class="accordion-header" id="headingOne">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                            data-bs-target="#collapse{{$key}}" aria-expanded="false" aria-controls="collapse{{$key}}">
+                                        {{$key}}
+                                    </button>
+                                </h2>
+
+                                <div id="collapse{{$key}}" class="accordion-collapse collapse" aria-labelledby="headingOne"
+                                     data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">
+                                        @foreach($type as $name=>$fields)
+                                            <button class="btn btn-outline-secondary w-100 mb-3 btn-drag" data-type="{{$key}}" data-name="{{$name}}"
+                                                    draggable="true">
+                                                {{$name}}
+                                            </button>
+                                        @endforeach
+
+                                    </div>
                                 </div>
                             </div>
                         @endforeach
-
+                        </div>
                     </div>
                 </div>
 
                 <div class="dest-list col-7">
-                    view
+
                 </div>
 
             </div>

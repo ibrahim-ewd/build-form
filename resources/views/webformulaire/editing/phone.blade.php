@@ -40,27 +40,6 @@
                                value="{{$champ->label}}"
                                class="input-edit-form form-control  form-control-sm"
                                id="label">
-
-{{--                        <div class="btn-group btn-group-toggle mt-2" data-toggle="buttons">--}}
-{{--                            <label--}}
-{{--                                class="btn btn-outline-secondary btn-sm {{Str::contains($champ->label_style??'','text-align:left')?'active':''}}">--}}
-{{--                                <input type="radio" name="label_style" class="input-edit-form d-none"--}}
-{{--                                       value="text-align:left" id="option{{$key}}">--}}
-{{--                                left--}}
-{{--                            </label>--}}
-{{--                            <label--}}
-{{--                                class="btn btn-outline-secondary btn-sm {{Str::contains($champ->label_style??'','text-align:center')?'active':''}}">--}}
-{{--                                <input type="radio" name="label_style" class="input-edit-form d-none"--}}
-{{--                                       value="text-align:center"--}}
-{{--                                       id="option2{{$key}}"> center--}}
-{{--                            </label>--}}
-{{--                            <label--}}
-{{--                                class="btn btn-outline-secondary btn-sm {{Str::contains($champ->label_style??'','text-align:right')?'active':''}}">--}}
-{{--                                <input type="radio" name="label_style" class="input-edit-form d-none"--}}
-{{--                                       value="text-align:right"--}}
-{{--                                       id="option3{{$key}}"> right--}}
-{{--                            </label>--}}
-{{--                        </div>--}}
                     </div>
 
 
