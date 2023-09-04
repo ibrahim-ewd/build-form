@@ -98,7 +98,7 @@
 
 
                     <div class="form-group my-3">
-                        <label for="label">placeholder</label>
+                        <label for="label">Placeholder</label>
                         <input type="text"
                                name="placeholder"
                                value="{{$champ->placeholder}}"
@@ -108,7 +108,7 @@
 
 
                     <div class="form-group my-3">
-                        <label for="label">class</label>
+                        <label for="label">Class</label>
                         <input type="text"
                                name="class_group"
                                value="{{$champ->class_group??'col-6 mb-3'}}"
