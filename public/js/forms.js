@@ -113,34 +113,35 @@ const creatForm = function () {
 
     const editChumpForm = function () {
 
-        $('.edit-button').on('click', function (e) {
-            e.stopPropagation()
-            const name = $(this).attr('data-name');
-            const index = $(this).attr('data-index');
-            $('#overlay').addClass('display_block');
-            $('#editFields').addClass('display_block')
-            // buildForm().callInitEdit(index, dataForm)
+        return new Promise((resolve, reject) => {
 
-            ajaxFunction().getViewEditField({'slug': formId, 'name': name, 'index': index}).then(data => {
-                buildForm().callInitEdit(name, data)
+
+            $('.edit-button').on('click', function (e) {
+                e.stopPropagation()
+                const name = $(this).attr('data-name');
+                const index = $(this).attr('data-index');
+                $('#overlay').addClass('display_block');
+                $('#editFields').addClass('display_block')
+                // buildForm().callInitEdit(index, dataForm)
+                resolve(ajaxFunction().getViewEditField({'slug': formId, 'name': name, 'index': index}).then(data => {
+                    buildForm().callInitEdit(name, data)
+                }));
             })
 
+            function removeModal() {
+                $('#overlay').removeClass('display_block');
+                $('#editFields').removeClass('display_block');
+            }
 
-        })
+            $('.overlay').on('click', function (e) {
+                removeModal()
+            });
 
-        function removeModal() {
-            $('#overlay').removeClass('display_block');
-            $('#editFields').removeClass('display_block');
-        }
+            $(document).on('click', '.close-edit-button', function (e) {
+                removeModal()
+            });
 
-        $('.overlay').on('click', function (e) {
-            removeModal()
         });
-
-        $(document).on('click', '.close-edit-button', function (e) {
-            removeModal()
-        });
-
     }
 
 
@@ -148,6 +149,7 @@ const creatForm = function () {
 
         $(document).on('change', '.input-edit-form', function (e) {
 
+            console.log('dfg');
             const index = $(this).parents('.field-edit').attr('data-index');
             const name = $(this).attr('name');
             const champ = $(this).parents('.field-edit').attr('data-name');
@@ -167,7 +169,6 @@ const creatForm = function () {
                 }
             }
 
-            console.log(dataForm[index]['champ']['visibility'])
             if ($(this).attr('name') == "visibility") {
 
                 let precedingKey = "";
@@ -209,6 +210,33 @@ const creatForm = function () {
     }
 
 
+    const buildCkeditore = function () {
+
+        const editorElement = document.querySelector('#value_ckedit');
+
+        const editor = ClassicEditor
+            .create(editorElement)
+            .then(editor => {
+                // Add an event listener for the "change:data" event
+                editor.model.document.on('change:data', () => {
+                    // This function will be called whenever the editor's content changes
+                    // console.log('Editor content changed:', editor.getName());
+                    const editorElement = editor.ui.view.element;
+
+                    // Retrieve the attributes
+                    const name = editorElement;
+                    const id = editorElement.getAttribute('id');
+                    // const dataIndex = editorElement.getAttribute('data-index');
+
+                    console.log(name,id)
+                });
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }
+
+
     return {
         // Public functions
         init: function () {
@@ -216,7 +244,9 @@ const creatForm = function () {
             getDataForm().then(data => {
                 deleteChumpForm();
                 duplicateChumpForm();
-                editChumpForm();
+                editChumpForm().then(data => {
+                    buildCkeditore();
+                });
             });
 
             editInputsForm();

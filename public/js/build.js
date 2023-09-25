@@ -12,7 +12,6 @@ const buildForm = function () {
 
     const _initBuild = function (element) {
         let htmlBody = '';
-        let htmlOption = "";
         let helpField = ''
 
         $.each(element, (index, elements) => {
@@ -22,6 +21,7 @@ const buildForm = function () {
             $.each(elements['champ'], (key, attr) => {
                 let required = ''
                 let inputsElement = ''
+                let conditionLabel = '';
 
                 if (attr.notice != undefined) {
                     helpField = `<small class="form-text text-muted" style="${attr.notic_style ?? ''}">${attr.notice}</small>`
@@ -33,26 +33,16 @@ const buildForm = function () {
 
                 if (attr.visibility) {
 
-                    if (attr.type == 'select') {
+                    if (attr.type == 'text') {
 
-                        $.each(attr.element, (elementKey, elementValue) => {
+                        inputsElement += this.buildText(attr)
 
-                            htmlOption += `<option value="${elementValue[0]}">${elementValue[1]}</option>`
-                        })
-                        inputsElement += `<select type="${attr.type}"
-                                     ${attr.required ? 'required' : ''}
-                                     ${attr.readonly ? 'readonly' : ''}
-                                      value="${attr.value}" style="${attr.style}" class="${attr.class}" id="${attr.id}">
-                                      ${htmlOption}
-                                      </select>`;
-                    } else if (attr.type == 'textarea') {
-                        inputsElement += `
+                    } else if (attr.type == 'select') {
 
-                                    <textarea type="${attr.type}"
-                                     ${attr.required ? 'required' : ''}
-                                     ${attr.readonly ? 'readonly' : ''}
-                                      placeholder="${attr.placeholder}"
-                                     style="${attr.style}" class="${attr.class}" id="${attr.id}">${attr.value}</textarea>`;
+                        inputsElement += this.buildSelect(attr);
+
+                    } else if (attr.type === 'textarea') {
+                        inputsElement += this.buildTextArea(attr);
                     } else {
                         inputsElement += `
                                     <input type="${attr.type}"
@@ -62,9 +52,13 @@ const buildForm = function () {
                                    `;
                     }
 
+                    if (attr.label && attr.label !== "") {
+                        conditionLabel = `<label for="${attr.id}" style="${attr.label_style ?? ''}" class="form-label">${attr.label}${required}</label>`
+                    }
+
 
                     htmlRow += `<div class="${attr.class_group ?? 'col-6 mb-3'} ">
-                                    <label for="${attr.id}" style="${attr.label_style ?? ''}" class="form-label">${attr.label}${required}</label>
+                                    ${conditionLabel}
                                     ${inputsElement}
                                     ${helpField}
                                  </div>
@@ -109,6 +103,40 @@ const buildForm = function () {
         $('#editFields').html(htmlBody);
         return true;
     };
+
+
+    // Champs for Building Form
+    this.buildSelect = (attr) => {
+        let htmlOption = "";
+        if (attr.placeholder !== '') {
+            htmlOption = `<option value="">${attr.placeholder}</option>`
+        }
+        $.each(attr.element, (elementKey, elementValue) => {
+            htmlOption += `<option value="${elementValue[0]}">${elementValue[1]}</option>`
+        })
+        return `<select type="${attr.type}"
+                                     ${attr.required ? 'required' : ''}
+                                     ${attr.readonly ? 'readonly' : ''}
+                                      value="${attr.value}" style="${attr.style}" class="${attr.class}" id="${attr.id}">
+                                      ${htmlOption}
+                                      </select>`;
+    }
+
+
+    this.buildText = (attr) => {
+        return `<div style="${attr.style}" class="${attr.class}" id="${attr.id}">
+                                    ${attr.value}  </div>`;
+    }
+
+
+    this.buildTextArea = (attr) => {
+        return `<textarea type="${attr.type}"
+                 ${attr.required ? 'required' : ''}
+                 ${attr.readonly ? 'readonly' : ''}
+                 placeholder="${attr.placeholder}"
+                 style="${attr.style}" class="${attr.class}" id="${attr.id}">${attr.value}</textarea>`;;
+    }
+
 
     return {
         // Public functions
