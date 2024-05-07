@@ -18,6 +18,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [FormController::class,"index"]);
 Route::get('/iframe', [FormController::class,"getiframe"]);
 
+Route::get('/form/{from}', [FormController::class,"getForm"]);
+
 Route::post('/add-data-form', [FormController::class,"store"]);
+Route::post('/upload-images', [FormController::class,"uploadImagesForm"]);
+Route::post('/delete-images', [FormController::class,"deleteImagesForm"]);
 Route::get('/get-data-form', [FormController::class,"getDataForm"]);
 Route::get('/get-view-edit-field', [FormController::class,"getViewEditField"]);

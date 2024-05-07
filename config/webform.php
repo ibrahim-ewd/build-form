@@ -13,8 +13,10 @@ return [
 
     'data_form' => [
         'Champ_preconfigures' => [
+
             'identities' => [
                 'name' => 'identity',
+                'display_label' => true,
                 'champ' => [
                     'firstname' => [
                         'label' => "first name",
@@ -51,11 +53,11 @@ return [
                         'notice' => "",
                         'value' => "",
                         'type' => "select",
-                        'element' => [
-                            ["one", "one"],
-                            ["two" ,"two"]
+                        'options' => [
+                            ["value" => "one", "title" => "one", "img" => ["active" => "", "src" => "", "name" => "", "size" => ""]],
+                            ["value" => "two", "title" => "two", "img" => ["active" => "", "src" => "", "name" => "", "size" => ""]],
                         ],
-                        'class' => "form-control",
+                        'class' => "form-select",
                         'class_group' => "col-6 mb-3",
                         'style' => "",
                         'placeholder' => "civility",
@@ -67,8 +69,10 @@ return [
                     ],
                 ],
             ],
+
             'address' => [
                 'name' => 'address',
+                'display_label' => true,
                 'champ' => [
                     'streetone' => [
                         'label' => "street one",
@@ -130,8 +134,10 @@ return [
                     ],
                 ],
             ],
+
             'phone' => [
                 'name' => 'phone',
+                'display_label' => true,
                 'champ' => [
                     'phone' => [
                         'label' => "phone",
@@ -149,8 +155,10 @@ return [
                     ],
                 ],
             ],
+
             'email' => [
                 'name' => 'email',
+                'display_label' => true,
                 'champ' => [
                     'email' => [
                         'label' => "email",
@@ -168,68 +176,181 @@ return [
                     ],
                 ],
             ],
-            'longText' => [
-                'name' => 'longText',
+
+            'website' => [
+                'name' => 'Website',
+                'display_label' => true,
                 'champ' => [
-                    'longText' => [
-                        'label' => "longText",
+                    'Website' => [
+                        'label' => "Website",
+                        'notice' => "",
+                        'value' => "",
+                        'type' => "text",
+                        'class' => "form-control",
+                        'class_group' => "col-12 mb-3",
+                        'style' => "",
+                        'placeholder' => "website.com",
+                        'id' => "website",
+                        'required' => true,
+                        'readonly' => false,
+                        'visibility' => true,
+                    ],
+                ],
+            ],
+
+            'company' => [
+                'name' => 'Company',
+                'display_label' => true,
+                'champ' => [
+                    'company' => [
+                        'label' => "Company",
+                        'notice' => "",
+                        'value' => "",
+                        'type' => "text",
+                        'class' => "form-control",
+                        'class_group' => "col-12 mb-3",
+                        'style' => "",
+                        'placeholder' => "company name",
+                        'id' => "company",
+                        'required' => true,
+                        'readonly' => false,
+                        'visibility' => true,
+                    ],
+                ],
+            ],
+
+            'longText' => [
+                'name' => 'Message',
+                'display_label' => true,
+
+                'champ' => [
+                    'Message' => [
+                        'label' => "Message",
                         'notice' => "",
                         'value' => "",
                         'type' => "textarea",
                         'class' => "form-control",
                         'class_group' => "col-12 mb-3",
                         'style' => "",
-                        'placeholder' => "longText",
-                        'id' => "longText",
+                        'placeholder' => "Message",
+                        'id' => "message",
                         'required' => true,
                         'readonly' => false,
                         'visibility' => true,
                     ],
                 ],
             ],
-            'date' => [
-                'name' => 'date',
+
+            'privacyPpolicy' => [
+                'name' => 'Privacy Policy',
+                'display_label' => true,
                 'champ' => [
-                    'date' => [
-                        'label' => "date",
+                    'privacyPolicy' => [
+                        'name' => "Privacy Policy",
+                        'label' => "Privacy Policy",
+                        'placeholder' => null,
+                        'type' => "checkbox",
                         'notice' => "",
-                        'value' => "",
-                        'type' => "date",
-                        'class' => "form-control",
+                        'value' => "Yes, I accept that the personal data collected will be kept for 2 years as part of the contact with the company to access the services it provides.",
+                        'class' => "text",
                         'class_group' => "col-12 mb-3",
                         'style' => "",
-                        'placeholder' => "date",
-                        'id' => "date",
+                        'id' => "privacyPolicy",
                         'required' => true,
-                        'readonly' => false,
+                        'readonly' => null,
                         'visibility' => true,
-
-
-
-
                     ],
-//                    'hour' => [
-//                        'label' => "hour",
-//                        'notice' => "",
-//                        'value' => "",
-//                        'type' => "hour",
-//                        'class' => "form-control",
-//                        'class_group' => "col-6 mb-3",
-//                        'style' => "",
-//                        'placeholder' => "hour",
-//                        'id' => "hour",
-//                        'required' => true,
-//                        'readonly' => false,
-//                        'visibility' => true,
-//                    ],
                 ],
             ],
         ],
 
 
         'Champs_Standards' => [
+
+            'text' => [
+                'name' => 'Text',
+                'display_label' => true,
+                'champ' => [
+                    'Text' => [
+                        'label' => "Text",
+                        'notice' => "",
+                        'value' => "",
+                        'type' => "text",
+                        'class' => "form-control",
+                        'class_group' => "col-12 mb-3",
+                        'style' => "",
+                        'placeholder' => "Text...",
+                        'id' => "phone",
+                        'required' => true,
+                        'readonly' => false,
+                        'visibility' => true,
+                    ],
+                ],
+            ],
+
+            'paragraph' => [
+                'name' => 'Paragraph',
+                'display_label' => true,
+                'champ' => [
+                    'paragraph' => [
+                        'name' => "paragraph",
+                        'label' => null,
+                        'placeholder' => null,
+                        'type' => "paragraph",
+                        'notice' => "",
+                        'value' => "change this text",
+                        'class' => "text",
+                        'class_group' => "col-12 mb-3",
+                        'style' => "",
+                        'id' => "paragraph",
+                        'required' => null,
+                        'readonly' => null,
+                        'visibility' => true,
+                    ],
+                ],
+            ],
+
+            'datetime' => [
+                'name' => 'Datetime',
+                'display_label' => true,
+                'champ' => [
+                    'date' => [
+                        'label' => "date",
+                        'notice' => "",
+                        'value' => "",
+                        'type' => "date",
+                        'format_date' => "dd/mm/yy",
+                        'class' => "form-control ",
+                        'class_group' => "col-8 mb-3",
+                        'style' => "",
+                        'placeholder' => false,
+                        'id' => "date",
+                        'required' => true,
+                        'readonly' => false,
+                        'visibility' => true,
+                    ],
+                    'time' => [
+                        'label' => "time",
+                        'notice' => "",
+                        'value' => "",
+                        'type' => "time",
+                        'format_date' => "H:i",
+                        'class' => "form-control timePicker",
+                        'class_group' => "col-4 mb-3",
+                        'style' => "",
+                        'placeholder' => false,
+                        'id' => "time",
+                        'required' => true,
+                        'readonly' => false,
+                        'visibility' => true,
+                    ],
+
+                ],
+            ],
+
             'select' => [
-                'name' => 'select',
+                'name' => 'Select',
+                'display_label' => true,
                 'champ' => [
                     'select' => [
                         'name' => "Select",
@@ -237,9 +358,9 @@ return [
                         'type' => "select",
                         'notice' => "",
                         'value' => "",
-                        'element' => [
-                            ["one", "one"],
-                            ["two" ,"two"]
+                        'options' => [
+                            ["value" => "one", "title" => "one", "img" => ["active" => "", "src" => "", "name" => "", "size" => ""]],
+                            ["value" => "two", "title" => "two", "img" => ["active" => "", "src" => "", "name" => "", "size" => ""]],
                         ],
                         'class' => "form-control",
                         'class_group' => "col-12 mb-3",
@@ -253,23 +374,84 @@ return [
                     ],
                 ],
             ],
-            'paragraph' => [
-                'name' => 'paragraph',
+
+            'checkbox' => [
+                'name' => 'Checkbox',
+                'display_label' => true,
                 'champ' => [
-                    'paragraph' => [
-                        'name' => "paragraph",
-                        'label' => null,
-                        'placeholder' => null,
-                        'type' => "text",
+                    'checkbox' => [
+                        'name' => "checkbox",
+                        'label' => "checkbox",
+                        'type' => "checkbox",
                         'notice' => "",
-                        'value' => "change this text",
-                        'class' => "text",
+                        'value' => "",
+                        'options' => [
+                            ["value" => "one", "title" => "one", "img" => ["active" => "", "src" => "", "name" => "", "size" => ""]],
+                            ["value" => "two", "title" => "two", "img" => ["active" => "", "src" => "", "name" => "", "size" => ""]],
+                        ],
+                        'class' => "checkbox-input",
                         'class_group' => "col-12 mb-3",
                         'style' => "",
-                        'id' => "paragraph",
-                        'required' => null,
-                        'readonly' => null,
+                        'placeholder' => "checkbox",
+                        'id' => "checkbox",
+                        'required' => true,
+                        'readonly' => false,
                         'visibility' => true,
+
+                    ],
+                ],
+            ],
+
+            'radio' => [
+                'name' => 'Radio',
+                'display_label' => true,
+                'champ' => [
+                    'radio' => [
+                        'name' => "radio",
+                        'label' => "radio",
+                        'type' => "radio",
+                        'notice' => "",
+                        'value' => "",
+                        'options' => [
+                            ["value" => "one", "title" => "one", "img" => ["active" => "", "src" => "", "name" => "", "size" => ""]],
+                            ["value" => "two", "title" => "two", "img" => ["active" => "", "src" => "", "name" => "", "size" => ""]],
+                        ],
+                        'class' => "radio-input",
+                        'class_group' => "col-12 mb-3",
+                        'style' => "",
+                        'placeholder' => "radio",
+                        'id' => "radio",
+                        'required' => true,
+                        'readonly' => false,
+                        'visibility' => true,
+
+                    ],
+                ],
+            ],
+
+            'satisfaction' => [
+                'name' => 'Satisfaction',
+                'display_label' => true,
+                'champ' => [
+                    'satisfaction' => [
+                        'name' => "satisfaction",
+                        'label' => "satisfaction",
+                        'type' => "radio",
+                        'notice' => "",
+                        'value' => "",
+                        'options' => [
+                            ["value" => "one", "title" => "one", "img" => ["active" => "", "src" => "", "name" => "", "size" => ""]],
+                            ["value" => "two", "title" => "two", "img" => ["active" => "", "src" => "", "name" => "", "size" => ""]],
+                        ],
+                        'class' => "radio-input",
+                        'class_group' => "col-12 mb-3",
+                        'style' => "",
+                        'placeholder' => "radio",
+                        'id' => "satisfaction",
+                        'required' => true,
+                        'readonly' => false,
+                        'visibility' => true,
+
                     ],
                 ],
             ],

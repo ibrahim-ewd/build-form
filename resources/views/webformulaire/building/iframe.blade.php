@@ -8,8 +8,9 @@
 
 
     <div class="dest-list col-7">
-        view
+        view sdfsdf
     </div>
+
 @endsection
 @section('scripts')
 

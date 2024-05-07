@@ -39,6 +39,64 @@ const ajaxFunction = function () {
             })
         })
     };
+    const uploadImagesForm = function (element) {
+
+        return new Promise((resolve, reject) => {
+            // console.log();
+            var formData = new FormData();
+            formData.append('image', element['photo']);
+            formData.append('name', element['name']);
+            formData.append('dir', element['dir']);
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            $.ajax({
+                url: "/upload-images",
+                method: "POST",
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (response) {
+
+                    resolve(response);
+                },
+            })
+        })
+    };
+
+    const deleteImagesForm = function (element) {
+
+        return new Promise((resolve, reject) => {
+            // console.log();
+            var formData = new FormData();
+            // formData.append('image', element['photo']);
+            formData.append('type', element['type']);
+            formData.append('name', element['name']);
+            formData.append('dir', element['dir']);
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            $.ajax({
+                url: "/delete-images",
+                method: "POST",
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false,
+
+                success: function (response) {
+                    resolve(response);
+                },
+            })
+        })
+    };
 
     const _initAdd = function (element) {
 
@@ -86,6 +144,15 @@ const ajaxFunction = function () {
         getViewEditField: function (element) {
             return getViewEditField(element);
         },
+        // Expose _initBuild as a public function
+        uploadImagesForm: function (element) {
+            return uploadImagesForm(element);
+        },
+        // Expose _initBuild as a public function
+        deleteImagesForm: function (element) {
+            return deleteImagesForm(element);
+        },
+
 
     };
 }

@@ -1,7 +1,7 @@
 #editFields {
     top: 0;
     left: 0;
-    width: 30%;
+    width: 40%;
     display: none;
     padding: 10px;
     height: 100vh;
@@ -38,6 +38,9 @@ button.accordion-button {
 
 .accordion-item {
     margin-bottom: 20px;
+}
+.dest-list{
+    margin-left: 6%;
 }
 
 .dest-list label,
@@ -175,4 +178,147 @@ button.accordion-button {
 
 .button-3 .checkbox:checked ~ .layer {
     background-color: #6c757d;
+}
+
+
+.cursor-pointer{
+    cursor: pointer;
+}
+.btn-options-plus{
+    width: 100%;
+    height: 30px;
+    margin: 0;
+    padding: 0 !important;
+}
+
+.row-edit-option{
+    display: flex;
+}
+.row-edit-option>span{
+    width: 50%;
+    margin: 1%;
+}
+.row-edit-option>span:last-child{
+    width: 60px;
+}
+
+.image_icon_options{
+    border: 0.05rem solid;
+    width: 18px;
+    height: 18px;
+    margin-top: 7px;
+
+}
+
+
+
+
+
+.picture-container {
+    position: relative;
+    cursor: pointer;
+    text-align: center;
+}
+#wrap-list-option-edit .picture {
+    width: 106px;
+    height: 70px;
+    background-color: #999999;
+    border: 4px solid #cccccc;
+    color: #ffffff;
+    margin: 0px auto;
+     overflow: hidden;
+    transition: all 0.2s;
+    -webkit-transition: all 0.2s;
+}
+.picture:hover {
+    border-color: #2ca8ff;
+}
+.content.ct-wizard-green .picture:hover {
+    border-color: #05ae0e;
+}
+.content.ct-wizard-blue .picture:hover {
+    border-color: #3472f7;
+}
+.content.ct-wizard-orange .picture:hover {
+    border-color: #ff9500;
+}
+.content.ct-wizard-red .picture:hover {
+    border-color: #ff3b30;
+}
+.picture input[type="file"] {
+    cursor: pointer;
+    display: block;
+    height: 100%;
+    left: 0;
+    opacity: 0 !important;
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+
+.picture-src {
+    height: 100%;
+}
+.btnChangeImageOption,
+.btnDeleteImageOption{
+    height: 30px;
+    margin: 2px;
+}
+/*Profile Pic End*/
+
+
+.check-list-warp span.check-list-item-img  input[type="checkbox"],
+.check-list-warp span.check-list-item-img  input[type="radio"]
+{
+    display: none;
+}
+
+.check-list-warp span.check-list-item-img label {
+    border: 1px solid #fff;
+    padding: 10px;
+    display: block;
+    position: relative;
+    margin: 10px;
+    cursor: pointer;
+}
+
+.check-list-warp span.check-list-item-img label:before {
+    background-color: white;
+    color: white;
+    content: " ";
+    display: block;
+    border-radius: 50%;
+    border: 1px solid #2977ff;
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    width: 25px;
+    height: 25px;
+    text-align: center;
+    line-height: 28px;
+    transition-duration: 0.4s;
+    transform: scale(0);
+}
+
+.check-list-warp span.check-list-item-img  label img ,.image-item-checkbox{
+    height: 75px;
+    width: 75px;
+    transition-duration: 0.2s;
+    transform-origin: 50% 50%;
+}
+
+.check-list-warp span.check-list-item-img  :checked + label {
+    border-color: #ddd;
+}
+
+.check-list-warp span.check-list-item-img  :checked + label:before {
+    content: "✓";
+    background-color: #2977ff;
+    transform: scale(1);
+}
+
+.check-list-warp span.check-list-item-img  :checked + label img {
+    transform: scale(0.9);
+    /* box-shadow: 0 0 5px #333; */
+    z-index: -1;
 }

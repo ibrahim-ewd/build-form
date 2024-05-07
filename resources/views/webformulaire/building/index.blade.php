@@ -79,11 +79,6 @@
 @section('content')
 
 
-    {{--    @include('globals.tabs_elementsform')--}}
-
-
-
-
     <div class="card card-custom mt-10">
         <div class="card-header border-0 pt-5">
             <div class="align-items-start flex-column">
@@ -113,9 +108,10 @@
                                      data-bs-parent="#accordionExample">
                                     <div class="accordion-body">
                                         @foreach($type as $name=>$fields)
+
                                             <button class="btn btn-outline-secondary w-100 mb-3 btn-drag" data-type="{{$key}}" data-name="{{$name}}"
                                                     draggable="true">
-                                                {{$name}}
+                                                {{$fields['name']}}
                                             </button>
                                         @endforeach
 
@@ -156,8 +152,9 @@
         let element = {!!  json_encode(config('webform.data_form'),true)  !!}
     </script>
     <script src="{{asset('/js/build.js')}}"></script>
+    <script src="{{asset('/js/after-build.js')}}"></script>
     <script src="{{asset('/js/ajax-form.js')}}"></script>
-    <script src="{{asset('/js/editing-form.js')}}"></script>
+{{--    <script src="{{asset('/js/editing-form.js')}}"></script>--}}
     <script src="{{asset('/js/forms.js')}}"></script>
 
 

@@ -1,12 +1,13 @@
 <div class="accordion" id="accordion{{$nameChamp}}">
 
+
     @foreach($data->champ as $key=>$champ)
 
         <div class="accordion-item field-edit" id="field-{{$nameChamp}}-{{$key}}" data-name="{{$key}}"
              data-index="{{$index}}">
 
             <h2 class="accordion-header" id="headingOne">
-                <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                <button class="accordion-button text-capitalize" type="button" data-bs-toggle="collapse"
                         data-bs-target="#collapse{{$key}}" aria-expanded="true" aria-controls="collapse{{$key}}">
                     {{$key}}
                 </button>
@@ -24,7 +25,7 @@
                                     type="checkbox"
                                     name="visibility"
                                     data-type="boolean"
-                                    {{(isset($data->champ->{$key}->visibility)) ?'checked':''}}
+                                    {{(isset($data->champ->{$key}->visibility) && $data->champ->{$key}->visibility==true) ?'checked':''}}
                                     class="checkbox input-edit-form " value="" id="visibility">
                                 <div class="knobs"></div>
                                 <div class="layer"></div>
@@ -32,144 +33,93 @@
                         </div>
                     </div>
 
-                    @if($champ->label != null)
-                        <div class="form-group my-3">
-                            <label for="label">label</label>
-                            <input type="text"
-                                   name="label"
-                                   value="{{$champ->label}}"
-                                   class="input-edit-form form-control  form-control-sm"
-                                   id="label">
-
-                            {{--                        <div class="btn-group btn-group-toggle mt-2" data-toggle="buttons">--}}
-                            {{--                            <label--}}
-                            {{--                                class="btn btn-outline-secondary btn-sm {{Str::contains($champ->label_style??'','text-align:left')?'active':''}}">--}}
-                            {{--                                <input type="radio" name="label_style" class="input-edit-form d-none"--}}
-                            {{--                                       value="text-align:left" id="option{{$key}}">--}}
-                            {{--                                left--}}
-                            {{--                            </label>--}}
-                            {{--                            <label--}}
-                            {{--                                class="btn btn-outline-secondary btn-sm {{Str::contains($champ->label_style??'','text-align:center')?'active':''}}">--}}
-                            {{--                                <input type="radio" name="label_style" class="input-edit-form d-none"--}}
-                            {{--                                       value="text-align:center"--}}
-                            {{--                                       id="option2{{$key}}"> center--}}
-                            {{--                            </label>--}}
-                            {{--                            <label--}}
-                            {{--                                class="btn btn-outline-secondary btn-sm {{Str::contains($champ->label_style??'','text-align:right')?'active':''}}">--}}
-                            {{--                                <input type="radio" name="label_style" class="input-edit-form d-none"--}}
-                            {{--                                       value="text-align:right"--}}
-                            {{--                                       id="option3{{$key}}"> right--}}
-                            {{--                            </label>--}}
-                            {{--                        </div>--}}
-                        </div>
+                    @if($champ->required != null)
+                        @include("webformulaire.editing.include.required_edit")
                     @endif
 
-                    @if($champ->notice != null)
-                        <div class="form-group my-3">
-                            <label for="label">notice</label>
-                            <input type="text"
-                                   name="notice"
-                                   value="{{$champ->notice}}"
-                                   class="input-edit-form form-control form-control-sm"
-                                   id="notice">
-
-
-                            {{--                        <div class="btn-group btn-group-toggle mt-2" data-toggle="buttons">--}}
-                            {{--                            <label--}}
-                            {{--                                class="btn btn-outline-secondary btn-sm {{Str::contains($champ->notic_style??'','text-align:left')?'active':''}}">--}}
-                            {{--                                <input type="radio" name="notic_style" class="input-edit-form d-none"--}}
-                            {{--                                       value="text-align:left"--}}
-                            {{--                                       id="notic_style{{$key}}">--}}
-                            {{--                                left--}}
-                            {{--                            </label>--}}
-                            {{--                            <label--}}
-                            {{--                                class="btn btn-outline-secondary btn-sm {{Str::contains($champ->notic_style??'','text-align:center')?'active':''}}">--}}
-                            {{--                                <input type="radio" name="notic_style" class="input-edit-form d-none"--}}
-                            {{--                                       value="text-align:center"--}}
-                            {{--                                       id="notic_style{{$key}}"> center--}}
-                            {{--                            </label>--}}
-                            {{--                            <label--}}
-                            {{--                                class="btn btn-outline-secondary btn-sm {{Str::contains($champ->notic_style??'','text-align:right')?'active':''}}">--}}
-                            {{--                                <input type="radio" name="notic_style" class="input-edit-form d-none"--}}
-                            {{--                                       value="text-align:right"--}}
-                            {{--                                       id="notic_style{{$key}}"> right--}}
-                            {{--                            </label>--}}
-                            {{--                        </div>--}}
-                        </div>
+                    @if(isset($champ->readonly))
+                        @include("webformulaire.editing.include.readonly_edit")
                     @endif
 
-                    @if($champ->placeholder != null)
-                        <div class="form-group my-3">
-                            <label for="label">placeholder</label>
-                            <input type="text"
-                                   name="placeholder"
-                                   value="{{$champ->placeholder}}"
-                                   class="input-edit-form form-control form-control-sm" id="placeholder">
-                        </div>
+
+                    @if(isset($champ->label))
+                        @include("webformulaire.editing.include.label_edit")
+                    @endif
+
+                    @if(isset($champ->format_date))
+
+                        @include("webformulaire.editing.include.format_date_edit")
+                    @endif
+
+
+                    @if(isset($champ->notice))
+
+                        @include("webformulaire.editing.include.notice_edit")
+                    @endif
+
+                    @if(isset($champ->placeholder))
+
+                        @include("webformulaire.editing.include.placeholder_edit")
                     @endif
 
                     @if($champ->value != null)
-                        @if($champ->name == "paragraph")
-                            <div class="form-group my-3">
-                                <label for="value">Text</label>
-                                <textarea type="text"
-                                          name="value"
-                                          class="input-edit-form form-control form-control-sm"
-                                          id="value_ckedit">{{$champ->value}}</textarea>
-                            </div>
 
-                        @else
-                            <div class="form-group my-3">
-                                <label for="value">value---</label>
-                                <input type="text"
-                                       name="value"
-                                       value="{{$champ->value}}"
-                                       class="input-edit-form form-control form-control-sm" id="value">
-                            </div>
-                        @endif
-                    @endif
-{{--{{dd($champ)}}--}}
-                    @if($champ->required != null)
-                        <div class="form-group my-3">
-                            <label for="label">Required</label>
-                            <div class="toggle-button-cover">
-                                <div id="button-3" class="button-3 button r">
-                                    <input
-                                        type="checkbox"
-                                        name="required"
-                                        data-type="boolean"
-                                        {{$champ->required ?'checked':''}}
-                                        class="checkbox input-edit-form " value="" id="Required">
-                                    <div class="knobs"></div>
-                                    <div class="layer"></div>
-                                </div>
-                            </div>
-                        </div>
+                        @include("webformulaire.editing.include.value_edit")
                     @endif
 
-                    @if($champ->readonly != null)
-                        <div class="form-group my-3">
-                            <label for="label">readonly</label>
-                            <div class="toggle-button-cover">
-                                <div class="button-3 button r">
-                                    <input
-                                        type="checkbox"
-                                        name="readonly"
-                                        data-type="boolean"
-                                        {{$champ->readonly ?'checked':''}}
-                                        class="checkbox input-edit-form " value="" id="readonly">
-                                    <div class="knobs"></div>
-                                    <div class="layer"></div>
+                    @if(isset($champ->options) && $champ->options != null)
+                        <fieldset class="border p-2">
+                            <legend class="w-auto float-none px-2">Options</legend>
+
+                            <div class="row">
+                                <div class="col-11">
+                                    <div class="col-11 mx-3 my-1 parent_list_option table table-hover">
+                                        <div class="row-edit-option">
+                                            <span>Titles</span>
+                                            <span>Values</span>
+                                            <span><div class="btn btn-primary btn-options-plus"><i
+                                                        class="cursor-pointer fa fa-plus"></i></div></span>
+                                        </div>
+                                        <div id="wrap-list-option-edit">
+
+                                            @include("webformulaire.editing.include.list_edit_options")
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        </fieldset>
                     @endif
+
 
                 </div>
             </div>
         </div>
 
     @endforeach
+
+
+    @if(isset($data->display_label))
+        <div class="field-edit" data-index="{{$index}}">
+            <div class="form-group my-3">
+                <label for="display_label">Display labels</label>
+                <div class="toggle-button-cover">
+                    <div id="visibility_{{$nameChamp}}" class="button-3 button r">
+
+                        <input
+                            type="checkbox"
+                            name="display_label"
+                            data-type="boolean"
+                            {{($data->display_label==true) ?'checked':''}}
+                            class="checkbox input-edit-form-global " data-edit="global" value="" id="display_label">
+                        <div class="knobs"></div>
+                        <div class="layer"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
+
+
 </div>
 
 {{--<script>--}}
