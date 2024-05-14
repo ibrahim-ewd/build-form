@@ -1,4 +1,5 @@
-
+const loc = $(location).attr("origin");
+console.log($(location).attr('pathname'))
 const hostName = $(location).attr("origin");
 
 const buildForm = function () {
@@ -33,41 +34,34 @@ const buildForm = function () {
                     let inputsElement = ''
                     let conditionLabel = '';
 
-                    if (attr.notice != undefined) {
+                    if (attr.notice !== undefined) {
                         helpField = `<small class="form-text text-muted" style="${attr.notic_style ?? ''}">${attr.notice}</small>`
                     }
 
-                    if (attr.required == true) {
+                    if (attr.required === true) {
                         _required = `<sub class="form-text text-danger"> *</sub>`
                     }
 
                     if (attr.visibility) {
-                        if (attr.type == 'text') {
-
-                            inputsElement += this.buildText(elements, attr)
-
-                        } else if (attr.type == 'paragraph') {
-
-                            inputsElement += this.buildParagraph(elements, attr)
-
-                        } else if (attr.type == 'select') {
-
-                            inputsElement += this.buildSelect(elements, attr);
-
+                        if (attr.type === 'text') {
+                            inputsElement += elementsBuild().buildText(elements, attr)
+                        } else if (attr.type === 'paragraph') {
+                            inputsElement += elementsBuild().buildParagraph(elements, attr)
+                        } else if (attr.type === 'select') {
+                            inputsElement += elementsBuild().buildSelect(elements, attr);
                         } else if (attr.type === 'textarea') {
-                            inputsElement += this.buildTextArea(elements, attr);
-                        } else if ( attr.type === "radio") {
-                            inputsElement += this.buildRadioInput(elements, attr);
-                        } else if (attr.type === 'checkbox' ) {
-                            inputsElement += this.buildCheckbox(elements, attr);
+                            inputsElement += elementsBuild().buildTextArea(elements, attr);
+                        } else if (attr.type === "radio") {
+                            inputsElement += elementsBuild().buildRadioInput(elements, attr);
+                        } else if (attr.type === 'checkbox') {
+                            inputsElement += elementsBuild().buildCheckbox(elements, attr);
                         } else if (attr.type === 'date' || attr.type === 'time') {
-                            inputsElement += this.buildDate(elements, attr);
+                            inputsElement += elementsBuild().buildDate(elements, attr);
                         } else {
-                            inputsElement += `
-                                   `;
+                            inputsElement += ``;
                         }
 
-                        if (attr.label && attr.label !== "" && elements['display_label'] === true) {
+                        if (attr.label && attr.label !== "" && elements['display_labels'] === true) {
 
                             conditionLabel = `<label for="${attr.id}" style="${attr.label_style ?? ''}" class="form-label">${attr.label}${_required}</label>`
 
@@ -78,15 +72,19 @@ const buildForm = function () {
                                      ${conditionLabel}
                                     ${inputsElement}
                                     ${helpField}
-                                 </div>
-                                `
-
+                                 </div>`
                     }
 
                 });
 
-                htmlBody += ` <div class="my-2">
-                             <span>${buildForm().callInitActions(index, elements)}</span>
+                let buildAction = "";
+                if ($(location).attr('pathname') === "/form/build") {
+                    buildAction = `<span>${buildForm().callInitActions(index, elements)}</span>`;
+                }
+
+                htmlBody += ` <div class="my-2 boder-dote-field">
+                                ${buildAction}
+                                <h4>${elements['name']}</h4>
                                 <div class="row"> ${htmlRow} </div>
                            </div>`
 
@@ -124,176 +122,6 @@ const buildForm = function () {
     };
 
 
-    // Champs for Building Form
-    this.buildSelect = (elements, attr) => {
-        const req = (elements['display_label'] == false && attr.required == true) ? "*" : '';
-        let htmlOption = "";
-        let dataPlaceholder = "";
-        if (attr.placeholder !== '') {
-            htmlOption = `<option></option>`
-            dataPlaceholder = `data-placeholder="${attr.placeholder} ${req}"`;
-        }
-        $.each(attr.options, (elementKey, elementValue) => {
-            let imgOption = ""
-
-            if (elementValue["img"] && elementValue["img"]["src"] !== "") {
-
-                imgOption = `src = "${elementValue["img"]["src"]}"`;
-            }
-            htmlOption += `<option value="${elementValue["value"]}" ${imgOption}>${elementValue["title"]}</option>`
-        })
-
-
-        return `<select type="${attr.type}"
-                                     ${dataPlaceholder}
-                                     ${attr.required ? 'required' : ''}
-                                     ${attr.readonly ? 'readonly' : ''}
-                                      value="${attr.value}" style="${attr.style}" class="select2 ${attr.class}" id="${attr.id}_${elements['id']}">
-                                      ${htmlOption}
-                                      </select>`;
-    }
-
-
-    this.buildText = (elements, attr) => {
-        const req = (elements['display_label'] == false && attr.required == true) ? "*" : '';
-
-        return `<input type="${attr.type}"
-                                     ${attr.required ? 'required' : ''}
-                                     ${attr.readonly ? 'readonly' : ''}
-                                     placeholder="${attr.placeholder} ${req}" value="${attr.value}" style="${attr.style}" class="${attr.class}" id="${attr.id}_${elements['id']}">
-                                   `;
-    }
-
-
-    this.buildParagraph = (elements, attr) => {
-        return `<div style="${attr.style}" class="${attr.class}" id="${attr.id}_${elements['id']}">
-                                    ${attr.value}  </div> `;
-    }
-
-
-    this.buildTextArea = (elements, attr) => {
-        return `<textarea type="${attr.type}"
-                 ${attr.required ? 'required' : ''}
-                 ${attr.readonly ? 'readonly' : ''}
-                 placeholder="${attr.placeholder}"
-                 style="${attr.style}" class="${attr.class}" id="${attr.id}_${elements['id']}">${attr.value}</textarea>`;
-        ;
-    }
-
-
-    this.buildCheckbox = (elements, attr) => {
-        let checkHtml = "";
-        $.each(attr.options, (index, element) => {
-            if (element["img"] && element["img"]["src"] !== "") {
-                console.log(element)
-                checkHtml += `
-                <span class="check-list-item-img col-4 d-flex align-items-center">
-                    <input type="${attr.type}" id="${attr.id + elements['id'] + index}"
-                                    ${attr.required ? 'required' : ''}
-                                    ${attr.readonly ? 'readonly' : ''}
-                                    value="${element.value}"/>
-                    <label for="${attr.id + elements['id'] + index}">
-                    <img src="${hostName}/storage/${element["img"]["src"]}" class="image-item-checkbox" />
-
-                    </label>
-                    <label class="mx-2" for="${attr.id + elements['id'] + index}">${element.title}</label>
-                  </span>
-                `;
-
-            }else {
-                checkHtml += `
-                    <span class="check-list-item col-4 d-flex align-items-center">
-                        <label for="${attr.id + elements['id'] + index}">
-                            <input type="${attr.type}"
-                                 ${attr.required ? 'required' : ''}
-                                 ${attr.readonly ? 'readonly' : ''}
-                                 value="${element.value}"
-                                 name="${element.value}"
-                                 style="${attr.style}" class="${attr.class}" id="${attr.id + elements['id'] + index}" />
-                            <span class="mx-2">${element.title}</span>
-                        </label>
-                    </span>`;
-            }
-        })
-        return  `<div class="check-list-warp row">${checkHtml}</div>`;
-    }
-
-
-    this.buildRadioInput = (elements, attr) => {
-        let checkHtml = "";
-        $.each(attr.options, (index, element) => {
-            if (element["img"] && element["img"]["src"] !== "") {
-                console.log(element)
-                checkHtml += `
-                <span class="check-list-item-img col-4 d-flex align-items-center">
-                    <input type="${attr.type}" id="${attr.id + elements['id'] + index}"
-                                    ${attr.required ? 'required' : ''}
-                                    ${attr.readonly ? 'readonly' : ''}
-                                     name="${attr.name}_${element['id']}"
-                                    value="${element.value}"/>
-                    <label for="${attr.id + elements['id'] + index}">
-                    <img src="${hostName}/storage/${element["img"]["src"]}" class="image-item-checkbox" />
-
-                    </label>
-                    <label class="mx-2" for="${attr.id + elements['id'] + index}">${element.title}</label>
-                  </span>
-                `;
-
-            }else {
-                checkHtml += `
-                    <span class="check-list-item col-4 d-flex align-items-center">
-                        <label for="${attr.id + elements['id'] + index}">
-                            <input type="${attr.type}"
-                                 ${attr.required ? 'required' : ''}
-                                 ${attr.readonly ? 'readonly' : ''}
-                                 value="${element.value}"
-                                 name="${attr.name}_${elements['id']}"
-                                 style="${attr.style}" class="${attr.class}" id="${attr.id + elements['id'] + index}" />
-                            <span class="mx-2">${element.title}</span>
-                        </label>
-                    </span>`;
-            }
-        })
-        return  `<div class="check-list-warp row">${checkHtml}</div>`;
-    }
-
-    this.buildDate = (elements, attr) => {
-        let buildInput = "";
-
-        const _input = `<input type="text"
-                                     ${attr.required ? 'required' : ''}
-                                     ${attr.readonly ? 'readonly' : ''}
-                                     data-format=" ${attr.format_date ?? ''}"
-
-                                     placeholder="${attr.placeholder}" value="${attr.value}" style="${attr.style}" class="${attr.class}" id="${attr.id}_${elements['id']}">
-                                   `;
-
-        if (attr.type == "time") {
-            buildInput += `	<div class="input-group timepicker">
-                                ${_input}
-                                    <span class="input-group-addon"> <span class="fa fa-clock-o"></span> </span>
-
-                              </div>`
-        } else {
-            buildInput += `<div class="input-group date datepicker">
-                                    ${_input}
-                                 <span class="input-group-addon"> <span class="fa fa-clock-o"></span> </span>
-
-                              </div>`
-        }
-        return buildInput;
-    }
-
-    this.buildTime = (attr) => {
-        return `<input type="${attr.type}"
-                                     ${attr.required ? 'required' : ''}
-                                     ${attr.readonly ? 'readonly' : ''}
-                                     data-format=" ${attr.format_date ?? ''}"
-                                     placeholder="${attr.placeholder}" value="${attr.value}" style="${attr.style}" class="${attr.class}" id="${attr.id}">
-                                   `;
-    }
-
-
     return {
         // Public functions
         init: function () {
@@ -301,7 +129,9 @@ const buildForm = function () {
                 afterBuildForm();
             });
             _initEdit();
+
             _initActions();
+
         },
         // Expose _initBuild as a public function
         callInitBuild: function (element) {
@@ -311,7 +141,9 @@ const buildForm = function () {
         },
 
         callInitActions: function (index, element) {
+
             return _initActions(index, element);
+
         },
 
         callInitEdit: function (index, element) {

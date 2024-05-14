@@ -17,7 +17,6 @@ const creatForm = function () {
         return new Promise((resolve, reject) => {
             resolve(
                 ajaxFunction().getDataForm({slug: formId}).then(data => {
-
                     buildForm().callInitBuild(data ? JSON.parse(data) : []);
                     dataForm = data ? JSON.parse(data) : [];
                 })
@@ -50,9 +49,9 @@ const creatForm = function () {
     const _collapse = function () {
         $("#accordion").accordion();
 
-        $('.dest-list').sortable({
+        $('.sortable-element').sortable({
             update: function (e, ui) {
-                pos = $('.dest-list').children().length;
+                pos = $('.sortable-element').children().length;
             },
             start: function (event, ui) {
                 ui.item.startPos = ui.item.index();
@@ -74,7 +73,7 @@ const creatForm = function () {
             let type = $(this).attr('data-type');
             let text = $(this).attr('data-name');
 
-            let newItem = { ...element[type][text] };
+            let newItem = {...element[type][text]};
             newItem.id = `${text}${Date.now()}${dataForm.length}`;
             dataForm.push(JSON.parse(JSON.stringify(newItem)));
 
@@ -124,10 +123,8 @@ const creatForm = function () {
             ajaxFunction().deleteImagesForm({
                 // "photo":photo,
                 "type": "folder",
-                "dir": "image/forms/"+formId+"/"+id,
-               // "name": $(this).parents('.row-change-image').find('.picture-src').attr('title')
-            }).then(data => {
-                console.log(data)
+                "dir": "image/forms/" + formId + "/" + id,
+                // "name": $(this).parents('.row-change-image').find('.picture-src').attr('title')
             })
             addDataForm(dataForm)
 
@@ -190,7 +187,6 @@ const creatForm = function () {
             const name = $(this).attr('name');
             const champ = $(this).parents('.field-edit').attr('data-name');
 
-            console.log(champ);
 
             dataForm[index]['champ'][champ][name] = $(this).val();
 
@@ -263,9 +259,48 @@ const creatForm = function () {
             const name = $(this).attr('name');
             const field = $(this).parents('.field-edit').attr('data-name');
             const indexOption = $(this).parents('.row-edit-option').attr('data-index-option');
-            dataForm[index]['champ'][field]['options'][indexOption][name] = $(this).val();
+            const isGlobal = $(this).attr('data-option-global');
 
-            addDataForm(dataForm)
+            if ($(this).attr('required') === "required" && $(this).val() === "") {
+
+                addDataForm(dataForm).then(data => {
+                    setTimeout(() => {
+                        ajaxFunction().getViewEditField({
+                            'slug': formId,
+                            'name': field,
+                            'index': index,
+                            'action': 'option'
+                        }).then(data => {
+                            $('#wrap-list-option-edit').html(data);
+                        })
+
+                    }, 100)
+                })
+                alert("this field must not be empty")
+            } else {
+                if (isGlobal && isGlobal === "size-image") {
+                    $.each(dataForm[index]['champ'][field]['options'], function (ind,elem) {
+                        console.log(ind,elem);
+                        console.log($(this).val());
+                        dataForm[index]['champ'][field]['options'][ind]['img']['size'] = $(this).val();
+                    })
+                } else {
+                    dataForm[index]['champ'][field]['options'][indexOption][name] = $(this).val();
+                }
+                addDataForm(dataForm).then(data => {
+                    setTimeout(() => {
+                        ajaxFunction().getViewEditField({
+                            'slug': formId,
+                            'name': field,
+                            'index': index,
+                            'action': 'option'
+                        }).then(data => {
+                            $('#wrap-list-option-edit').html(data);
+                        })
+
+                    }, 100)
+                })
+            }
         })
 
         $(document).on("click", '.btnDeleteOption', function (e) {
@@ -286,7 +321,7 @@ const creatForm = function () {
             }
 
             ajaxFunction().deleteImagesForm({
-                "dir": "image/forms/"+formId+"/"+dataForm[index]['id'],
+                "dir": "image/forms/" + formId + "/" + dataForm[index]['id'],
                 "name": imageName
             }).then(data => {
                 if (data['status'] !== 'success') {
@@ -317,13 +352,11 @@ const creatForm = function () {
             const defaultOption = {
                 "title": "option " + (optinLength + 1),
                 "value": "option " + (optinLength + 1),
-                "img": {src:"",name:""}
+                "img": {src: "", name: ""}
             };
-          //  console.log()
 
-           (dataForm[index]['champ'][field]['options']).push(JSON.parse(JSON.stringify(defaultOption)))
+            (dataForm[index]['champ'][field]['options']).push(JSON.parse(JSON.stringify(defaultOption)))
 
-            console.log(dataForm[index]['champ'][field]['options'])
             addDataForm(dataForm).then(data => {
 
                 setTimeout(() => {
@@ -361,7 +394,7 @@ const creatForm = function () {
 
             ajaxFunction().uploadImagesForm({
                 "photo": photo,
-                "dir": "image/forms/"+formId+"/"+  dataForm[index]['id'],
+                "dir": "image/forms/" + formId + "/" + dataForm[index]['id'],
                 "name": $(this).parents('.picture-container').find('.picture-src').attr('title')
             }).then(data => {
 
@@ -377,7 +410,7 @@ const creatForm = function () {
                             'action': 'option'
                         }).then(dataHtml => {
                             $('#wrap-list-option-edit').html(dataHtml);
-                            console.log(dataForm)
+
                         })
 
                     }, 100)
@@ -396,7 +429,7 @@ const creatForm = function () {
 
             ajaxFunction().deleteImagesForm({
                 // "photo":photo,
-                "dir": "image/forms/"+formId+"/"+dataForm[index]['id'],
+                "dir": "image/forms/" + formId + "/" + dataForm[index]['id'],
                 "name": $(this).parents('.row-change-image').find('.picture-src').attr('title')
             }).then(data => {
                 if (data['status'] == 'success') {
@@ -434,7 +467,7 @@ const creatForm = function () {
     //             // Add an event listener for the "change:data" event
     //             editor.model.document.on('change:data', () => {
     //                 // This function will be called whenever the editor's content changes
-    //                 // console.log('Editor content changed:', editor.getName());
+
     //                 const editorElement = editor.ui.view.element;
     //
     //                 // Retrieve the attributes
@@ -442,7 +475,6 @@ const creatForm = function () {
     //                 const id = editorElement.getAttribute('id');
     //                 // const dataIndex = editorElement.getAttribute('data-index');
     //
-    //                 //    console.log(name, id)
     //             });
     //         })
     //         .catch(error => {

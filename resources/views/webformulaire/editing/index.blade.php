@@ -74,13 +74,33 @@
                             <div class="row">
                                 <div class="col-11">
                                     <div class="col-11 mx-3 my-1 parent_list_option table table-hover">
-                                        <div class="row-edit-option">
-                                            <span>Titles</span>
-                                            <span>Values</span>
-                                            <span><div class="btn btn-primary btn-options-plus"><i
-                                                        class="cursor-pointer fa fa-plus"></i></div></span>
+
+                                        <div class="section-global-config-option">
+                                            <h6 class="line-around">
+                                                <hr>
+                                                <span> Images Config</span>
+                                                <hr>
+                                            </h6>
+                                            <div class="row">
+
+
+                                                <div class="form-group my-3">
+                                                    <label for="label">Size image</label>
+                                                 <select name="size" id="size-image" data-option-global="size-image" class="form-select input-edit-option" >
+                                                     <option value="pecture-sm">Small</option>
+                                                     <option value="pecture-md">Medium</option>
+                                                     <option value="pecture-lg">Large</option>
+                                                 </select>
+                                                </div>
+                                            </div>
                                         </div>
+                                        <br>
                                         <div id="wrap-list-option-edit">
+                                            <h6 class="line-around">
+                                                <hr>
+                                                <span>Content Config</span>
+                                                <hr>
+                                            </h6>
 
                                             @include("webformulaire.editing.include.list_edit_options")
                                         </div>
@@ -98,26 +118,29 @@
     @endforeach
 
 
-    @if(isset($data->display_label))
-        <div class="field-edit" data-index="{{$index}}">
+    <div class="field-edit" data-index="{{$index}}">
+        @if(isset($data->display_labels))
             <div class="form-group my-3">
-                <label for="display_label">Display labels</label>
+                <label for="display_labels">Display labels</label>
                 <div class="toggle-button-cover">
                     <div id="visibility_{{$nameChamp}}" class="button-3 button r">
 
                         <input
                             type="checkbox"
-                            name="display_label"
+                            name="display_labels"
                             data-type="boolean"
-                            {{($data->display_label==true) ?'checked':''}}
-                            class="checkbox input-edit-form-global " data-edit="global" value="" id="display_label">
+                            {{($data->display_labels==true) ?'checked':''}}
+                            class="checkbox input-edit-form-global " data-edit="global" value="" id="display_labels">
                         <div class="knobs"></div>
                         <div class="layer"></div>
                     </div>
                 </div>
             </div>
-        </div>
-    @endif
+        @endif
+        @if(isset($data->name))
+            @include("webformulaire.editing.include.title_edit")
+        @endif
+    </div>
 
 
 </div>

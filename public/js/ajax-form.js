@@ -113,10 +113,6 @@ const ajaxFunction = function () {
                 data: element,
                 success: function (response) {
                     resolve(response.data);
-
-                    if (element.id == null) {
-                        window.location.href = '/?form='+response.slug;
-                    }
                 },
                 error: function (error) {
                     reject(error); // Reject the promise with the error
@@ -130,7 +126,7 @@ const ajaxFunction = function () {
         init: function () {
             _initAdd();
             getDataForm();
-            getDataEditField();
+            //getDataEditField();
         },
         // Expose _initBuild as a public function
         addData: function (element) {

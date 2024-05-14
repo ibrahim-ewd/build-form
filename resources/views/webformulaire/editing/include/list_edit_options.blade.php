@@ -1,3 +1,9 @@
+<div class="row-edit-option">
+    <span>Titles</span>
+    <span>Values</span>
+    <span><div class="btn btn-primary btn-options-plus"><i
+                class="cursor-pointer fa fa-plus"></i></div></span>
+</div>
 <div class="section-of-option">
     @foreach($champ->options as $keyOption=>$value)
 
@@ -10,7 +16,7 @@
 
             <span data-name="value">
 
-            <input type="text" name="value" value="{{$value->value}}"
+            <input type="text" name="value" required value="{{$value->value}}"
                    class="input-edit-option form-control ">
         </span>
 

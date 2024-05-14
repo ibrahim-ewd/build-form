@@ -15,8 +15,8 @@ return [
         'Champ_preconfigures' => [
 
             'identities' => [
-                'name' => 'identity',
-                'display_label' => true,
+                'name' => 'Identities',
+                'display_labels' => false,
                 'champ' => [
                     'firstname' => [
                         'label' => "first name",
@@ -71,8 +71,8 @@ return [
             ],
 
             'address' => [
-                'name' => 'address',
-                'display_label' => true,
+                'name' => 'Address',
+                'display_labels' => false,
                 'champ' => [
                     'streetone' => [
                         'label' => "street one",
@@ -136,8 +136,8 @@ return [
             ],
 
             'phone' => [
-                'name' => 'phone',
-                'display_label' => true,
+                'name' => 'Phone',
+                'display_labels' => false,
                 'champ' => [
                     'phone' => [
                         'label' => "phone",
@@ -157,8 +157,8 @@ return [
             ],
 
             'email' => [
-                'name' => 'email',
-                'display_label' => true,
+                'name' => 'Email',
+                'display_labels' => false,
                 'champ' => [
                     'email' => [
                         'label' => "email",
@@ -179,7 +179,7 @@ return [
 
             'website' => [
                 'name' => 'Website',
-                'display_label' => true,
+                'display_labels' => false,
                 'champ' => [
                     'Website' => [
                         'label' => "Website",
@@ -200,7 +200,7 @@ return [
 
             'company' => [
                 'name' => 'Company',
-                'display_label' => true,
+                'display_labels' => false,
                 'champ' => [
                     'company' => [
                         'label' => "Company",
@@ -221,7 +221,7 @@ return [
 
             'longText' => [
                 'name' => 'Message',
-                'display_label' => true,
+                'display_labels' => false,
 
                 'champ' => [
                     'Message' => [
@@ -243,7 +243,7 @@ return [
 
             'privacyPpolicy' => [
                 'name' => 'Privacy Policy',
-                'display_label' => true,
+                'display_labels' => false,
                 'champ' => [
                     'privacyPolicy' => [
                         'name' => "Privacy Policy",
@@ -269,7 +269,7 @@ return [
 
             'text' => [
                 'name' => 'Text',
-                'display_label' => true,
+                'display_labels' => false,
                 'champ' => [
                     'Text' => [
                         'label' => "Text",
@@ -290,7 +290,7 @@ return [
 
             'paragraph' => [
                 'name' => 'Paragraph',
-                'display_label' => true,
+                'display_labels' => false,
                 'champ' => [
                     'paragraph' => [
                         'name' => "paragraph",
@@ -312,7 +312,7 @@ return [
 
             'datetime' => [
                 'name' => 'Datetime',
-                'display_label' => true,
+                'display_labels' => false,
                 'champ' => [
                     'date' => [
                         'label' => "date",
@@ -350,7 +350,7 @@ return [
 
             'select' => [
                 'name' => 'Select',
-                'display_label' => true,
+                'display_labels' => false,
                 'champ' => [
                     'select' => [
                         'name' => "Select",
@@ -377,7 +377,7 @@ return [
 
             'checkbox' => [
                 'name' => 'Checkbox',
-                'display_label' => true,
+                'display_labels' => false,
                 'champ' => [
                     'checkbox' => [
                         'name' => "checkbox",
@@ -404,7 +404,7 @@ return [
 
             'radio' => [
                 'name' => 'Radio',
-                'display_label' => true,
+                'display_labels' => false,
                 'champ' => [
                     'radio' => [
                         'name' => "radio",
@@ -431,7 +431,7 @@ return [
 
             'satisfaction' => [
                 'name' => 'Satisfaction',
-                'display_label' => true,
+                'display_labels' => false,
                 'champ' => [
                     'satisfaction' => [
                         'name' => "satisfaction",

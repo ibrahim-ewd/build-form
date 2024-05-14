@@ -13,6 +13,15 @@ class FormController extends Controller
 {
 
 
+    public function listForms()
+    {
+
+        $element =Form::orderByDesc('id')->get();
+
+        return view('webformulaire.index')
+            ->with('data', $element);
+    }
+
     public function index()
     {
 
@@ -22,9 +31,11 @@ class FormController extends Controller
             ->with('element', $element);
     }
 
-    public function getForm($id){
-        $data = Form::where('slug', '=', $id)->first();
-        return $data;
+    public function getForm(){
+//        $data = Form::where('slug', '=', $id)->first();
+//        return $data;
+        return view('webformulaire.building.iframe')
+          /*  ->with('element', $element)*/;
     }
 
     public function getiframe()
@@ -45,11 +56,8 @@ class FormController extends Controller
     public function store(Request $request)
     {
 
-        // Find the existing record by slug
         $existingRecord = Form::where('slug', $request->id)->first();
 
-//        dd($request->data);
-        // If the existing record exists, update it; otherwise, create a new one
         if ($existingRecord) {
             $existingRecord->update([
                 "data" => $request->data,
@@ -107,8 +115,7 @@ class FormController extends Controller
             }else{
                 $newImageName = 'option'.time().'.'.$extension;
             }
-//dd($newImageName);
-            // Store the image with the specified filename in the 'public' disk
+
             $routeImage = $imageFile->storeAs($request->dir, $newImageName, 'public');
         }
 
@@ -144,8 +151,8 @@ class FormController extends Controller
 
     public function getDataForm(Request $request)
     {
-        if ($request->formName){
-            $data = Form::where('slug', '=', $request->formName)->first();
+        if ($request->form){
+            $data = Form::where('slug', '=', $request->form)->first();
             return response([
                 "data"=>json_decode($data->data),
             ]);

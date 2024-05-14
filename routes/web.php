@@ -15,10 +15,14 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::get('/', [FormController::class,"index"]);
+Route::get('/', function (){
+    return redirect()->route("form.build");
+});
+Route::get('/form', [FormController::class,"listForms"])->name("form.index");
+Route::get('/form/build/', [FormController::class,"index"])->name("form.build");
 Route::get('/iframe', [FormController::class,"getiframe"]);
 
-Route::get('/form/{from}', [FormController::class,"getForm"]);
+Route::get('/form/reviews', [FormController::class,"getForm"])->name("form.reviews");
 
 Route::post('/add-data-form', [FormController::class,"store"]);
 Route::post('/upload-images', [FormController::class,"uploadImagesForm"]);

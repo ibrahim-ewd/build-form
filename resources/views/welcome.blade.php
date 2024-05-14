@@ -12,9 +12,9 @@
     <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet"/>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 
-    <link href="plugins/fontawesome6.4.2/css/fontawesome.css" rel="stylesheet">
-    <link href="plugins/fontawesome6.4.2/css/brands.css" rel="stylesheet">
-    <link href="plugins/fontawesome6.4.2/css/solid.css" rel="stylesheet">    <!-- Styles -->
+    <link href="{{asset("plugins/fontawesome6.4.2/css/fontawesome.css")}}" rel="stylesheet">
+    <link href="{{asset("plugins/fontawesome6.4.2/css/brands.css")}}" rel="stylesheet">
+    <link href="{{asset("plugins/fontawesome6.4.2/css/solid.css")}}" rel="stylesheet">    <!-- Styles -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
     <!-- Or for RTL support -->

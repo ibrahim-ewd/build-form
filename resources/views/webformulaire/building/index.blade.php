@@ -123,7 +123,7 @@
                     </div>
                 </div>
 
-                <div class="dest-list col-7">
+                <div class="dest-list sortable-element col-7">
 
                 </div>
 
@@ -146,11 +146,25 @@
 
 
 @section('scripts')
-
+{{--    <script src="{{asset('/js/data-init.json')}}"></script>--}}
     {{-- for build form    --}}
     <script>
-        let element = {!!  json_encode(config('webform.data_form'),true)  !!}
+        let element;
+        $(document).ready(function() {
+            // Make an AJAX request to fetch the JSON data
+            $.ajax({
+                url: '/js/data-init.json', // Replace with the path to your JSON file or your JSON API endpoint
+                dataType: 'json',
+                success: function (data) {
+                    element = data.data_form;
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.log('Error fetching JSON data:', errorThrown);
+                }
+            })
+        })
     </script>
+    <script src="{{asset('/js/element-build.js')}}"></script>
     <script src="{{asset('/js/build.js')}}"></script>
     <script src="{{asset('/js/after-build.js')}}"></script>
     <script src="{{asset('/js/ajax-form.js')}}"></script>
