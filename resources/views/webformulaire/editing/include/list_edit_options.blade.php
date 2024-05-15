@@ -7,20 +7,21 @@
 <div class="section-of-option">
     @foreach($champ->options as $keyOption=>$value)
 
-        <div class="row-edit-option" data-index-option="{{$keyOption}}">
+        <div class="drageable-element-option">
+            <div class="row-edit-option" data-index-option="{{$keyOption}}">
         <span data-name="title">
             {{--                                              //  <span class="btn-edit-title-option cursor-pointer">{{$value[1]}}</span>--}}
             <input type="text" name="title" value="{{$value->title}}"
                    class="input-edit-option form-control ">
         </span>
 
-            <span data-name="value">
+                <span data-name="value">
 
             <input type="text" name="value" required value="{{$value->value}}"
                    class="input-edit-option form-control ">
         </span>
 
-            <span style="width: 60px">
+                <span >
                             <div class="d-flex">
                 <div class="mx-2 btnDeleteOption cursor-pointer">
                     <i class="fa fa-trash mt-2"></i>
@@ -34,33 +35,34 @@
                         <i class="fa fa-image mt-2"></i>
                     @endif
                 </div>
+                                <div class="fas fa-sort handle ui-sortable-handle mx-2 mt-2 "></div>
             </div>
 
         </span>
-        </div>
+            </div>
 
-        <div class="row-change-image row-change-image_{{$keyOption}} d-none" data-index-option="{{$keyOption}}">
-            <div class="d-flex">
+            <div class="row-change-image row-change-image_{{$keyOption}} d-none" data-index-option="{{$keyOption}}">
+                <div class="d-flex">
 
-                {{--         //   <input type="file" name="image-option">--}}
+                    {{--         //   <input type="file" name="image-option">--}}
 
-                <div class="picture-container">
-                    <div class="picture">
+                    <div class="picture-container">
+                        <div class="picture">
 
-                        <img @if(isset($value->img) && !empty($value->img))
+                            <img @if(isset($value->img) && !empty($value->img))
 
-                             src="{{url("storage/".$value->img->src)}}"
-                             title="{{$value->img->name}}"
-                             @else
-                             src="#"
-                             @endif
-                             class="picture-src" id="wizardPicturePreview" title="">
+                                 src="{{url("storage/".$value->img->src)}}"
+                                 title="{{$value->img->name}}"
+                                 @else
+                                 src="#"
+                                 @endif
+                                 class="picture-src" id="wizardPicturePreview" title="">
 
-                        <input type="file" id="wizard-picture-{{$keyOption}}" class="upload-image-option">
+                            <input type="file" id="wizard-picture-{{$keyOption}}" class="upload-image-option">
+                        </div>
                     </div>
-                </div>
 
-                <span class="d-flex flex-column" style="width: 100px">
+                    <span class="d-flex flex-column" style="width: 100px">
 
                 <label for="wizard-picture-{{$keyOption}}"
                        class=" btn btn-primary d-flex justify-content-center mx-2 btnChangeImageOption cursor-pointer">
@@ -72,10 +74,12 @@
                 </div>
             </span>
 
+                </div>
             </div>
+
         </div>
 
     @endforeach
 
-
 </div>
+

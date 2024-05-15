@@ -86,10 +86,22 @@
 
                                                 <div class="form-group my-3">
                                                     <label for="label">Size image</label>
-                                                 <select name="size" id="size-image" data-option-global="size-image" class="form-select input-edit-option" >
-                                                     <option value="pecture-sm">Small</option>
-                                                     <option value="pecture-md">Medium</option>
-                                                     <option value="pecture-lg">Large</option>
+                                                 <select name="size" id="size-image" data-option-global="size-image"
+                                                         class="form-select input-edit-option" >
+                                                     <option value="picture-sm">Small</option>
+                                                     <option value="picture-md">Medium</option>
+                                                     <option value="picture-lg">Large</option>
+                                                 </select>
+                                                </div>
+
+
+                                                <div class="form-group my-3">
+                                                    <label for="label">Position image</label>
+                                                 <select name="size" id="size-image" data-option-global="size-image"
+                                                         class="form-select input-edit-option" >
+                                                     <option value="picture-left">left</option>
+                                                     <option value="picture-top">top</option>
+                                                     <option value="picture-right">right</option>
                                                  </select>
                                                 </div>
                                             </div>

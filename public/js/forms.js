@@ -40,7 +40,6 @@ const creatForm = function () {
                 duplicateFieldForm();
                 editFieldForm();
             })
-            console.log(dataForm)
             resolve(true);
         })
     }
@@ -67,6 +66,40 @@ const creatForm = function () {
         $(".dest-list").disableSelection();
     };
 
+    const sortElementOption = function (e) {
+
+        $('.section-of-option').sortable({
+            handle: '.handle', // handle's class
+            animation: 150,
+            update: function (e, ui) {
+                pos = $('.sortable-element').children().length;
+            },
+            start: function (event, ui) {
+                ui.item.startPos = ui.item.index();
+            },
+            stop: function (event, ui) {
+
+                const index = $(this).parents('.field-edit').attr('data-index');
+                const champ = $(this).parents('.field-edit').attr('data-name');
+                const newPos = ui.item.index();
+                const movedItem = dataForm[index]['champ'][champ]['options'].splice(ui.item.startPos, 1)[0];
+                dataForm[index]['champ'][champ]['options'].splice(newPos, 0, movedItem);
+
+                console.log( dataForm[index]['champ'][champ]);
+                // addDataForm(dataForm)
+            }
+        });
+
+        $('.handle').on('mousedown', function (e) {
+            e.preventDefault();
+            console.log($(this).css("cursor","grabbing"));
+        })
+        $('.handle').on('mouseup', function (e) {
+            e.preventDefault();
+            console.log($(this).css("cursor","grab"));
+        })
+
+    }
 
     const clickHandler = event => {
         $('.btn-drag').on('click', function (eve) {
@@ -254,7 +287,9 @@ const creatForm = function () {
 
 
         $(document).on('change', '.input-edit-option', function (e) {
+
             e.preventDefault();
+            var $this = $(this);
             const index = $(this).parents('.field-edit').attr('data-index');
             const name = $(this).attr('name');
             const field = $(this).parents('.field-edit').attr('data-name');
@@ -279,14 +314,16 @@ const creatForm = function () {
                 alert("this field must not be empty")
             } else {
                 if (isGlobal && isGlobal === "size-image") {
-                    $.each(dataForm[index]['champ'][field]['options'], function (ind,elem) {
-                        console.log(ind,elem);
-                        console.log($(this).val());
-                        dataForm[index]['champ'][field]['options'][ind]['img']['size'] = $(this).val();
+
+                    $.each(dataForm[index]['champ'][field]['options'], function (ind, elem) {
+
+                        elem['img']['size'] = $this.val();
                     })
+
                 } else {
                     dataForm[index]['champ'][field]['options'][indexOption][name] = $(this).val();
                 }
+
                 addDataForm(dataForm).then(data => {
                     setTimeout(() => {
                         ajaxFunction().getViewEditField({
@@ -368,6 +405,7 @@ const creatForm = function () {
                     }).then(data => {
 
                         $('#wrap-list-option-edit').html(data);
+                        sortElementOption()
                     })
                 }, 100)
 
@@ -491,6 +529,7 @@ const creatForm = function () {
                 deleteFieldForm();
                 duplicateFieldForm();
                 editFieldForm().then(data => {
+                    sortElementOption();
                     // buildCkeditore();
                 });
             });

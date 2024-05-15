@@ -19,7 +19,7 @@ Route::get('/', function (){
     return redirect()->route("form.build");
 });
 Route::get('/form', [FormController::class,"listForms"])->name("form.index");
-Route::get('/form/build/', [FormController::class,"index"])->name("form.build");
+Route::get('/form/build', [FormController::class,"index"])->name("form.build");
 Route::get('/iframe', [FormController::class,"getiframe"]);
 
 Route::get('/form/reviews', [FormController::class,"getForm"])->name("form.reviews");

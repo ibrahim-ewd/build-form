@@ -63,13 +63,14 @@ const elementsBuild = ()=>{
         $.each(attr.options, (index, element) => {
             if (element["img"] && element["img"]["src"] !== "") {
                let $image = hostName+"/storage/"+element["img"]["src"]
+
                 checkHtml += `
                 <span class="check-list-item-img col-4 d-flex align-items-center">
                     <input type="${attr.type}" id="${attr.id + elements['id'] + index}"
                                     ${attr.required ? 'required' : ''}
                                     ${attr.readonly ? 'readonly' : ''}
                                     value="${element.value}"/>
-                    <label for="${attr.id + elements['id'] + index}" class="picture-md image-item-checkbox" style="background-image: url(${$image})">
+                    <label for="${attr.id + elements['id'] + index}" class="${element["img"]['size']} image-item-checkbox" style="background-image: url(${$image})">
 <!--                    <img src="" class="image-item-checkbox" />-->
 
                     </label>

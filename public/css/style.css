@@ -199,7 +199,7 @@ button.accordion-button {
     margin: 1%;
 }
 .row-edit-option>span:last-child{
-    width: 60px;
+    width: 90px;
 }
 
 .image_icon_options{
@@ -209,7 +209,10 @@ button.accordion-button {
     margin-top: 7px;
 
 }
-
+.drageable-element-option{
+    border: 1px dotted rgba(42, 42, 42, 0.25);
+    margin: 5px 0;
+}
 
 
 
@@ -378,6 +381,10 @@ button.accordion-button {
 .line-around hr:last-child {
     content: "";
     width: 120px;
+}
+
+.handle{
+    cursor: grab;
 }
 /*
 .line-around hr:last-child {
