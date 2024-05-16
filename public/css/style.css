@@ -386,6 +386,20 @@ button.accordion-button {
 .handle{
     cursor: grab;
 }
+.picture-top {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start !important;
+}
+.picture-top label {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+    margin-bottom: 0 !important;
+}
+.picture-right  {
+    flex-direction: row-reverse !important;
+    justify-content: flex-end !important;
+}
 /*
 .line-around hr:last-child {
     content: "";

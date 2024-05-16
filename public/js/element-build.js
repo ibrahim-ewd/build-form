@@ -1,4 +1,4 @@
-const elementsBuild = ()=>{
+const elementsBuild = () => {
 
 
     // Champs for Building Form
@@ -17,7 +17,7 @@ const elementsBuild = ()=>{
 
                 imgOption = `src = "${elementValue["img"]["src"]}"`;
             }
-            htmlOption += `<option value="${(elementValue["value"]!=="")?elementValue["value"]:""}" ${imgOption}>${elementValue["title"]}</option>`
+            htmlOption += `<option value="${(elementValue["value"] !== "") ? elementValue["value"] : ""}" ${imgOption}>${elementValue["title"]}</option>`
         })
 
 
@@ -62,23 +62,22 @@ const elementsBuild = ()=>{
         let checkHtml = "";
         $.each(attr.options, (index, element) => {
             if (element["img"] && element["img"]["src"] !== "") {
-               let $image = hostName+"/storage/"+element["img"]["src"]
-
+                let $image = hostName + "/storage/" + element["img"]["src"]
+                let position = element["img"]['position'] ?? ""
                 checkHtml += `
-                <span class="check-list-item-img col-4 d-flex align-items-center">
+                <span class="check-list-item-img col-4 d-flex align-items-center ${position}">
                     <input type="${attr.type}" id="${attr.id + elements['id'] + index}"
                                     ${attr.required ? 'required' : ''}
                                     ${attr.readonly ? 'readonly' : ''}
                                     value="${element.value}"/>
                     <label for="${attr.id + elements['id'] + index}" class="${element["img"]['size']} image-item-checkbox" style="background-image: url(${$image})">
-<!--                    <img src="" class="image-item-checkbox" />-->
 
                     </label>
                     <label class="mx-0" for="${attr.id + elements['id'] + index}">${element.title}</label>
                   </span>
                 `;
 
-            }else {
+            } else {
                 checkHtml += `
                     <span class="check-list-item col-4 d-flex align-items-center">
                         <label for="${attr.id + elements['id'] + index}" class="cursor-pointer">
@@ -93,7 +92,7 @@ const elementsBuild = ()=>{
                     </span>`;
             }
         })
-        return  `<div class="check-list-warp row">${checkHtml}</div>`;
+        return `<div class="check-list-warp row">${checkHtml}</div>`;
     }
 
 
@@ -101,7 +100,7 @@ const elementsBuild = ()=>{
         let checkHtml = "";
         $.each(attr.options, (index, element) => {
             if (element["img"] && element["img"]["src"] !== "") {
-                let $image = hostName+"/storage/"+element["img"]["src"]
+                let $image = hostName + "/storage/" + element["img"]["src"]
                 checkHtml += `
                 <span class="check-list-item-img col-4 d-flex align-items-center">
                     <input type="${attr.type}" id="${attr.id + elements['id'] + index}"
@@ -118,7 +117,7 @@ const elementsBuild = ()=>{
                   </span>
                 `;
 
-            }else {
+            } else {
                 checkHtml += `
                     <span class="check-list-item col-4 d-flex align-items-center">
                         <label for="${attr.id + elements['id'] + index}" class="cursor-pointer">
@@ -133,7 +132,7 @@ const elementsBuild = ()=>{
                     </span>`;
             }
         })
-        return  `<div class="check-list-warp row">${checkHtml}</div>`;
+        return `<div class="check-list-warp row">${checkHtml}</div>`;
     }
 
     this.buildDate = (elements, attr) => {

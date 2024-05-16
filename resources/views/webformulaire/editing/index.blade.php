@@ -1,6 +1,33 @@
 <div class="accordion" id="accordion{{$nameChamp}}">
 
 
+    <div class="field-edit" data-index="{{$index}}">
+        @if(isset($data->display_labels))
+            <div class="form-group my-3">
+                <label for="display_labels">Display labels</label>
+                <div class="toggle-button-cover">
+                    <div id="visibility_{{$nameChamp}}" class="button-3 button r">
+
+                        <input
+                            type="checkbox"
+                            name="display_labels"
+                            data-type="boolean"
+                            {{($data->display_labels==true) ?'checked':''}}
+                            class="checkbox input-edit-form-global " data-edit="global" value="" id="display_labels">
+                        <div class="knobs"></div>
+                        <div class="layer"></div>
+                    </div>
+                </div>
+            </div>
+        @endif
+        @if(isset($data->name))
+            @include("webformulaire.editing.include.title_edit")
+        @endif
+    </div>
+
+    <hr>
+    <br>
+
     @foreach($data->champ as $key=>$champ)
 
         <div class="accordion-item field-edit" id="field-{{$nameChamp}}-{{$key}}" data-name="{{$key}}"
@@ -86,23 +113,42 @@
 
                                                 <div class="form-group my-3">
                                                     <label for="label">Size image</label>
-                                                 <select name="size" id="size-image" data-option-global="size-image"
-                                                         class="form-select input-edit-option" >
-                                                     <option value="picture-sm">Small</option>
-                                                     <option value="picture-md">Medium</option>
-                                                     <option value="picture-lg">Large</option>
-                                                 </select>
+                                                    <select name="size" id="size-image" data-option-global="size-image"
+                                                            class="form-select input-edit-option">
+                                                        <option value="picture-sm"
+                                                                @if($champ->options[0]->img->size == "picture-sm") selected @endif>
+                                                            Small
+                                                        </option>
+                                                        <option value="picture-md"
+                                                                @if($champ->options[0]->img->size == "picture-md") selected @endif>
+                                                            Medium
+                                                        </option>
+                                                        <option value="picture-lg"
+                                                                @if($champ->options[0]->img->size == "picture-lg") selected @endif>
+                                                            Large
+                                                        </option>
+                                                    </select>
                                                 </div>
 
 
                                                 <div class="form-group my-3">
                                                     <label for="label">Position image</label>
-                                                 <select name="size" id="size-image" data-option-global="size-image"
-                                                         class="form-select input-edit-option" >
-                                                     <option value="picture-left">left</option>
-                                                     <option value="picture-top">top</option>
-                                                     <option value="picture-right">right</option>
-                                                 </select>
+                                                    <select name="size" id="position-image"
+                                                            data-option-global="position-image"
+                                                            class="form-select input-edit-option">
+                                                        <option value="picture-left"
+                                                                @if(isset($champ->options[0]->img->position) && $champ->options[0]->img->position == "picture-left") selected @endif>
+                                                            Left
+                                                        </option>
+                                                        <option value="picture-top"
+                                                                @if(isset($champ->options[0]->img->position) && $champ->options[0]->img->position == "picture-top") selected @endif>
+                                                            Top
+                                                        </option>
+                                                        <option value="picture-right"
+                                                                @if(isset($champ->options[0]->img->position) && $champ->options[0]->img->position == "picture-right") selected @endif>
+                                                            Right
+                                                        </option>
+                                                    </select>
                                                 </div>
                                             </div>
                                         </div>
@@ -128,32 +174,6 @@
         </div>
 
     @endforeach
-
-
-    <div class="field-edit" data-index="{{$index}}">
-        @if(isset($data->display_labels))
-            <div class="form-group my-3">
-                <label for="display_labels">Display labels</label>
-                <div class="toggle-button-cover">
-                    <div id="visibility_{{$nameChamp}}" class="button-3 button r">
-
-                        <input
-                            type="checkbox"
-                            name="display_labels"
-                            data-type="boolean"
-                            {{($data->display_labels==true) ?'checked':''}}
-                            class="checkbox input-edit-form-global " data-edit="global" value="" id="display_labels">
-                        <div class="knobs"></div>
-                        <div class="layer"></div>
-                    </div>
-                </div>
-            </div>
-        @endif
-        @if(isset($data->name))
-            @include("webformulaire.editing.include.title_edit")
-        @endif
-    </div>
-
 
 </div>
 

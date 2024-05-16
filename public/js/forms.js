@@ -40,6 +40,7 @@ const creatForm = function () {
                 duplicateFieldForm();
                 editFieldForm();
             })
+            console.log(dataForm)
             resolve(true);
         })
     }
@@ -313,11 +314,10 @@ const creatForm = function () {
                 })
                 alert("this field must not be empty")
             } else {
-                if (isGlobal && isGlobal === "size-image") {
+                if (isGlobal && isGlobal === "size-image" || isGlobal === "position-image") {
 
                     $.each(dataForm[index]['champ'][field]['options'], function (ind, elem) {
-
-                        elem['img']['size'] = $this.val();
+                        elem['img'][isGlobal.split("-")[0]] = $this.val();
                     })
 
                 } else {
