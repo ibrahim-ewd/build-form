@@ -120,15 +120,11 @@
                                     <div class="col-11 mx-3 my-1 parent_list_option table table-hover">
 
 
-                                        @if($champ->use_image)
+                                        @if(isset($champ->use_image) && $champ->use_image)
 
                                             @if($champ->type != "select" )
                                                 <div class="section-global-config-option">
-                                                    <h6 class="line-around">
-                                                        <hr>
-                                                        <span> Images Config</span>
-                                                        <hr>
-                                                    </h6>
+
                                                     <div class="row">
 
 
@@ -177,11 +173,7 @@
                                                 <br>
                                             @endif
                                         @else
-                                            <h6 class="line-around">
-                                                {{--                                                <hr>--}}
-                                                <span> </span>
-                                                <hr>
-                                            </h6>
+
                                             <div class="section-global-config-option pb-2 my-3">
                                                 <div class="">
 
@@ -202,6 +194,10 @@
                                                             <option value="position-right"
                                                                     @if(isset($champ->position_label) && $champ->position_label == "position-right") selected @endif>
                                                                 Right
+                                                            </option>
+                                                            <option value="label-none"
+                                                                    @if(isset($champ->position_label) && $champ->position_label == "label-none") selected @endif>
+                                                                Hide
                                                             </option>
                                                         </select>
                                                     </div>

@@ -283,12 +283,12 @@ const creatForm = function () {
             }
 
             addDataForm(dataForm).then(da => {
-                if ($(this).attr('data-function') == 'rebuildEdit') {
+                if ($(this).attr('data-function') === 'rebuildEdit') {
                     ajaxFunction().getViewEditField({'slug': formId, 'name': name, 'index': index})
                         .then(data => {
-                            setTimeout(() => {
-                                buildForm().callInitEdit(name, data)
-                            }, 1000)
+
+                            buildForm().callInitEdit(name, data)
+
                         })
                 }
             })
@@ -331,7 +331,7 @@ const creatForm = function () {
             } else {
 
                 if (isGlobal) {
-
+                    console.log(isGlobal)
 
                     if (isGlobal === "size-image" || isGlobal === "position-image") {
 
@@ -339,6 +339,8 @@ const creatForm = function () {
                             elem['img'][isGlobal.split("-")[0]] = $this.val();
                         })
 
+                    }else if (isGlobal === "position-label" ) {
+                        dataForm[index]['champ'][field]['position_label'] = $this.val()
                     } else {
                         dataForm[index]['champ'][field]['options'][indexOption][name] = $(this).val();
                     }

@@ -26,7 +26,7 @@
                         <div class="mx-2 btnDeleteOption cursor-pointer">
                             <i class="fa fa-trash mt-2"></i>
                         </div>
-                            @if($champ->use_image)
+                            @if(isset($champ->use_image) && $champ->use_image)
                             <div class="mx-2 btnUploadImage cursor-pointer">
 
                                 @if(isset($value->img) &&  !empty($value->img) && $value->img->src!=null)

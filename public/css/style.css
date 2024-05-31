@@ -400,6 +400,24 @@ button.accordion-button {
     flex-direction: row-reverse !important;
     justify-content: flex-end !important;
 }
+.position-top {
+    display: flex !important;
+    flex-direction: column;
+    align-items: center !important;
+}
+.position-right label {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+    margin-bottom: 0 !important;
+}
+.position-left {
+    flex-direction: row-reverse !important;
+    justify-content: flex-end !important;
+    display: flex !important;
+}
+.label-none>span {
+    display: none !important;
+}
 
 
 #wrap-list-option-edit {
