@@ -37,11 +37,11 @@ const afterBuildForm = function () {
         if (!option.id) {
             return option.text;
         }
-        const imageUrl = 'storage/' + option.element.getAttribute('src');
+        const imageUrl = '/storage/' + option.element.getAttribute('src');
 
         if (option.element.getAttribute('src')) {
             optionWithImage = $(
-                '<span><img src="' + imageUrl + '" style="width: 50px;height: 50px ;margin-right: 10px" class=" img-flag" /> ' + option.text + '</span>'
+                '<span><img src="' + imageUrl + '" style="width: 25px;height: 25px ;margin-right: 10px" class="picture-sm img-flag" /> ' + option.text + '</span>'
             );
         } else {
             optionWithImage = $(

@@ -21,24 +21,26 @@
                    class="input-edit-option form-control ">
         </span>
 
-                <span >
-                            <div class="d-flex">
-                <div class="mx-2 btnDeleteOption cursor-pointer">
-                    <i class="fa fa-trash mt-2"></i>
-                </div>
-                <div class="mx-2 btnUploadImage cursor-pointer">
+                <span>
+                    <div class="d-flex">
+                        <div class="mx-2 btnDeleteOption cursor-pointer">
+                            <i class="fa fa-trash mt-2"></i>
+                        </div>
+                            @if($champ->use_image)
+                            <div class="mx-2 btnUploadImage cursor-pointer">
 
-                    @if(isset($value->img) &&  !empty($value->img) && $value->img->src!=null)
-                        <img class="image_icon_options" src="{{url("storage/".$value->img->src)}}"
-                             alt="{{$value->img->name??""}}">
-                    @else
-                        <i class="fa fa-image mt-2"></i>
-                    @endif
-                </div>
-                                <div class="fas fa-sort handle ui-sortable-handle mx-2 mt-2 "></div>
-            </div>
+                                @if(isset($value->img) &&  !empty($value->img) && $value->img->src!=null)
+                                        <img class="image_icon_options" src="{{url("storage/".$value->img->src)}}"
+                                             alt="{{$value->img->name??""}}">
+                                    @else
+                                        <i class="fa fa-image mt-2"></i>
+                                    @endif
+                            </div>
+                        @endif
+                        <div class="fas fa-sort handle ui-sortable-handle mx-2 mt-2 "></div>
+                    </div>
 
-        </span>
+                </span>
             </div>
 
             <div class="row-change-image row-change-image_{{$keyOption}} d-none" data-index-option="{{$keyOption}}">

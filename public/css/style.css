@@ -400,6 +400,15 @@ button.accordion-button {
     flex-direction: row-reverse !important;
     justify-content: flex-end !important;
 }
+
+
+#wrap-list-option-edit {
+    border: 1px solid #dee2e6;
+    padding: 1%;
+    border-radius: 0.375rem;
+}
+
+
 /*
 .line-around hr:last-child {
     content: "";

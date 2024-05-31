@@ -101,15 +101,16 @@ const elementsBuild = () => {
         $.each(attr.options, (index, element) => {
             if (element["img"] && element["img"]["src"] !== "") {
                 let $image = hostName + "/storage/" + element["img"]["src"]
+                let position = element["img"]['position'] ?? ""
                 checkHtml += `
-                <span class="check-list-item-img col-4 d-flex align-items-center">
+                <span class="check-list-item-img col-4 d-flex align-items-center  ${position}">
                     <input type="${attr.type}" id="${attr.id + elements['id'] + index}"
                                     ${attr.required ? 'required' : ''}
                                     ${attr.readonly ? 'readonly' : ''}
                                         name="${attr.name}_${elements['id']}"
                                     value="${element.value}"/>
 <!--                    <label for="${attr.id + elements['id'] + index}">-->
-                    <label for="${attr.id + elements['id'] + index}" class="picture-md image-item-checkbox" style="background-image: url(${$image})">
+                    <label for="${attr.id + elements['id'] + index}" class="${element["img"]['size']} image-item-checkbox" style="background-image: url(${$image})">
 <!--                    <img src="" class="image-item-checkbox" />-->
 
                     </label>
@@ -171,6 +172,44 @@ const elementsBuild = () => {
                                    `;
     }
 
+    this.buildSatisfaction = (elements, attr) => {
+        let checkHtml = "";
+
+        $.each(attr.options, (index, element) => {
+            let $image = hostName + "/storage/" + element["img"]["src"]
+            let position = element["img"]['position'] ?? ""
+            if (element["img"] && element["img"]["src"] !== "") {
+
+                checkHtml += `
+                <span class="check-list-item-img col d-flex align-items-center ${position}">
+                    <input type="checkbox" id="${attr.id + elements['id'] + index}"
+                                    ${attr.required ? 'required' : ''}
+                                    ${attr.readonly ? 'readonly' : ''}
+                                    value="${element.value}"/>
+                    <label for="${attr.id + elements['id'] + index}" class="${element["img"]['size']} image-item-checkbox" style="background-image: url(${$image})">
+                    </label>
+                    <label class="mx-0" for="${attr.id + elements['id'] + index}">${element.title}</label>
+                  </span>
+                `;
+
+            } else {
+                checkHtml += `
+                    <span class="check-list-item col d-flex align-items-center">
+                        <label for="${attr.id + elements['id'] + index}" class="cursor-pointer ${position}">
+                            <input type="checkbox"
+                                 ${attr.required ? 'required' : ''}
+                                 ${attr.readonly ? 'readonly' : ''}
+                                 value="${element.value}"
+                                 name="${element.value}"
+                                 style="${attr.style}" class="${attr.class}" id="${attr.id + elements['id'] + index}" />
+                            <span class="mx-2">${element.title}</span>
+                        </label>
+                    </span>`;
+            }
+        })
+        return `<div class="check-list-warp row">${checkHtml}</div>`;
+    }
+
     return {
         buildSelect: function (elements, attr) {
             return buildSelect(elements, attr);
@@ -189,6 +228,9 @@ const elementsBuild = () => {
         },
         buildRadioInput: function (elements, attr) {
             return buildRadioInput(elements, attr);
+        },
+        buildSatisfaction: function (elements, attr) {
+            return buildSatisfaction(elements, attr);
         },
         buildDate: function (elements, attr) {
             return buildDate(elements, attr);

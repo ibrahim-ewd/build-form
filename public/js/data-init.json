@@ -469,7 +469,7 @@
                     "satisfaction": {
                         "name": "satisfaction",
                         "label": "satisfaction",
-                        "type": "radio",
+                        "type": "satisfaction",
                         "notice": "",
                         "value": "",
                         "options": [

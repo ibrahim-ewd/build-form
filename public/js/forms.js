@@ -39,6 +39,7 @@ const creatForm = function () {
                 deleteFieldForm();
                 duplicateFieldForm();
                 editFieldForm();
+                sortElementOption();
             })
             console.log(dataForm)
             resolve(true);
@@ -68,7 +69,6 @@ const creatForm = function () {
     };
 
     const sortElementOption = function (e) {
-
         $('.section-of-option').sortable({
             handle: '.handle', // handle's class
             animation: 150,
@@ -85,19 +85,17 @@ const creatForm = function () {
                 const newPos = ui.item.index();
                 const movedItem = dataForm[index]['champ'][champ]['options'].splice(ui.item.startPos, 1)[0];
                 dataForm[index]['champ'][champ]['options'].splice(newPos, 0, movedItem);
-
-                console.log( dataForm[index]['champ'][champ]);
-                // addDataForm(dataForm)
+                addDataForm(dataForm)
             }
         });
 
         $('.handle').on('mousedown', function (e) {
             e.preventDefault();
-            console.log($(this).css("cursor","grabbing"));
+            console.log($(this).css("cursor", "grabbing"));
         })
         $('.handle').on('mouseup', function (e) {
             e.preventDefault();
-            console.log($(this).css("cursor","grab"));
+            console.log($(this).css("cursor", "grab"));
         })
 
     }
@@ -139,6 +137,7 @@ const creatForm = function () {
     const dragover = event => {
         $('.dest-list').on('dragover', function (event) {
             event.preventDefault();
+
         });
     };
 
@@ -181,6 +180,7 @@ const creatForm = function () {
 
 
             $('.edit-button').on('click', function (e) {
+
                 e.stopPropagation()
                 const name = $(this).attr('data-name');
                 const index = $(this).attr('data-index');
@@ -190,7 +190,9 @@ const creatForm = function () {
                 resolve(ajaxFunction().getViewEditField({'slug': formId, 'name': name, 'index': index})
                     .then(data => {
                         buildForm().callInitEdit(name, data)
+                        sortElementOption();
                     }));
+
             })
 
             function removeModal() {
@@ -260,9 +262,9 @@ const creatForm = function () {
 
     const editInputsForm = function () {
 
-
         $(document).on('change', '.input-edit-form', function (e) {
             e.preventDefault();
+
             const index = $(this).parents('.field-edit').attr('data-index');
             const name = $(this).attr('name');
             const champ = $(this).parents('.field-edit').attr('data-name');
@@ -279,7 +281,18 @@ const creatForm = function () {
                     $(this).parents('.btn').addClass('active')
                 }
             }
-            addDataForm(dataForm)
+
+            addDataForm(dataForm).then(da => {
+                if ($(this).attr('data-function') == 'rebuildEdit') {
+                    ajaxFunction().getViewEditField({'slug': formId, 'name': name, 'index': index})
+                        .then(data => {
+                            setTimeout(() => {
+                                buildForm().callInitEdit(name, data)
+                            }, 1000)
+                        })
+                }
+            })
+
         })
     }
 
@@ -288,6 +301,7 @@ const creatForm = function () {
 
 
         $(document).on('change', '.input-edit-option', function (e) {
+
 
             e.preventDefault();
             var $this = $(this);
@@ -308,20 +322,26 @@ const creatForm = function () {
                             'action': 'option'
                         }).then(data => {
                             $('#wrap-list-option-edit').html(data);
+                            sortElementOption()
                         })
 
                     }, 100)
                 })
                 alert("this field must not be empty")
             } else {
-                if (isGlobal && isGlobal === "size-image" || isGlobal === "position-image") {
 
-                    $.each(dataForm[index]['champ'][field]['options'], function (ind, elem) {
-                        elem['img'][isGlobal.split("-")[0]] = $this.val();
-                    })
+                if (isGlobal) {
 
-                } else {
-                    dataForm[index]['champ'][field]['options'][indexOption][name] = $(this).val();
+
+                    if (isGlobal === "size-image" || isGlobal === "position-image") {
+
+                        $.each(dataForm[index]['champ'][field]['options'], function (ind, elem) {
+                            elem['img'][isGlobal.split("-")[0]] = $this.val();
+                        })
+
+                    } else {
+                        dataForm[index]['champ'][field]['options'][indexOption][name] = $(this).val();
+                    }
                 }
 
                 addDataForm(dataForm).then(data => {
@@ -333,6 +353,7 @@ const creatForm = function () {
                             'action': 'option'
                         }).then(data => {
                             $('#wrap-list-option-edit').html(data);
+                            sortElementOption()
                         })
 
                     }, 100)
@@ -374,6 +395,7 @@ const creatForm = function () {
                         'action': 'option'
                     }).then(data => {
                         $('#wrap-list-option-edit').html(data);
+                        sortElementOption()
                     })
 
                 }, 100)
@@ -448,7 +470,7 @@ const creatForm = function () {
                             'action': 'option'
                         }).then(dataHtml => {
                             $('#wrap-list-option-edit').html(dataHtml);
-
+                            sortElementOption()
                         })
 
                     }, 100)
@@ -484,12 +506,35 @@ const creatForm = function () {
                                 'action': 'option'
                             }).then(dataHtml => {
                                 $('#wrap-list-option-edit').html(dataHtml);
+                                sortElementOption()
                             })
 
                         }, 100)
                     })
                 }
             });
+
+        })
+
+        $(document).on("click", "#use_image", function (e) {
+            e.preventDefault();
+            const index = $(this).parents('.field-edit').attr('data-index');
+            const indexOption = $(this).parents('.row-change-image').attr('data-index-option');
+            const field = $(this).parents('.field-edit').attr('data-name');
+
+
+            dataForm[index]['champ'][field]['use_image'] = $(this).is(":checked");
+
+
+            // if ($(this).attr('data-type') === 'boolean' || $(this).attr('type') === 'radio') {
+            //     $(this).parents('.btn-group').find('.btn').removeClass('active')
+            //     if ($(this).is(":checked") === true) {
+            //         $(this).parents('.btn').addClass('active')
+            //     }
+            // }
+
+            addDataForm(dataForm)
+
 
         })
     }
@@ -526,10 +571,13 @@ const creatForm = function () {
         init: function () {
 
             getDataForm().then(data => {
+
+                sortElementOption();
                 deleteFieldForm();
                 duplicateFieldForm();
                 editFieldForm().then(data => {
-                    sortElementOption();
+
+
                     // buildCkeditore();
                 });
             });

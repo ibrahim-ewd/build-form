@@ -168,7 +168,8 @@ class FormController extends Controller
 
         if ($request->action == "option") {
 
-            return view('webformulaire.editing.include.list_edit_options')->with("champ", json_decode($data->data)[$request->index]->champ->{$request->name})->render();
+            return view('webformulaire.editing.include.list_edit_options')
+                ->with("champ", json_decode($data->data)[$request->index]->champ->{$request->name})->render();
 
         }
 
@@ -176,6 +177,7 @@ class FormController extends Controller
             ->with('nameChamp', $request->name)
             ->with('index', $request->index)
             ->with('data', json_decode($data->data)[$request->index]);
+
     }
 
     public function destroy($id)

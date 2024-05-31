@@ -1,5 +1,4 @@
 const loc = $(location).attr("origin");
-console.log($(location).attr('pathname'))
 const hostName = $(location).attr("origin");
 
 const buildForm = function () {
@@ -43,6 +42,7 @@ const buildForm = function () {
                     }
 
                     if (attr.visibility) {
+
                         if (attr.type === 'text') {
                             inputsElement += elementsBuild().buildText(elements, attr)
                         } else if (attr.type === 'paragraph') {
@@ -57,6 +57,8 @@ const buildForm = function () {
                             inputsElement += elementsBuild().buildCheckbox(elements, attr);
                         } else if (attr.type === 'date' || attr.type === 'time') {
                             inputsElement += elementsBuild().buildDate(elements, attr);
+                        } else if (attr.type === 'satisfaction') {
+                            inputsElement += elementsBuild().buildSatisfaction(elements, attr);
                         } else {
                             inputsElement += ``;
                         }
