@@ -27,7 +27,6 @@ const creatForm = function () {
     const addDataForm = function (dataForm) {
         return new Promise((resolve, reject) => {
 
-
             let dataAjax = {
                 'data': JSON.stringify(dataForm),
                 'id': formId,
@@ -68,7 +67,7 @@ const creatForm = function () {
         $(".dest-list").disableSelection();
     };
 
-    const sortElementOption = function (e) {
+    const sortElementOption = function () {
         $('.section-of-option').sortable({
             handle: '.handle', // handle's class
             animation: 150,
@@ -80,22 +79,27 @@ const creatForm = function () {
             },
             stop: function (event, ui) {
 
+
                 const index = $(this).parents('.field-edit').attr('data-index');
                 const champ = $(this).parents('.field-edit').attr('data-name');
                 const newPos = ui.item.index();
-                const movedItem = dataForm[index]['champ'][champ]['options'].splice(ui.item.startPos, 1)[0];
-                dataForm[index]['champ'][champ]['options'].splice(newPos, 0, movedItem);
+
+                let type = "options"
+                if (dataForm[index]['champ'][champ]['satisfaction_type'] === "emoji") {
+                    type = "emoji";
+                }
+
+                const movedItem = dataForm[index]['champ'][champ][type].splice(ui.item.startPos, 1)[0];
+                dataForm[index]['champ'][champ][type].splice(newPos, 0, movedItem);
                 addDataForm(dataForm)
             }
         });
 
         $('.handle').on('mousedown', function (e) {
             e.preventDefault();
-            console.log($(this).css("cursor", "grabbing"));
         })
         $('.handle').on('mouseup', function (e) {
             e.preventDefault();
-            console.log($(this).css("cursor", "grab"));
         })
 
     }
@@ -187,11 +191,7 @@ const creatForm = function () {
                 $('#overlay').addClass('display_block');
                 $('#editFields').addClass('display_block')
                 // buildForm().callInitEdit(index, dataForm)
-                resolve(ajaxFunction().getViewEditField({'slug': formId, 'name': name, 'index': index})
-                    .then(data => {
-                        buildForm().callInitEdit(name, data)
-                        sortElementOption();
-                    }));
+                resolve(buildForm().fetchDataEdit(formId, name, index));
 
             })
 
@@ -269,7 +269,36 @@ const creatForm = function () {
             const name = $(this).attr('name');
             const champ = $(this).parents('.field-edit').attr('data-name');
 
-            dataForm[index]['champ'][champ][name] = $(this).val();
+            if ($(this).attr('type') === "number") {
+                const currentValue = Number($(this).val());
+                const maxValue = Number($(this).attr('max'));
+                const minValue = Number($(this).attr('min'));
+
+                if (currentValue > maxValue) {
+                    $(this).val(maxValue)
+                }
+                if (currentValue < minValue) {
+                    $(this).val(minValue)
+                }
+            }
+            let splitName = name.split('|');
+
+            if (splitName.length === 2) {
+
+                dataForm[index]['champ'][champ][splitName[0]][splitName[1]] = $(this).val();
+
+            }
+            else {
+                dataForm[index]['champ'][champ][name] = $(this).val();
+            }
+            if (name === "emoji|img|size") {
+
+                for (let i = 0; i < (dataForm[index]['champ'][champ]['emoji']['data']).length; i++) {
+                    dataForm[index]['champ'][champ]['emoji']['data'][i]["img"]["size"] = $(this).val();
+                }
+
+            }
+
 
             if ($(this).attr('data-type') === 'boolean') {
                 dataForm[index]['champ'][champ][name] = $(this).is(":checked")
@@ -282,14 +311,27 @@ const creatForm = function () {
                 }
             }
 
+            addDataForm(dataForm)
+
+        })
+
+        $(document).on('change', '.input-switch-use-image', function (e) {
+            e.preventDefault();
+
+            const index = $(this).parents('.field-edit').attr('data-index');
+            const name = $(this).attr('name');
+            const champ = $(this).parents('.field-edit').attr('data-name');
+
+            dataForm[index]['champ'][champ][name] = $(this).val();
+
+            if ($(this).attr('data-type') === 'boolean') {
+                dataForm[index]['champ'][champ][name] = $(this).is(":checked")
+            }
+
+
             addDataForm(dataForm).then(da => {
                 if ($(this).attr('data-function') === 'rebuildEdit') {
-                    ajaxFunction().getViewEditField({'slug': formId, 'name': name, 'index': index})
-                        .then(data => {
-
-                            buildForm().callInitEdit(name, data)
-
-                        })
+                    buildForm().fetchDataEdit(formId, name, index);
                 }
             })
 
@@ -315,23 +357,15 @@ const creatForm = function () {
 
                 addDataForm(dataForm).then(data => {
                     setTimeout(() => {
-                        ajaxFunction().getViewEditField({
-                            'slug': formId,
-                            'name': field,
-                            'index': index,
-                            'action': 'option'
-                        }).then(data => {
-                            $('#wrap-list-option-edit').html(data);
-                            sortElementOption()
+                        buildForm().fetchDataOptions(formId, field, index).then(data => {
+                            sortElementOption();
                         })
-
                     }, 100)
                 })
                 alert("this field must not be empty")
             } else {
 
                 if (isGlobal) {
-                    console.log(isGlobal)
 
                     if (isGlobal === "size-image" || isGlobal === "position-image") {
 
@@ -339,26 +373,23 @@ const creatForm = function () {
                             elem['img'][isGlobal.split("-")[0]] = $this.val();
                         })
 
-                    }else if (isGlobal === "position-label" ) {
+                    } else if (isGlobal === "position-label") {
                         dataForm[index]['champ'][field]['position_label'] = $this.val()
+                    } else if (isGlobal === "satisfaction-type") {
+                        dataForm[index]['champ'][field]['satisfaction_type'] = $this.val()
                     } else {
+                        console.error("this not in global");
+                    }
+                } else {
+                    if (dataForm[index]['champ'][field]['satisfaction_type'] === "emoji") {
+                        dataForm[index]['champ'][field]['emoji']['data'][indexOption][name] = $(this).val();
+
+                    }  else {
                         dataForm[index]['champ'][field]['options'][indexOption][name] = $(this).val();
                     }
                 }
 
                 addDataForm(dataForm).then(data => {
-                    setTimeout(() => {
-                        ajaxFunction().getViewEditField({
-                            'slug': formId,
-                            'name': field,
-                            'index': index,
-                            'action': 'option'
-                        }).then(data => {
-                            $('#wrap-list-option-edit').html(data);
-                            sortElementOption()
-                        })
-
-                    }, 100)
                 })
             }
         })
@@ -371,6 +402,7 @@ const creatForm = function () {
             const field = $(this).parents('.field-edit').attr('data-name');
             const imageName = $(this).parents('.row-edit-option').find(".image_icon_options").attr('alt');
 
+            let options = (dataForm[index]['champ'][field]['satisfaction_type'] === "emoji") ? "emoji" : "opitons"
             if (indexOption > -1) { // only splice array when item is found
                 (dataForm[index]['champ'][field]['options']).splice(indexOption, 1); // 2nd parameter means remove one item only
             }
@@ -390,14 +422,8 @@ const creatForm = function () {
             })
             addDataForm(dataForm).then(data => {
                 setTimeout(() => {
-                    ajaxFunction().getViewEditField({
-                        'slug': formId,
-                        'name': field,
-                        'index': index,
-                        'action': 'option'
-                    }).then(data => {
-                        $('#wrap-list-option-edit').html(data);
-                        sortElementOption()
+                    buildForm().fetchDataOptions(formId, field, index).then(data => {
+                        sortElementOption();
                     })
 
                 }, 100)
@@ -421,15 +447,8 @@ const creatForm = function () {
             addDataForm(dataForm).then(data => {
 
                 setTimeout(() => {
-                    ajaxFunction().getViewEditField({
-                        'slug': formId,
-                        'name': field,
-                        'index': index,
-                        'action': 'option'
-                    }).then(data => {
-
-                        $('#wrap-list-option-edit').html(data);
-                        sortElementOption()
+                    buildForm().fetchDataOptions(formId, field, index).then(data => {
+                        sortElementOption();
                     })
                 }, 100)
 
@@ -465,14 +484,8 @@ const creatForm = function () {
 
                 addDataForm(dataForm).then(dataF => {
                     setTimeout(() => {
-                        ajaxFunction().getViewEditField({
-                            'slug': formId,
-                            'name': field,
-                            'index': index,
-                            'action': 'option'
-                        }).then(dataHtml => {
-                            $('#wrap-list-option-edit').html(dataHtml);
-                            sortElementOption()
+                        buildForm().fetchDataOptions(formId, field, index).then(data => {
+                            sortElementOption();
                         })
 
                     }, 100)
@@ -494,21 +507,15 @@ const creatForm = function () {
                 "dir": "image/forms/" + formId + "/" + dataForm[index]['id'],
                 "name": $(this).parents('.row-change-image').find('.picture-src').attr('title')
             }).then(data => {
-                if (data['status'] == 'success') {
+                if (data['status'] === 'success') {
 
                     // (dataForm[index]['champ'][field]['options'][indexOption]).splice(2, 1);
                     dataForm[index]['champ'][field]['options'][indexOption]["img"]["src"] = ""
                     dataForm[index]['champ'][field]['options'][indexOption]["img"]["name"] = ""
                     addDataForm(dataForm).then(dataF => {
                         setTimeout(() => {
-                            ajaxFunction().getViewEditField({
-                                'slug': formId,
-                                'name': field,
-                                'index': index,
-                                'action': 'option'
-                            }).then(dataHtml => {
-                                $('#wrap-list-option-edit').html(dataHtml);
-                                sortElementOption()
+                            buildForm().fetchDataOptions(formId, field, index).then(data => {
+                                sortElementOption();
                             })
 
                         }, 100)
@@ -539,33 +546,85 @@ const creatForm = function () {
 
 
         })
+
+        $(document).on("change", "#satisfaction-type", function (e) {
+                e.preventDefault();
+                const index = $(this).parents('.field-edit').attr('data-index');
+                const indexOption = $(this).parents('.row-change-image').attr('data-index-option');
+                const field = $(this).parents('.field-edit').attr('data-name');
+                dataForm[index]['champ'][field]['satisfaction_type'] = $(this).val();
+
+                let HtmlElement = "";
+                buildSatisfactionEmoji(formId, field, index, $(this).val()).then(data => {
+                    setTimeout(() => {
+                        addDataForm(dataForm).then(dataF => {
+                            setTimeout(() => {
+                                buildForm().fetchDataEdit(formId, field, index).then(data => {
+                                    sortElementOption();
+                                });
+                            }, 200)
+                        })
+                    }, 200)
+                });
+
+
+            }
+        )
     }
 
+    const buildSatisfactionEmoji = (formId, field, index, type) => {
 
-    // const buildCkeditore = function () {
-    //
-    //     const editorElement = document.querySelector('#value_ckedit');
-    //
-    //     const editor = ClassicEditor
-    //         .create(editorElement)
-    //         .then(editor => {
-    //             // Add an event listener for the "change:data" event
-    //             editor.model.document.on('change:data', () => {
-    //                 // This function will be called whenever the editor's content changes
+        return new Promise((resolve, reject) => {
+            let optionEmoji = {}
+            if (type === "emoji") {
+                if (jQuery.isEmptyObject(dataForm[index]['champ'][field]['emoji']['data'])) {
+                    for (let i = 1; i <= 5; i++) {
+                        // Ensure that data[i] is an array before pushing to it
+                        if (!Array.isArray(dataForm[index]['champ'][field]['emoji']['data'])) {
+                            dataForm[index]['champ'][field]['emoji']['data'] = [];
+                        }
+                        dataForm[index]['champ'][field]['emoji']['data'].push({
+                            'title': "",
+                            'value': i,
+                            'img': {
+                                'src': "/image/icons/emoji_face_" + i + ".svg",
+                                'size': "emoji-md"
+                            },
+                        });
+                    }
+                }
+            }
+            dataForm[index]['champ'][field]['satisfaction_type'] = type
 
-    //                 const editorElement = editor.ui.view.element;
-    //
-    //                 // Retrieve the attributes
-    //                 const name = editorElement;
-    //                 const id = editorElement.getAttribute('id');
-    //                 // const dataIndex = editorElement.getAttribute('data-index');
-    //
-    //             });
-    //         })
-    //         .catch(error => {
-    //             console.error(error);
-    //         });
-    // }
+            resolve(true);
+
+        })
+    }
+
+// const buildCkeditore = function () {
+//
+//     const editorElement = document.querySelector('#value_ckedit');
+//
+//     const editor = ClassicEditor
+//         .create(editorElement)
+//         .then(editor => {
+//             // Add an event listener for the "change:data" event
+//             editor.model.document.on('change:data', () => {
+//                 // This function will be called whenever the editor's content changes
+
+//                 const editorElement = editor.ui.view.element;
+//
+//                 // Retrieve the attributes
+//                 const name = editorElement;
+//                 const id = editorElement.getAttribute('id');
+//                 // const dataIndex = editorElement.getAttribute('data-index');
+//
+//             });
+//         })
+//         .catch(error => {
+//             console.error(error);
+//         });
+// }
 
 
     return {
@@ -593,9 +652,11 @@ const creatForm = function () {
             clickHandler();
             drop();
             dragover();
+
         }
     };
-}();
+}
+();
 
 jQuery(document).ready(function () {
     creatForm.init();

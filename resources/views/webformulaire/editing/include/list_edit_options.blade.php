@@ -1,40 +1,55 @@
 <div class="row-edit-option">
     <span>Titles</span>
     <span>Values</span>
-    <span><div class="btn btn-primary btn-options-plus"><i
-                class="cursor-pointer fa fa-plus"></i></div></span>
+    <span>
+         @if($champ->satisfaction_type !== "emoji" && !isset($champ->satisfaction_type) )
+            <div class="btn btn-primary btn-options-plus">
+                <i class="cursor-pointer fa fa-plus"></i>
+            </div>
+        @endif
+
+    </span>
 </div>
 <div class="section-of-option">
-    @foreach($champ->options as $keyOption=>$value)
+
+
+    <?php
+    $options = $champ->satisfaction_type == "emoji" ? $champ->emoji->data : $champ->options;
+    ?>
+
+    @foreach($options as $keyOption=>$value)
 
         <div class="drageable-element-option">
             <div class="row-edit-option" data-index-option="{{$keyOption}}">
         <span data-name="title">
             {{--                                              //  <span class="btn-edit-title-option cursor-pointer">{{$value[1]}}</span>--}}
-            <input type="text" name="title" value="{{$value->title}}"
+            <input type="text" name="title" value="{{$value->title??""}}"
                    class="input-edit-option form-control ">
         </span>
 
                 <span data-name="value">
 
-            <input type="text" name="value" required value="{{$value->value}}"
+            <input type="text" name="value" required value="{{$value->value??""}}"
                    class="input-edit-option form-control ">
         </span>
 
                 <span>
                     <div class="d-flex">
-                        <div class="mx-2 btnDeleteOption cursor-pointer">
-                            <i class="fa fa-trash mt-2"></i>
-                        </div>
-                            @if(isset($champ->use_image) && $champ->use_image)
-                            <div class="mx-2 btnUploadImage cursor-pointer">
+                        @if(!isset($champ->satisfaction_type) || $champ->satisfaction_type !== "emoji")
+                            <div class="mx-2 btnDeleteOption cursor-pointer">
+                                <i class="fa fa-trash mt-2"></i>
+                            </div>
+                        @endif
+                        @if(isset($champ->use_image) && $champ->use_image || $champ->type==="satisfaction")
+                            <div
+                                class="mx-2 @if(!isset($champ->satisfaction_type) || $champ->satisfaction_type !== "emoji") btnUploadImage cursor-pointer @endif ">
 
                                 @if(isset($value->img) &&  !empty($value->img) && $value->img->src!=null)
-                                        <img class="image_icon_options" src="{{url("storage/".$value->img->src)}}"
-                                             alt="{{$value->img->name??""}}">
-                                    @else
-                                        <i class="fa fa-image mt-2"></i>
-                                    @endif
+                                    <img class="image_icon_options" src="{{url("storage/".$value->img->src)}}"
+                                         alt="{{$value->img->name??""}}">
+                                @else
+                                    <i class="fa fa-image mt-2"></i>
+                                @endif
                             </div>
                         @endif
                         <div class="fas fa-sort handle ui-sortable-handle mx-2 mt-2 "></div>
@@ -54,7 +69,7 @@
                             <img @if(isset($value->img) && !empty($value->img))
 
                                  src="{{url("storage/".$value->img->src)}}"
-                                 title="{{$value->img->name}}"
+                                 title="{{$value->img->name??""}}"
                                  @else
                                  src="#"
                                  @endif

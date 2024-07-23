@@ -58,6 +58,7 @@ class FormController extends Controller
 
         $existingRecord = Form::where('slug', $request->id)->first();
 
+
         if ($existingRecord) {
             $existingRecord->update([
                 "data" => $request->data,
@@ -153,6 +154,7 @@ class FormController extends Controller
     {
         if ($request->form){
             $data = Form::where('slug', '=', $request->form)->first();
+
             return response([
                 "data"=>json_decode($data->data),
             ]);

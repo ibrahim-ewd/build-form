@@ -62,15 +62,15 @@ const elementsBuild = () => {
         let checkHtml = "";
         $.each(attr.options, (index, element) => {
 
-            let positionLabel = attr.position_label ?? "position-left"
+            let positionLabel = attr.position_label ?? "position-right"
             if (element["img"] && element["img"]["src"] !== "") {
                 let $image = hostName + "/storage/" + element["img"]["src"]
-                let position = element["img"]['position'] ?? ""
+                let position = element["img"]['position'] ?? "picture-left"
 
 
                 checkHtml += `
                 <span class="check-list-item-img col-4 d-flex align-items-center ">
-                <label for="${attr.id + elements['id'] + index}" class="cursor-pointer  ${positionLabel}">
+                <label for="${attr.id + elements['id'] + index}" class="cursor-pointer  ${position}">
                     <input type="${attr.type}" id="${attr.id + elements['id'] + index}"
                                     ${attr.required ? 'required' : ''}
                                     ${attr.readonly ? 'readonly' : ''}
@@ -106,24 +106,27 @@ const elementsBuild = () => {
         let checkHtml = "";
         $.each(attr.options, (index, element) => {
 
-            let positionLabel = attr.position_label ?? "position-left"
+            let positionLabel = attr.position_label ?? "position-right"
             if (element["img"] && element["img"]["src"] !== "") {
                 let $image = hostName + "/storage/" + element["img"]["src"]
                 let position = element["img"]['position'] ?? ""
 
                 checkHtml += `
-                <span class="check-list-item-img col-4 d-flex align-items-center  ${position}">
-                    <input type="${attr.type}" id="${attr.id + elements['id'] + index}"
-                                    ${attr.required ? 'required' : ''}
-                                    ${attr.readonly ? 'readonly' : ''}
-                                        name="${attr.name}_${elements['id']}"
-                                    value="${element.value}"/>
-<!--                    <label for="${attr.id + elements['id'] + index}">-->
-                    <label for="${attr.id + elements['id'] + index}" class="${element["img"]['size'] ?? " picture-sm"} image-item-checkbox" style="background-image: url(${$image})">
-<!--                    <img src="" class="image-item-checkbox" />-->
+                <span class="check-list-item-img col-4 d-flex align-items-center">
+                    <label for="${attr.id + elements['id'] + index}" class="cursor-pointer  ${position}">
 
+                        <input type="${attr.type}" id="${attr.id + elements['id'] + index}"
+                                        ${attr.required ? 'required' : ''}
+                                        ${attr.readonly ? 'readonly' : ''}
+                                            name="${attr.name}_${elements['id']}"
+                                        value="${element.value}"/>
+    <!--                    <label for="${attr.id + elements['id'] + index}">-->
+                        <label for="${attr.id + elements['id'] + index}" class="${element["img"]['size'] ?? " picture-sm"} image-item-checkbox" style="background-image: url(${$image})">
+    <!--                    <img src="" class="image-item-checkbox" />-->
+
+                        </label>
+                        <label class="mx-2" for="${attr.id + elements['id'] + index}">${element.title}</label>
                     </label>
-                    <label class="mx-2" for="${attr.id + elements['id'] + index}">${element.title}</label>
                   </span>
                 `;
 
@@ -181,43 +184,83 @@ const elementsBuild = () => {
                                    `;
     }
 
+
     this.buildSatisfaction = (elements, attr) => {
         let checkHtml = "";
+        let options = "options"
+        switch (attr.satisfaction_type) {
 
-        $.each(attr.options, (index, element) => {
-            let $image = hostName + "/storage/" + element["img"]["src"]
-            let position = element["img"]['position'] ?? ""
-            let positionLabel = attr.position_label ?? "position-left"
-            if (element["img"] && element["img"]["src"] !== "") {
+            case "emoji":
+                console.log(attr)
+                options = attr.emoji.data
+                break;
+            case "stars":
+                options = attr.stars
+                break;
+            default:
+                options = attr.options
+                break;
+        }
+        //   let options = (attr.satisfaction_type === "emoji") ? attr.emoji : attr.options
 
-                checkHtml += `
-                <span class="check-list-item-img col d-flex align-items-center ${position}">
-                    <input type="checkbox" id="${attr.id + elements['id'] + index}"
-                                    ${attr.required ? 'required' : ''}
-                                    ${attr.readonly ? 'readonly' : ''}
-                                    value="${element.value}"/>
+        if (attr.satisfaction_type === "stars") {
+            let listStarsHtml = ``;
+            console.log(attr)
+            for (let i = 1; i <= attr.stars.number; i++) {
+                listStarsHtml += `
+                        <span class="itemStarsRating ">
+                            <label for="" class="fs-${attr.stars.size ?? "2"} cursor-pointer starsRatings">
+                                <i class=" fa-solid fa-star"></i>
+                            </label>
+                          </span>
+                        `;
+            }
+            checkHtml += `<div class="justify-content-${attr.stars.position ?? "start"} listStarsRating">${listStarsHtml}</div>`;
+        } else {
+            let listOptionHtml = ``;
+            $.each(options, (index, element) => {
 
-                    <label for="${attr.id + elements['id'] + index}" class="${element["img"]['size'] ? element["img"]['size'] : " picture-sm"} image-item-checkbox" style="background-image: url(${$image})">
-                    </label>
-                    <label class="mx-0" for="${attr.id + elements['id'] + index}">${element.title}</label>
-                  </span>
+
+                let $image = hostName + "/storage/" + element["img"]["src"]
+                let position = element["img"]['position'] ?? ""
+                let positionLabel = attr.position_label ?? "position-top"
+                let iconemoji = (attr.satisfaction_type==="emoji")?"emojiIconBAckground":"";
+
+                if (element["img"] && element["img"]["src"] !== "") {
+                    listOptionHtml += `
+                        <span class="check-list-item-img itemRating ${position}">
+                            <label for="${attr.id + elements['id'] + index}" class="cursor-pointer  ${position}">
+                                <input type="radio" id="${attr.id + elements['id'] + index}"
+                                                ${attr.required ? 'required' : ''}
+                                                ${attr.readonly ? 'readonly' : ''}
+                                                name="${attr.name}_${elements['id']}"
+                                                value="${element.value}"/>
+
+                                <label  for="${attr.id + elements['id'] + index}" class="${iconemoji} ${element["img"]['size'] ? element["img"]['size'] : " picture-sm"} image-item-checkbox" style="background-image: url(${$image})">
+                                </label>
+                                <label class="mx-0" for="${attr.id + elements['id'] + index}">${element.title}</label>
+                            </label>
+                          </span>
                 `;
+                    checkHtml = `<div class="justify-content-${attr.emoji.position ?? "start"} listStarsRating">${listOptionHtml}</div>`;
 
-            } else {
-                checkHtml += `
+                } else {
+                    checkHtml += `
                     <span class="check-list-item col d-flex align-items-center">
                         <label for="${attr.id + elements['id'] + index}" class="cursor-pointer ${positionLabel}">
-                            <input type="checkbox"
+                            <input type="radio"
                                  ${attr.required ? 'required' : ''}
                                  ${attr.readonly ? 'readonly' : ''}
                                  value="${element.value}"
-                                 name="${element.value}"
+                                 name="${attr.name}_${elements['id']}"
                                  style="${attr.style}" class="${attr.class}" id="${attr.id + elements['id'] + index}" />
                             <span class="mx-2">${element.title}</span>
                         </label>
                     </span>`;
-            }
-        })
+                }
+            })
+        }
+
         return `<div class="check-list-warp row">${checkHtml}</div>`;
     }
 
@@ -246,6 +289,7 @@ const elementsBuild = () => {
         buildDate: function (elements, attr) {
             return buildDate(elements, attr);
         },
+
     }
 
 }

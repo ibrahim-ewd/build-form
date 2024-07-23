@@ -470,8 +470,18 @@
                         "name": "satisfaction",
                         "label": "satisfaction",
                         "type": "satisfaction",
+                        "satisfaction_type": "buttons",
                         "notice": "",
                         "value": "",
+                        "emoji": {
+                            "number": 5,
+                            "data": {}
+                        },
+                        "stars": {
+                            "number": 5,
+                            "size": "2",
+                            "position": "start"
+                        },
                         "options": [
                             {
                                 "value": "one",
@@ -499,7 +509,7 @@
                         "style": "",
                         "placeholder": "radio",
                         "id": "satisfaction",
-                        "required": true,
+                        "required": false,
                         "readonly": false,
                         "visibility": true
                     }

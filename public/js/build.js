@@ -107,7 +107,6 @@ const buildForm = function () {
 				<div class="modal-header">
 					<h4 class="modal-title" id="field-name">${index}</h4>
 					<span class="btn btn-outline-danger close-edit-button">&times;</span>
-
 				</div>
 
 				<div class="modal-body mt-5">
@@ -118,11 +117,35 @@ const buildForm = function () {
 		</div><!-- modal-dialog -->
 	</div><!-- modal -->`
 
-
         $('#editFields').html(htmlBody);
         return true;
     };
 
+
+    const fetchDataEdit = function (formId, field, index) {
+        return new Promise((resolve, reject) => {
+            resolve(ajaxFunction().getViewEditField({'slug': formId, 'name': field, 'index': index})
+                .then(data => {
+                    buildForm().callInitEdit(field, data)
+                })
+            );
+        });
+    }
+
+    const fetchDataOptions = function (formId, field, index) {
+        return new Promise((resolve, reject) => {
+
+            resolve(ajaxFunction().getViewEditField({
+                    'slug': formId,
+                    'name': field,
+                    'index': index,
+                    'action': 'option'
+                }).then(data => {
+                    $('#wrap-list-option-edit').html(data);
+                })
+            )
+        });
+    }
 
     return {
         // Public functions
@@ -150,6 +173,14 @@ const buildForm = function () {
 
         callInitEdit: function (index, element) {
             return _initEdit(index, element);
+        },
+
+        fetchDataEdit: function (formId, field, index) {
+            return fetchDataEdit(formId, field, index);
+        },
+
+        fetchDataOptions: function (formId, field, index) {
+            return fetchDataOptions(formId, field, index);
         }
     };
 }

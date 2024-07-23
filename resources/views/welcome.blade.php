@@ -35,6 +35,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/locale/nl.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
 
+    <script src="https://unpkg.com/survey-jquery@1.9.134/survey.jquery.min.js"></script>
     <script src="{{asset("plugins/ckeditore5_35.1.0/js/ckeditor.js")}}"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.full.min.js"></script>
     @yield('scripts')

@@ -82,14 +82,12 @@
 
 @endsection
 
-
     <table class="table">
         <tr>
             <th>name</th>
             <th style="width:100px" colspan="2">action</th>
         </tr>
         @foreach($data as $key=>$value)
-
             <tr>
                 <td>{{$value->name}}</td>
                 <td  style="width:100px"><a href="{{route("form.build")}}?form={{$value->slug}}">edit</a></td>

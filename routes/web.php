@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('/', function (){
-    return redirect()->route("form.build");
+    return redirect()->route("form.index");
 });
 Route::get('/form', [FormController::class,"listForms"])->name("form.index");
 Route::get('/form/build', [FormController::class,"index"])->name("form.build");
