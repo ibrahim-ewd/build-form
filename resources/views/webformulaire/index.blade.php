@@ -90,7 +90,7 @@
         @foreach($data as $key=>$value)
             <tr>
                 <td>{{$value->name}}</td>
-                <td  style="width:100px"><a href="{{route("form.build")}}?form={{$value->slug}}">edit</a></td>
+                <td  style="width:100px"><a href="{{route("form.build",$value->id)}}">edit</a></td>
                 <td style="width:100px"><a href="{{route("form.reviews")}}?form={{$value->slug}}">review</a></td>
             </tr>
         @endforeach

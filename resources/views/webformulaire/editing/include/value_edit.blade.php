@@ -1,4 +1,5 @@
-@if($champ->name == "paragraph")
+
+@if( $champ->name == "paragraph")
     <div class="form-group my-3">
         <label for="value">Text</label>
         <textarea type="text"

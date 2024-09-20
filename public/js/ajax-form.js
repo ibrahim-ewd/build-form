@@ -9,7 +9,7 @@ const ajaxFunction = function () {
             });
 
             $.ajax({
-                url: "/get-data-form",
+                url: URLGETDATAFORM,
                 method: "GET",
                 data: element,
                 success: function (response) {
@@ -30,7 +30,7 @@ const ajaxFunction = function () {
             });
 
             $.ajax({
-                url: "/get-view-edit-field",
+                url: URL_GET_VIEWEDIT,
                 method: "GET",
                 data: element,
                 success: function (response) {
@@ -42,8 +42,7 @@ const ajaxFunction = function () {
     const uploadImagesForm = function (element) {
 
         return new Promise((resolve, reject) => {
-            // console.log();
-            var formData = new FormData();
+             var formData = new FormData();
             formData.append('image', element['photo']);
             formData.append('name', element['name']);
             formData.append('dir', element['dir']);
@@ -54,7 +53,7 @@ const ajaxFunction = function () {
             });
 
             $.ajax({
-                url: "/upload-images",
+                url: URL_UPLOAD_IMAGE,
                 method: "POST",
                 data: formData,
                 cache: false,
@@ -71,8 +70,7 @@ const ajaxFunction = function () {
     const deleteImagesForm = function (element) {
 
         return new Promise((resolve, reject) => {
-            // console.log();
-            var formData = new FormData();
+             var formData = new FormData();
             // formData.append('image', element['photo']);
             formData.append('type', element['type']);
             formData.append('name', element['name']);
@@ -84,7 +82,7 @@ const ajaxFunction = function () {
             });
 
             $.ajax({
-                url: "/delete-images",
+                url: URL_DELETE_IMAGE,
                 method: "POST",
                 data: formData,
                 cache: false,
@@ -100,6 +98,7 @@ const ajaxFunction = function () {
 
     const _initAdd = function (element) {
 
+
         return new Promise((resolve, reject) => {
             $.ajaxSetup({
                 headers: {
@@ -108,7 +107,7 @@ const ajaxFunction = function () {
             });
 
             $.ajax({
-                url: "/add-data-form",
+                url: URL_ADD_DATAFORM,
                 method: "POST",
                 data: element,
                 success: function (response) {
@@ -118,6 +117,22 @@ const ajaxFunction = function () {
                     reject(error); // Reject the promise with the error
                 }
             })
+        });
+    };
+
+    const _initDataFormJson = function () {
+
+        return new Promise((resolve, reject) => {
+                $.ajax({
+                    url: URL_FIlE_DATAINIT_JSON,
+                    dataType: 'json',
+                    success: function (data) {
+                        resolve(data.data_form);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.log('Error fetching JSON data:', errorThrown);
+                    }
+                })
         });
     };
 
@@ -143,6 +158,10 @@ const ajaxFunction = function () {
         // Expose _initBuild as a public function
         uploadImagesForm: function (element) {
             return uploadImagesForm(element);
+        },
+        // Expose _initBuild as a public function
+        _initDataFormJson: async function () {
+            return await _initDataFormJson();
         },
         // Expose _initBuild as a public function
         deleteImagesForm: function (element) {

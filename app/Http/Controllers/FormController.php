@@ -3,11 +3,9 @@
 namespace App\Http\Controllers;
 
 
-
 use App\Models\Form;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 
 class FormController extends Controller
 {
@@ -16,26 +14,29 @@ class FormController extends Controller
     public function listForms()
     {
 
-        $element =Form::orderByDesc('id')->get();
+        $element = Form::orderByDesc('id')->get();
 
         return view('webformulaire.index')
             ->with('data', $element);
     }
 
-    public function index()
+    public function index($id)
     {
 
         $element = config('webform.data_form');
 
         return view('webformulaire.building.index')
+            ->with('id', $id)
+            ->with('current_rout',\Route::currentRouteName())
+            ->with('form',Form::find($id))
             ->with('element', $element);
     }
 
-    public function getForm(){
+    public function getForm()
+    {
 //        $data = Form::where('slug', '=', $id)->first();
 //        return $data;
-        return view('webformulaire.building.iframe')
-          /*  ->with('element', $element)*/;
+        return view('webformulaire.building.iframe')/*  ->with('element', $element)*/ ;
     }
 
     public function getiframe()
@@ -53,10 +54,10 @@ class FormController extends Controller
 //        return view('webformulaire.form');
     }
 
-    public function store(Request $request)
+    public function store(Request $request,$id)
     {
 
-        $existingRecord = Form::where('slug', $request->id)->first();
+        $existingRecord = Form::find($id);
 
 
         if ($existingRecord) {
@@ -64,20 +65,14 @@ class FormController extends Controller
                 "data" => $request->data,
                 "name" => $request->name,
             ]);
-            $existingRecord = Form::where('slug', $request->id)->first();
+            $existingRecord = Form::find($id);
 
         } else {
-            $slug = Str::slug(Str::reverse($request->name), '');
-            $count = Form::where('slug', 'LIKE', $slug . "%")->count();
-
-            if ($count > 0) {
-                $slug = Str::slug(Str::reverse($request->name) . $count++, '');
-            }
 
             $existingRecord = Form::create([
                 "data" => $request->data,
                 "name" => $request->name,
-                "slug" => $slug,
+                "slug" => now(),
             ]);
         }
         return $existingRecord;
@@ -112,25 +107,25 @@ class FormController extends Controller
                     Storage::disk('public')->delete($directory . '/' . $oldImageName);
                 }
 
-                $newImageName = explode('.',$oldImageName)[0].'.'.$extension;
-            }else{
-                $newImageName = 'option'.time().'.'.$extension;
+                $newImageName = explode('.', $oldImageName)[0] . '.' . $extension;
+            } else {
+                $newImageName = 'option' . time() . '.' . $extension;
             }
-
             $routeImage = $imageFile->storeAs($request->dir, $newImageName, 'public');
         }
 
         // Return the path to the stored image or an empty string if no image was uploaded
-        return response(["img"=>$routeImage,"name"=>$newImageName], 200);
+        return response(["img" => $routeImage, "name" => $newImageName], 200);
     }
 
-    public function deleteImagesForm(Request $request){
+    public function deleteImagesForm(Request $request)
+    {
 
         try {
             $directory = $request->dir;
-            if ($request->type == "folder" ){
+            if ($request->type == "folder") {
 
-                if (Storage::disk('public')->exists($directory )) {
+                if (Storage::disk('public')->exists($directory)) {
                     Storage::disk('public')->deleteDirectory($directory);
                 }
             }
@@ -142,35 +137,41 @@ class FormController extends Controller
                     Storage::disk('public')->delete($directory . '/' . $oldImageName);
                 }
             }
-            return response(["status"=>"success"],200);
-        }catch (\Exception $e){
-            return response(["status"=>"error"],500);
+            return response(["status" => "success"], 200);
+        } catch (\Exception $e) {
+            return response(["status" => "error"], 500);
         }
 
 
     }
 
-    public function getDataForm(Request $request)
+    public function getDataForm2(Request $request, $id)
     {
-        if ($request->form){
-            $data = Form::where('slug', '=', $request->form)->first();
-
-            return response([
-                "data"=>json_decode($data->data),
-            ]);
-        }
-        return Form::where('slug', '=', $request->slug)->first();
+        return json_decode(Form::find($id)->data);
 
     }
 
-    public function getViewEditField(Request $request)
+    public function getDataForm(Request $request, $id)
+    {
+        return Form::find($id);
+
+    }
+
+    public function getViewEditField(Request $request,$id)
     {
 
-        $data = Form::where('slug', '=', $request->slug)->first();
+        $data = Form::find($id);
 
         if ($request->action == "option") {
 
             return view('webformulaire.editing.include.list_edit_options')
+                ->with("champ", json_decode($data->data)[$request->index]->champ->{$request->name})->render();
+
+        }
+
+        if ($request->action == "media") {
+
+            return view('webformulaire.editing.include.list_edit_medias')
                 ->with("champ", json_decode($data->data)[$request->index]->champ->{$request->name})->render();
 
         }
@@ -186,6 +187,15 @@ class FormController extends Controller
     {
         Form::destroy($id);
         return redirect()->back()->with('message', 'les forms ont été supprimées avec succès');
+    }
+
+
+
+    public function previews($id){
+        return view('webformulaire.building.iframe')
+            ->with('id', $id)
+            ->with('current_rout',\Route::currentRouteName())
+            ->with('form',Form::find($id));
     }
 
 

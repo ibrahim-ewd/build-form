@@ -8,20 +8,27 @@
 const creatForm = function () {
 
     let dataForm = [];
-    var urlParams = new URLSearchParams(window.location.search);
+    let formId = FORM_ID;
 
-    let formId = urlParams.get('form');
 
     const getDataForm = function () {
-
         return new Promise((resolve, reject) => {
             resolve(
-                ajaxFunction().getDataForm({slug: formId}).then(data => {
+                ajaxFunction().getDataForm().then(data => {
                     buildForm().callInitBuild(data ? JSON.parse(data) : []);
                     dataForm = data ? JSON.parse(data) : [];
                 })
             )
         })
+    }
+
+    const buildDataInit = async function () {
+        ELEMENT_INIT_JSON = await ajaxFunction()._initDataFormJson();
+        return new Promise((resolve, reject) => {
+            elementsBuild().buildElementForm(ELEMENT_INIT_JSON)
+            resolve(true);
+        })
+
     }
 
     const addDataForm = function (dataForm) {
@@ -40,7 +47,7 @@ const creatForm = function () {
                 editFieldForm();
                 sortElementOption();
             })
-            console.log(dataForm)
+
             resolve(true);
         })
     }
@@ -55,10 +62,12 @@ const creatForm = function () {
             },
             start: function (event, ui) {
                 ui.item.startPos = ui.item.index();
+
             },
             stop: function (event, ui) {
                 const newPos = ui.item.index();
                 const movedItem = dataForm.splice(ui.item.startPos, 1)[0];
+                movedItem['sortable'] = true;
                 dataForm.splice(newPos, 0, movedItem);
                 addDataForm(dataForm)
             }
@@ -68,6 +77,7 @@ const creatForm = function () {
     };
 
     const sortElementOption = function () {
+
         $('.section-of-option').sortable({
             handle: '.handle', // handle's class
             animation: 150,
@@ -82,6 +92,7 @@ const creatForm = function () {
 
                 const index = $(this).parents('.field-edit').attr('data-index');
                 const champ = $(this).parents('.field-edit').attr('data-name');
+
                 const newPos = ui.item.index();
 
                 let type = "options"
@@ -97,6 +108,7 @@ const creatForm = function () {
 
         $('.handle').on('mousedown', function (e) {
             e.preventDefault();
+
         })
         $('.handle').on('mouseup', function (e) {
             e.preventDefault();
@@ -104,21 +116,50 @@ const creatForm = function () {
 
     }
 
+
+    const positionSubmit = (form_) => {
+
+        let positions = [];
+        let count = 0;
+
+        $("#accordion").accordion();
+        $.each(form_, (indx, element) => {
+            if (element.name === "Submit") {
+                if (!element.sortable || element.sortable === false) {
+                    const newPos = form_.length;
+                    const movedItem = dataForm.splice(indx, 1)[0];
+                    dataForm.splice(newPos, 0, movedItem);
+                    addDataForm(dataForm)
+                }
+                count++;
+            }
+        })
+
+
+        $(".dest-list").disableSelection();
+
+
+        const getLastTwo = (array) => array.slice(-count);
+        const lastTwoItems = getLastTwo(form_);
+    }
+
     const clickHandler = event => {
         $('.btn-drag').on('click', function (eve) {
             let type = $(this).attr('data-type');
             let text = $(this).attr('data-name');
 
-            let newItem = {...element[type][text]};
+            let newItem = {...ELEMENT_INIT_JSON[type][text]};
             newItem.id = `${text}${Date.now()}${dataForm.length}`;
             dataForm.push(JSON.parse(JSON.stringify(newItem)));
-
+            positionSubmit(dataForm);
             addDataForm(dataForm)
         });
     }
+
     const dragstart = event => {
 
         $('.btn-drag').on('dragstart', function (eve) {
+
             let type = $(this).attr('data-type');
             let text = $(this).attr('data-name');
             eve.originalEvent.dataTransfer.setData('text', text);
@@ -126,13 +167,18 @@ const creatForm = function () {
         });
 
     };
+
     const drop = event => {
         $('.dest-list').on('drop', function (event) {
             event.preventDefault();
+
             let text = event.originalEvent.dataTransfer.getData('text');
             let type = event.originalEvent.dataTransfer.getData('type');
-            let newItem = {...element[type][text]}
+
+            let newItem = {...ELEMENT_INIT_JSON[type][text]}
+
             newItem.id = `${text}${Date.now()}${dataForm.length}`;
+
             dataForm.push(JSON.parse(JSON.stringify(newItem)));
             addDataForm(dataForm)
         });
@@ -191,6 +237,7 @@ const creatForm = function () {
                 $('#overlay').addClass('display_block');
                 $('#editFields').addClass('display_block')
                 // buildForm().callInitEdit(index, dataForm)
+
                 resolve(buildForm().fetchDataEdit(formId, name, index));
 
             })
@@ -259,15 +306,16 @@ const creatForm = function () {
             addDataForm(dataForm)
         })
     }
-
     const editInputsForm = function () {
 
-        $(document).on('change', '.input-edit-form', function (e) {
-            e.preventDefault();
+        $(document).on('change', '.input-edit-form', function (event) {
+
+            event.preventDefault();
 
             const index = $(this).parents('.field-edit').attr('data-index');
             const name = $(this).attr('name');
             const champ = $(this).parents('.field-edit').attr('data-name');
+
 
             if ($(this).attr('type') === "number") {
                 const currentValue = Number($(this).val());
@@ -287,9 +335,12 @@ const creatForm = function () {
 
                 dataForm[index]['champ'][champ][splitName[0]][splitName[1]] = $(this).val();
 
-            }
-            else {
+            } else {
                 dataForm[index]['champ'][champ][name] = $(this).val();
+            }
+            if ($(this).attr("data-val")) {
+                let _el_ = `${$(this).attr("data-val")}//${$(this).val()}`;
+                dataForm[index]['champ'][champ][name] = _el_;
             }
             if (name === "emoji|img|size") {
 
@@ -320,6 +371,7 @@ const creatForm = function () {
 
             const index = $(this).parents('.field-edit').attr('data-index');
             const name = $(this).attr('name');
+            const dataName = $(this).attr('data-name');
             const champ = $(this).parents('.field-edit').attr('data-name');
 
             dataForm[index]['champ'][champ][name] = $(this).val();
@@ -331,11 +383,129 @@ const creatForm = function () {
 
             addDataForm(dataForm).then(da => {
                 if ($(this).attr('data-function') === 'rebuildEdit') {
-                    buildForm().fetchDataEdit(formId, name, index);
+                    buildForm().fetchDataEdit(formId, dataName, index);
                 }
             })
-
         })
+
+        $(document).on('change', '.tagify--custom-dropdown', function (e) {
+            e.preventDefault();
+
+            const index = $(this).parents('.field-edit').attr('data-index');
+            const name = $(this).attr('name');
+            const dataName = $(this).attr('data-name');
+            const champ = $(this).parents('.field-edit').attr('data-name');
+            let listElem = [];
+            $.each(JSON.parse($(this).val()), (index, elem) => {
+                listElem.push(elem['value']);
+            })
+
+            dataForm[index]['champ'][champ]["extensions"] = listElem;
+
+            // if ($(this).attr('data-type') === 'boolean') {
+            //     dataForm[index]['champ'][champ][name] = $(this).is(":checked")
+            // }
+
+
+            addDataForm(dataForm).then(da => {
+                if ($(this).attr('data-function') === 'rebuildEdit') {
+                    buildForm().fetchDataEdit(formId, dataName, index);
+                }
+            })
+        })
+
+
+    }
+
+
+    const editMedias = function () {
+
+
+        $(document).on('change', '.input-edit-medias', function (e) {
+
+
+            e.preventDefault();
+            var $this = $(this);
+            const index = $(this).parents('.field-edit').attr('data-index');
+            const name = $(this).attr('name');
+            const field = $(this).parents('.field-edit').attr('data-name');
+            const indexOption = $(this).parents('.row-edit-media').attr('data-index-media');
+            const isGlobal = $(this).attr('data-media-global');
+
+            if ($(this).attr('required') === "required" && $(this).val() === "") {
+
+                addDataForm(dataForm).then(data => {
+                    setTimeout(() => {
+                        buildForm().fetchDataMedias(formId, field, index).then(data => {
+                            sortElementOption();
+                        })
+                    }, 100)
+                })
+                alert("this field must not be empty")
+
+            } else {
+
+                if (isGlobal) {
+                    dataForm[index]['champ'][field][isGlobal] = $this.val()
+
+                } else {
+                    dataForm[index]['champ'][field]['medias'][indexOption][name] = $this.val();
+                }
+
+
+                addDataForm(dataForm).then(data => {
+                })
+            }
+        })
+
+
+        $(document).on("change", '.select-list-medias', function (e) {
+            e.preventDefault();
+            const index = $(this).parents('.field-edit').attr('data-index');
+            const field = $(this).parents('.field-edit').attr('data-name');
+
+            // let optinLength = (dataForm[index]['champ'][field]['options']).length;
+
+            const newMedia = {
+                "icon": $(this).val(),
+                "link": "#",
+            };
+
+            (dataForm[index]['champ'][field]['medias']).push(JSON.parse(JSON.stringify(newMedia)))
+
+            addDataForm(dataForm).then(data => {
+                setTimeout(() => {
+                    buildForm().fetchDataMedias(formId, field, index).then(data => {
+                        sortElementOption();
+                        $(this).val("")
+                    })
+                }, 100)
+
+            })
+        })
+
+
+        $(document).on("click", '.btnDeleteMedia', function (e) {
+            e.preventDefault();
+            const index = $(this).parents('.field-edit').attr('data-index');
+            const indexMedia = $(this).parents('.row-edit-media').attr('data-index-media');
+            const field = $(this).parents('.field-edit').attr('data-name');
+
+
+            if (indexMedia > -1) {
+                (dataForm[index]['champ'][field]['medias']).splice(indexMedia, 1);
+            }
+
+            addDataForm(dataForm).then(data => {
+                setTimeout(() => {
+                    buildForm().fetchDataMedias(formId, field, index).then(data => {
+                        sortElementOption();
+                    })
+                }, 100)
+            })
+        })
+
+
     }
 
 
@@ -384,7 +554,7 @@ const creatForm = function () {
                     if (dataForm[index]['champ'][field]['satisfaction_type'] === "emoji") {
                         dataForm[index]['champ'][field]['emoji']['data'][indexOption][name] = $(this).val();
 
-                    }  else {
+                    } else {
                         dataForm[index]['champ'][field]['options'][indexOption][name] = $(this).val();
                     }
                 }
@@ -631,6 +801,7 @@ const creatForm = function () {
         // Public functions
         init: function () {
 
+
             getDataForm().then(data => {
 
                 sortElementOption();
@@ -639,19 +810,35 @@ const creatForm = function () {
                 editFieldForm().then(data => {
 
 
-                    // buildCkeditore();
-                });
-            });
+                    var input = document.querySelector('input[name="input-custom-dropdown"]'),
+                        // init Tagify script on the above inputs
+                        tagify = new Tagify(input, {
+                            whitelist: [".png", ".jpg", ".pdf", ".docx", ".doc", ".csv"],
+                            maxTags: 10,
+                            dropdown: {
+                                maxItems: 20,           // <- mixumum allowed rendered suggestions
+                                classname: 'tags-look', // <- custom classname for this dropdown, so it could be targeted
+                                enabled: 0,             // <- show suggestions on focus
+                                closeOnSelect: false    // <- do not hide the suggestions dropdown once an item has been selected
+                            }
+                        })
 
+                });
+            })
+            buildDataInit().then(data => {
+                dragstart();
+                clickHandler();
+                drop();
+                dragover();
+            })
             editInputsForm();
+            //   checkFile();
             editFieldGlobal();
             editSelectForm();
             editOptions();
+            editMedias();
             _collapse();
-            dragstart();
-            clickHandler();
-            drop();
-            dragover();
+
 
         }
     };

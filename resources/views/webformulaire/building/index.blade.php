@@ -8,39 +8,30 @@
 @section('styles')
 
     <link rel="stylesheet" href="{{asset('css/style.css')}}">
+    <link rel="stylesheet" href="{{asset('/css/style-webform-v2.css')}}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css"/>
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css"/>
+
 
     <style>
         .dest-list {
             border: 1px solid;
         }
 
-        .types {
-            display: flex;
-            flex-direction: column;
+        .dest-list {
+            margin-left: 6%;
         }
 
-        .btn_dark_ {
-            background: #ccc;
-            color: #000;
+        .dest-list label,
+        .dest-list small {
+            display: block;
         }
 
-        .btn_dark_:hover {
-            background: #000;
-            color: #fff;
-        }
-
-        .type_date_desactive {
-            display: none;
-        }
-
-        .hiddenElement {
-            display: none;
-        }
-
-        .order_field {
-            background: transparent !important;
-            border: 0px;
-            padding: 0 6px;
+        .dest-list small {
+            text-align: left;
+            font-size: .75em;
+            margin: 0 0 0 5px;
         }
 
         .fieldsForm {
@@ -53,23 +44,6 @@
             border: 1px dotted rgba(42, 42, 42, 0.79);
             cursor: move;
         }
-
-        .image-input .image-input-wrapper {
-            width: 174px !important;
-            height: 130px !important;
-            border-radius: .5rem !important;
-        }
-
-        .btnsTodoList {
-            display: flex;
-            flex-direction: row;
-            position: absolute;
-            right: 30px;
-        }
-
-        div#Chump_radios {
-            position: relative;
-        }
     </style>
 
 @endsection
@@ -79,7 +53,10 @@
 @section('content')
 
 
-    <div class="card card-custom mt-10">
+
+
+
+    <div class="card card-custom mt-10 page_build_webform">
         <div class="card-header border-0 pt-5">
             <div class="align-items-start flex-column">
 
@@ -92,33 +69,7 @@
                 <div class="col-4">
                     <div class="types">
                         <div class="accordion" id="accordionExample">
-                            @foreach($element as $key=>$type)
 
-
-                            <div class="accordion-item field-identity" id="field-identity-{{$key}}" data-name="{{$key}}">
-
-                                <h2 class="accordion-header" id="headingOne">
-                                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                            data-bs-target="#collapse{{$key}}" aria-expanded="false" aria-controls="collapse{{$key}}">
-                                        {{$key}}
-                                    </button>
-                                </h2>
-
-                                <div id="collapse{{$key}}" class="accordion-collapse collapse" aria-labelledby="headingOne"
-                                     data-bs-parent="#accordionExample">
-                                    <div class="accordion-body">
-                                        @foreach($type as $name=>$fields)
-
-                                            <button class="btn btn-outline-secondary w-100 mb-3 btn-drag" data-type="{{$key}}" data-name="{{$name}}"
-                                                    draggable="true">
-                                                {{$fields['name']}}
-                                            </button>
-                                        @endforeach
-
-                                    </div>
-                                </div>
-                            </div>
-                        @endforeach
                         </div>
                     </div>
                 </div>
@@ -144,31 +95,35 @@
 
 
 
-
 @section('scripts')
-{{--    <script src="{{asset('/js/data-init.json')}}"></script>--}}
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <script src="{{asset('js/flashcanvas.js')}}"></script>
+    <script src="{{asset('js/jSignature.min.js')}}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.full.min.js"></script>
+    {{--    <script src="{{asset('/js/data-init.json')}}"></script>--}}
     {{-- for build form    --}}
+
     <script>
-        let element;
-        $(document).ready(function() {
-            // Make an AJAX request to fetch the JSON data
-            $.ajax({
-                url: '/js/data-init.json', // Replace with the path to your JSON file or your JSON API endpoint
-                dataType: 'json',
-                success: function (data) {
-                    element = data.data_form;
-                },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    console.log('Error fetching JSON data:', errorThrown);
-                }
-            })
-        })
+        let ELEMENT_INIT_JSON;
+        let URLGETDATAFORM = "{{route('get.data.form.v2',$id)}}";
+        let URL_ADD_DATAFORM = "{{route('add.data.form.v2',$id)}}";
+        let URL_GET_VIEWEDIT = "{{route('get.view_edit.v2',$id)}}";
+        let URL_UPLOAD_IMAGE = "{{route('upload.image.v2')}}";
+        let URL_DELETE_IMAGE = "{{route('delete.image.v2')}}";
+        let URL_FIlE_DATAINIT_JSON = "/js/data-init.json";
+        let PAGE_NAME = "builder";
+        let FORM_ID = {{$id}};
+
+
     </script>
+    <script src="https://www.google.com/recaptcha/api.js"></script>
+
     <script src="{{asset('/js/element-build.js')}}"></script>
     <script src="{{asset('/js/build.js')}}"></script>
     <script src="{{asset('/js/after-build.js')}}"></script>
     <script src="{{asset('/js/ajax-form.js')}}"></script>
-{{--    <script src="{{asset('/js/editing-form.js')}}"></script>--}}
+    {{--    <script src="{{asset('/js/editing-form.js')}}"></script>--}}
     <script src="{{asset('/js/forms.js')}}"></script>
 
 

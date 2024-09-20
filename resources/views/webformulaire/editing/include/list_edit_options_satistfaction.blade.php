@@ -2,9 +2,11 @@
     <span>Titles</span>
     <span>Values</span>
     <span>
+         @if($champ->satisfaction_type == "text"  )
             <div class="btn btn-primary btn-options-plus">
                 <i class="cursor-pointer fa fa-plus"></i>
             </div>
+        @endif
 
     </span>
 </div>
@@ -12,7 +14,7 @@
 
 
     <?php
-    $options = $champ->options;
+    $options = $champ->satisfaction_type == "emoji" ? $champ->emoji->data : $champ->options;
     ?>
 
     @foreach($options as $keyOption=>$value)
@@ -25,7 +27,7 @@
                    class="input-edit-option form-control ">
         </span>
 
-                <span data-name="value">
+        <span data-name="value">
 
             <input type="text" name="value" required value="{{$value->value??""}}"
                    class="input-edit-option form-control ">
@@ -33,19 +35,22 @@
 
                 <span>
                     <div class="d-flex">
+                        @if(!isset($champ->satisfaction_type) || $champ->satisfaction_type !== "emoji")
                             <div class="mx-2 btnDeleteOption cursor-pointer">
                                 <i class="fa fa-trash mt-2"></i>
                             </div>
+                        @endif
                         @if(isset($champ->use_image) && $champ->use_image || $champ->type==="satisfaction")
-                            <div
-                                class="mx-2  btnUploadImage cursor-pointer ">
+
+                                <div
+                                    class="mx-2 @if(!isset($champ->satisfaction_type)  || $champ->satisfaction_type !== "emoji") btnUploadImage cursor-pointer @endif ">
 
                                 @if(isset($value->img) &&  !empty($value->img) && $value->img->src!=null)
-                                    <img class="image_icon_options" src="{{url("storage/".$value->img->src)}}"
-                                         alt="{{$value->img->name??""}}">
-                                @else
-                                    <i class="fa fa-image mt-2"></i>
-                                @endif
+                                        <img class="image_icon_options" src="{{url("storage/".$value->img->src)}}"
+                                             alt="{{$value->img->name??""}}">
+                                    @else
+                                        <i class="fa fa-image mt-2"></i>
+                                    @endif
                             </div>
                         @endif
                         <div class="fas fa-sort handle ui-sortable-handle mx-2 mt-2 "></div>
@@ -70,7 +75,6 @@
                                  src="#"
                                  @endif
                                  class="picture-src" id="wizardPicturePreview" title="">
-
                             <input type="file" id="wizard-picture-{{$keyOption}}" class="upload-image-option">
                         </div>
                     </div>

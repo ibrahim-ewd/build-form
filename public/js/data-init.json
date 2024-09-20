@@ -2,41 +2,45 @@
     "data_form": {
         "Champ_preconfigures": {
             "identities": {
-                "name": "Identities",
+                "name": "Identité",
                 "display_labels": false,
+                "display_title": true,
                 "champ": {
-                    "firstname": {
-                        "label": "first name",
+                    "nom": {
+                        "label": "nom",
                         "notice": "",
+                        "name": "nom//Nom",
                         "value": "",
                         "type": "text",
                         "class": "form-control",
-                        "class_group": "col-6 mb-3",
+                        "class_group": "form-group col-6 mb-3",
                         "style": "",
-                        "placeholder": "first name",
+                        "placeholder": "nom",
                         "id": "firstname",
                         "required": true,
                         "readonly": false,
                         "visibility": true
                     },
-                    "lastname": {
-                        "label": "last name",
+                    "prenom": {
+                        "label": "prenom",
                         "notice": "",
                         "value": "",
+                        "name": "prenom//Prénom",
                         "type": "text",
                         "class": "form-control",
-                        "class_group": "col-6 mb-3",
+                        "class_group": "form-group col-6 mb-3",
                         "style": "",
-                        "placeholder": "last name",
+                        "placeholder": "prenom",
                         "id": "lastname",
                         "required": true,
                         "readonly": false,
                         "visibility": true
                     },
-                    "civility": {
-                        "label": "civility",
+                    "civilite": {
+                        "label": "civilite",
                         "notice": "",
                         "value": "",
+                        "name": "civilite//Civilité",
                         "type": "select",
                         "options": [
                             {
@@ -61,9 +65,9 @@
                             }
                         ],
                         "class": "form-select",
-                        "class_group": "col-6 mb-3",
+                        "class_group": "form-group col-6 mb-3",
                         "style": "",
-                        "placeholder": "civility",
+                        "placeholder": "civilite",
                         "id": "civility",
                         "required": true,
                         "readonly": false,
@@ -72,80 +76,118 @@
                 }
             },
             "address": {
-                "name": "Address",
+                "name": "Adresse",
+                "display_title": true,
                 "display_labels": false,
                 "champ": {
-                    "streetone": {
-                        "label": "street one",
+                    "rue": {
+                        "label": "Rue",
                         "notice": "",
                         "value": "",
                         "type": "text",
+                        "name": "rue//Rue",
                         "class": "form-control",
-                        "class_group": "col-6 mb-3",
+                        "class_group": "form-group col-6 mb-3",
                         "style": "",
-                        "placeholder": "street one",
+                        "placeholder": "Rue",
                         "id": "streetone",
                         "required": true,
                         "readonly": false,
                         "visibility": true
                     },
-                    "streettwo": {
-                        "label": "street two",
+                    "rue_two": {
+                        "label": "Rue 2",
                         "notice": "",
+                        "name": "rue_2//Rue 2",
                         "value": "",
                         "type": "text",
                         "class": "form-control",
-                        "class_group": "col-6 mb-3",
+                        "class_group": "form-group col-6 mb-3",
                         "style": "",
-                        "placeholder": "street one",
+                        "placeholder": "Rue 2",
                         "id": "streetone",
                         "required": true,
                         "readonly": false,
                         "visibility": true
                     },
-                    "codepostal": {
-                        "label": "code postal",
+                    "code_Postal": {
+                        "label": "Code postal",
                         "notice": "",
                         "value": "",
                         "type": "text",
+                        "name": "code_postal//Code postal",
                         "class": "form-control",
-                        "class_group": "col-6 mb-3",
+                        "class_group": "form-group col-6 mb-3",
                         "style": "",
-                        "placeholder": "code postal",
+                        "placeholder": "Code postal",
                         "id": "codepostal",
                         "required": true,
                         "readonly": false,
                         "visibility": true
                     },
-                    "city": {
-                        "label": "city",
+                    "ville": {
+                        "label": "Ville",
                         "notice": "",
                         "value": "",
                         "type": "text",
                         "class": "form-control",
-                        "class_group": "col-6 mb-3",
+                        "name": "ville//Ville",
+                        "class_group": "form-group col-6 mb-3",
                         "style": "",
-                        "placeholder": "city",
+                        "placeholder": "Ville",
                         "id": "city",
+                        "required": true,
+                        "readonly": false,
+                        "visibility": true
+                    },
+                    "region": {
+                        "label": "Région",
+                        "notice": "",
+                        "value": "",
+                        "type": "text",
+                        "class": "form-control",
+                        "name": "region//Région",
+                        "class_group": "form-group col-6 mb-3",
+                        "style": "",
+                        "placeholder": "Région",
+                        "id": "region",
+                        "required": true,
+                        "readonly": false,
+                        "visibility": true
+                    },
+                    "pays": {
+                        "label": "Pays",
+                        "notice": "",
+                        "value": "",
+                        "type": "text",
+                        "class": "form-control",
+                        "name": "pays//Pays",
+                        "class_group": "form-group col-6 mb-3",
+                        "style": "",
+                        "placeholder": "Pays",
+                        "id": "pays",
                         "required": true,
                         "readonly": false,
                         "visibility": true
                     }
                 }
             },
-            "phone": {
-                "name": "Phone",
+            "telephone": {
+                "name": "Téléphone",
                 "display_labels": false,
+                "display_title": true,
                 "champ": {
-                    "phone": {
-                        "label": "phone",
+                    "telephone": {
+                        "label": "Téléphone",
                         "notice": "",
                         "value": "",
                         "type": "text",
+                        "name": "telephone//Téléphone",
                         "class": "form-control",
-                        "class_group": "col-12 mb-3",
+                        "class_group": "form-group col-12 mb-3",
                         "style": "",
-                        "placeholder": "phone",
+                        "type_tele": "national",
+                        "placeholder": "Téléphone",
                         "id": "phone",
                         "required": true,
                         "readonly": false,
@@ -154,18 +196,20 @@
                 }
             },
             "email": {
-                "name": "Email",
+                "name": "Adresse e-mail",
                 "display_labels": false,
+                "display_title": true,
                 "champ": {
-                    "email": {
-                        "label": "email",
+                    "adresse_email": {
+                        "label": "Adresse e-mail",
                         "notice": "",
                         "value": "",
+                        "name": "email//Adresse e-mail",
                         "type": "text",
                         "class": "form-control",
-                        "class_group": "col-12 mb-3",
+                        "class_group": "form-group col-12 mb-3",
                         "style": "",
-                        "placeholder": "email",
+                        "placeholder": "Adresse e-mail",
                         "id": "email",
                         "required": true,
                         "readonly": false,
@@ -173,39 +217,43 @@
                     }
                 }
             },
-            "website": {
-                "name": "Website",
+            "siteweb": {
+                "name": "Site web",
                 "display_labels": false,
+                "display_title": true,
                 "champ": {
-                    "Website": {
-                        "label": "Website",
+                    "siteweb": {
+                        "label": "Site web",
                         "notice": "",
                         "value": "",
                         "type": "text",
+                        "name": "site_web//Site web",
                         "class": "form-control",
-                        "class_group": "col-12 mb-3",
+                        "class_group": "form-group col-12 mb-3",
                         "style": "",
-                        "placeholder": "website.com",
-                        "id": "website",
+                        "placeholder": "siteweb.com",
+                        "id": "siteweb",
                         "required": true,
                         "readonly": false,
                         "visibility": true
                     }
                 }
             },
-            "company": {
-                "name": "Company",
+            "societe": {
+                "name": "Société",
                 "display_labels": false,
+                "display_title": true,
                 "champ": {
-                    "company": {
-                        "label": "Company",
+                    "societe": {
+                        "label": "societe",
                         "notice": "",
                         "value": "",
+                        "name": "societe//Société",
                         "type": "text",
                         "class": "form-control",
-                        "class_group": "col-12 mb-3",
+                        "class_group": "form-group col-12 mb-3",
                         "style": "",
-                        "placeholder": "company name",
+                        "placeholder": "societe",
                         "id": "company",
                         "required": true,
                         "readonly": false,
@@ -213,9 +261,10 @@
                     }
                 }
             },
-            "longText": {
+            "message": {
                 "name": "Message",
                 "display_labels": false,
+                "display_title": true,
                 "champ": {
                     "Message": {
                         "label": "Message",
@@ -223,7 +272,8 @@
                         "value": "",
                         "type": "textarea",
                         "class": "form-control",
-                        "class_group": "col-12 mb-3",
+                        "name": "message//Message",
+                        "class_group": "form-group col-12 mb-3",
                         "style": "",
                         "placeholder": "Message",
                         "id": "message",
@@ -233,23 +283,70 @@
                     }
                 }
             },
-            "privacyPpolicy": {
-                "name": "Privacy Policy",
+            "captcha": {
+                "name": "Captcha",
                 "display_labels": false,
+                "display_title": true,
                 "champ": {
-                    "privacyPolicy": {
-                        "name": "Privacy Policy",
-                        "label": "Privacy Policy",
+                    "captcha": {
+                        "label": false,
+                        "notice": "",
+                        "value": "",
+                        "type": "recaptcha",
+                        "name": "captcha//Captcha",
+                        "data_sitekey": "6LefbRoqAAAAAG8eSFN4QcdcpdSiw910sD0h_D9r",
+                        "class": "form-control",
+                        "class_group": "form-group col-12 mb-3",
+                        "style": "",
+                        "placeholder": false,
+                        "id": "recaptcha",
+                        "required": true,
+                        "readonly": false,
+                        "visibility": true
+                    }
+                }
+            },
+            "signature": {
+                "name": "Signature",
+                "display_labels": false,
+                "display_title": true,
+                "champ": {
+                    "signature": {
+                        "label": "signature",
+                        "notice": "",
+                        "value": "",
+                        "type": "signature",
+                        "class": "form-control",
+                        "name": "signature//Signature",
+                        "class_group": "form-group col-12 mb-3",
+                        "style": "",
+                        "placeholder": "signature",
+                        "id": "signature",
+                        "required": true,
+                        "readonly": false,
+                        "visibility": true
+                    }
+                }
+            },
+            "privacy": {
+                "name": "Politique de confidentialité",
+                "display_labels": false,
+                "display_title": true,
+                "champ": {
+                    "privacy": {
+                        "name": "privacy//Politique de confidentialité",
+                        "label": "Politique de confidentialité",
                         "placeholder": null,
-                        "type": "checkbox",
+                        "type": "privacy",
                         "notice": "",
                         "value": "Yes, I accept that the personal data collected will be kept for 2 years as part of the contact with the company to access the services it provides.",
                         "class": "text,",
-                        "class_group": "col-12 mb-3",
+                        "class_group": "form-group col-12 mb-3",
                         "style": "",
                         "id": "privacyPolicy",
                         "required": true,
                         "readonly": null,
+                        "privacyPolicy": true,
                         "visibility": true
                     }
                 }
@@ -259,6 +356,7 @@
             "text": {
                 "name": "Text",
                 "display_labels": false,
+                "display_title": true,
                 "champ": {
                     "Text": {
                         "label": "Text",
@@ -266,10 +364,11 @@
                         "value": "",
                         "type": "text",
                         "class": "form-control",
-                        "class_group": "col-12 mb-3",
+                        "name": "text//Text",
+                        "class_group": "form-group col-12 mb-3",
                         "style": "",
                         "placeholder": "Text...",
-                        "id": "phone",
+                        "id": "text",
                         "required": true,
                         "readonly": false,
                         "visibility": true
@@ -279,6 +378,7 @@
             "paragraph": {
                 "name": "Paragraph",
                 "display_labels": false,
+                "display_title": false,
                 "champ": {
                     "paragraph": {
                         "name": "paragraph",
@@ -286,9 +386,9 @@
                         "placeholder": null,
                         "type": "paragraph",
                         "notice": "",
-                        "value": "change this text",
+                        "content": "change this text",
                         "class": "text",
-                        "class_group": "col-12 mb-3",
+                        "class_group": "form-group col-12 mb-3",
                         "style": "",
                         "id": "paragraph",
                         "required": null,
@@ -300,18 +400,21 @@
             "datetime": {
                 "name": "Datetime",
                 "display_labels": false,
+                "display_title": true,
                 "champ": {
                     "date": {
                         "label": "date",
                         "notice": "",
-                        "value": "",
+                        "value": false,
                         "type": "date",
-                        "format_date": "dd/mm/yy",
+                        "name": "date//Date",
+                        "format_date": "dd-mm-yyyy",
                         "class": "form-control ",
-                        "class_group": "col-8 mb-3",
+                        "class_group": "form-group col-8 mb-3",
                         "style": "",
                         "placeholder": false,
                         "id": "date",
+                        "field_type_date": "picker",
                         "required": true,
                         "readonly": false,
                         "visibility": true
@@ -321,9 +424,10 @@
                         "notice": "",
                         "value": "",
                         "type": "time",
-                        "format_date": "H:i",
+                        "name": "heure//Heure",
+                        "format_time": "H:i",
                         "class": "form-control timePicker",
-                        "class_group": "col-4 mb-3",
+                        "class_group": "form-group col-4 mb-3",
                         "style": "",
                         "placeholder": false,
                         "id": "time",
@@ -334,11 +438,12 @@
                 }
             },
             "select": {
-                "name": "Select",
+                "name": "Liste déroulante",
                 "display_labels": false,
+                "display_title": true,
                 "champ": {
                     "select": {
-                        "name": "Select",
+                        "name": "menuderoulant//Menu déroulant",
                         "label": "Select",
                         "type": "select",
                         "notice": "",
@@ -366,22 +471,24 @@
                             }
                         ],
                         "class": "form-control",
-                        "class_group": "col-12 mb-3",
+                        "class_group": "form-group col-12 mb-3",
                         "style": "",
                         "placeholder": "Select",
                         "id": "Select",
                         "required": true,
+                        "use_image": true,
                         "readonly": false,
                         "visibility": true
                     }
                 }
             },
             "checkbox": {
-                "name": "Checkbox",
+                "name": "Choix multiples",
                 "display_labels": false,
+                "display_title": true,
                 "champ": {
                     "checkbox": {
-                        "name": "checkbox",
+                        "name": "caseacocher//Choix multiples",
                         "label": "checkbox",
                         "type": "checkbox",
                         "notice": "",
@@ -409,7 +516,7 @@
                             }
                         ],
                         "class": "checkbox-input",
-                        "class_group": "col-12 mb-3",
+                        "class_group": "form-group col-12 mb-3",
                         "style": "",
                         "placeholder": "checkbox",
                         "id": "checkbox",
@@ -420,11 +527,11 @@
                 }
             },
             "radio": {
-                "name": "Radio",
+                "name": "Choix unique",
                 "display_labels": false,
                 "champ": {
                     "radio": {
-                        "name": "radio",
+                        "name": "multiple//Choix unique",
                         "label": "radio",
                         "type": "radio",
                         "notice": "",
@@ -452,7 +559,7 @@
                             }
                         ],
                         "class": "radio-input",
-                        "class_group": "col-12 mb-3",
+                        "class_group": "form-group col-12 mb-3",
                         "style": "",
                         "placeholder": "radio",
                         "id": "radio",
@@ -465,12 +572,13 @@
             "satisfaction": {
                 "name": "Satisfaction",
                 "display_labels": false,
+                "display_title": true,
                 "champ": {
                     "satisfaction": {
-                        "name": "satisfaction",
+                        "name": "satisfaction//Satisfaction",
                         "label": "satisfaction",
                         "type": "satisfaction",
-                        "satisfaction_type": "buttons",
+                        "satisfaction_type": "stars",
                         "notice": "",
                         "value": "",
                         "emoji": {
@@ -479,13 +587,13 @@
                         },
                         "stars": {
                             "number": 5,
-                            "size": "2",
+                            "size": "md",
                             "position": "start"
                         },
                         "options": [
                             {
-                                "value": "one",
-                                "title": "one",
+                                "value": "Bien",
+                                "title": "Bien",
                                 "img": {
                                     "active": "",
                                     "src": "",
@@ -494,8 +602,18 @@
                                 }
                             },
                             {
-                                "value": "two",
-                                "title": "two",
+                                "value": "Moyen",
+                                "title": "Moyen",
+                                "img": {
+                                    "active": "",
+                                    "src": "",
+                                    "name": "",
+                                    "size": ""
+                                }
+                            },
+                            {
+                                "value": "Mauvais",
+                                "title": "Mauvais",
                                 "img": {
                                     "active": "",
                                     "src": "",
@@ -505,13 +623,107 @@
                             }
                         ],
                         "class": "radio-input",
-                        "class_group": "col-12 mb-3",
+                        "class_group": "form-group col-12 mb-3 child_satisfaction",
                         "style": "",
-                        "placeholder": "radio",
+                        "placeholder": false,
                         "id": "satisfaction",
                         "required": false,
                         "readonly": false,
                         "visibility": true
+                    }
+                }
+            },
+            "file_import": {
+                "name": "Import files",
+                "display_labels": false,
+                "display_title": true,
+                "champ": {
+                    "file_import": {
+                        "name": "import_file_each//Import de fichiers",
+                        "label": "Import files",
+                        "type": "import",
+                        "notice": "",
+                        "value": "",
+                        "class": "import-input",
+                        "class_group": "form-group col-12 mb-3",
+                        "style": "",
+                        "placeholder": "radio",
+                        "id": "satisfaction",
+                        "number_file": 3,
+                        "maxSize": 10000,
+                        "extensions": [
+                            ".jpg",
+                            ".pdf",
+                            ".png"
+                        ],
+                        "required": false,
+                        "readonly": false,
+                        "visibility": true
+                    }
+                }
+            }
+        },
+        "Mise_en_form": {
+            "titre": {
+                "name": "Titre",
+                "champ": {
+                    "titre": {
+                        "class_group": "form-group col-12 mb-3",
+                        "type": "titre"
+                    }
+                }
+            },
+            "separator": {
+                "name": "Separator",
+                "display_title": false,
+                "champ": {
+                    "separator": {
+                        "name": "Separator",
+                        "class_group": "form-group col-12 mb-3",
+                        "style": "",
+                        "type": "separator",
+                        "visibility": true
+                    }
+                }
+            },
+            "media": {
+                "name": "Media",
+                "display_title": false,
+                "champ": {
+                    "media": {
+                        "name": "Media",
+                        "size": "30",
+                        "position": "start",
+                        "class_group": "form-group col-12 mb-3",
+                        "style": "",
+                        "type": "media",
+                        "medias": [
+                            {
+                                "icon": "facebook",
+                                "link": "#"
+                            },
+                            {
+                                "icon": "linkedin",
+                                "link": "#"
+                            }
+                        ],
+                        "visibility": true
+                    }
+                }
+            },
+            "submit": {
+                "name": "Submit",
+                "display_title": false,
+                "champ": {
+                    "submit": {
+                        "name": "Submit",
+                        "class_group": "form-group col-12 mb-3",
+                        "class": "btn btn_dark_ ",
+                        "style": "",
+                        "type": "submit",
+                        "button_type": "submit",
+                        "visibility": true,
+                        "content": "Submit"
                     }
                 }
             }
